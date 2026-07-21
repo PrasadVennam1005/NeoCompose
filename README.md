@@ -1,88 +1,123 @@
-# NeoCompose 🎨
+# NeoCompose (Soft UI / Neumorphism for Jetpack Compose)
 
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com)
-[![Compose](https://img.shields.io/badge/Jetpack_Compose-Material3-purple.svg)](https://developer.android.com/jetpack/compose)
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-v1.0.0-blue.svg)](https://search.maven.org/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-purple.svg)](https://kotlinlang.org/)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.5-teal.svg)](https://developer.android.com/jetpack/compose)
 
-A modern, high-performance, plug & play **Neumorphism Design System Library** built from the ground up for **Jetpack Compose** and **Material 3**.
-
----
-
-## Features ✨
-
-- 🚀 **Plug & Play**: Works out of the box with Material 3 applications.
-- ⚡ **GPU-Accelerated Rendering**: Custom `Canvas` dual shadow engine without nested layout nodes.
-- 🎨 **6 Neumorphism Surface Styles**: Raised, Pressed, Inset, Concave, Convex, and Flat.
-- 🧩 **14 Material 3 Components**: `NeoSurface`, `NeoButton`, `NeoCard`, `NeoIconButton`, `NeoTextField`, `NeoCheckbox`, `NeoRadioButton`, `NeoSwitch`, `NeoSegmentedControl`, `NeoTabBar`, `NeoChip`, `NeoBadge`, `NeoProgress`, and `NeoFAB`.
-- 💡 **Dynamic Light Engine**: Customize light vector angle ($0^\circ..360^\circ$), distance, and shadow softness globally or per component.
-- 🌙 **Light & Dark Theme Native**: Intelligent contrast algorithms for realistic highlight and shadow calculations in both modes.
-- 📦 **Multi-Module Architecture**: Scalable separation between core graphics, low-level modifiers, design tokens, animations, and UI components.
-- 🌐 **Maven Central Ready**: Configured with `maven-publish` sources and POM metadata.
+**NeoCompose** is a state-of-the-art, high-performance **Neumorphism (Soft UI)** design system library built natively for **Android & Jetpack Compose**. It provides hardware-accelerated Canvas rendering, tokenized design system architecture (`NeoTheme.size`, `NeoTheme.icons`), smooth 60fps/120fps elevation physics, and **31 production-ready components**.
 
 ---
 
-## Architecture 🏛️
+## 🎨 Visual Design Highlights
 
-```
-NeoCompose
-├── :core        -> Light vector math, GPU Canvas dual shadow & surface gradient engine
-├── :foundation  -> Low-level Compose modifiers (neoShadow, neoStyle, neoBorder) & shapes
-├── :theme       -> NeoTheme, NeoColors, NeoLighting, NeoElevation, NeoShapes, NeoTypography, CompositionLocals
-├── :animation   -> Press depth transitions, spring/tween specs, dynamic light trackers
-├── :components  -> NeoSurface, NeoButton, NeoCard, NeoIconButton, NeoTextField, NeoCheckbox, NeoRadioButton, NeoSwitch, NeoSegmentedControl, NeoTabBar, NeoChip, NeoBadge, NeoProgress, NeoFAB
-└── :sample      -> Showcase catalog app & interactive Neumorphic Design Studio
-```
+- **Off-White Soft Palette**: Default background `#ECF0F3`, light shadow `#FFFFFF`, dark shadow `#A3B1C6` (alpha 0.55), and Electric Blue primary accent `#007AFF`.
+- **Dribbble Pill Shapes**: Standard pill shapes (`CircleShape`) for buttons, text fields, search bars, switches, and segmented controls.
+- **7 Surface Styles**: `Raised`, `Pressed`, `Inset`, `Concave`, `Convex`, `Basin`, and `Flat`.
+- **Directional Light Sources**: `TopLeft` (`LEFT_TOP`, 315°), `TopRight` (`RIGHT_TOP`, 45°), `BottomLeft` (`LEFT_BOTTOM`, 225°), `BottomRight` (`RIGHT_BOTTOM`, 135°), or dynamic custom angles.
 
 ---
 
-## Quick Start 🚀
+## 🚀 Installation
+
+Add the dependency to your app's `build.gradle.kts`:
 
 ```kotlin
-// 1. Add dependency to build.gradle.kts
 dependencies {
-    implementation("prasad.vennam.neo:components:1.0.0")
+    implementation("prasad.vennam.neo:core:1.0.0")
+    implementation("prasad.vennam.neo:foundation:1.0.0")
     implementation("prasad.vennam.neo:theme:1.0.0")
+    implementation("prasad.vennam.neo:animation:1.0.0")
+    implementation("prasad.vennam.neo:components:1.0.0")
 }
+```
 
-// 2. Wrap your content in NeoTheme
-NeoTheme {
-    NeoButton(
-        onClick = { /* perform action */ }
-    ) {
-        Text("Continue")
+---
+
+## 🧩 31 Component Inventory
+
+| Category | Components |
+| :--- | :--- |
+| **Surfaces & Containers** | `NeoSurface`, `NeoCard`, `NeoAvatar` |
+| **Buttons & Actions** | `NeoButton`, `NeoIconButton`, `NeoFAB`, `NeoSpeedDial` |
+| **Form Inputs & Selectors** | `NeoTextField`, `NeoSearchField`, `NeoDropdownMenu`, `NeoCheckbox`, `NeoRadioButton`, `NeoSwitch` |
+| **Range, Steppers & Pickers** | `NeoSlider`, `NeoRangeSlider`, `NeoNumberStepper`, `NeoDatePicker`, `NeoTimePicker` |
+| **Navigation & Tabs** | `NeoSegmentedControl`, `NeoTabBar`, `NeoChip`, `NeoBadge` |
+| **Progress & Media** | `NeoLinearProgressIndicator`, `NeoCircularProgressIndicator`, `NeoIcon`, `NeoAudioPlayerBar` |
+| **Modals & Utilities** | `NeoBanner`, `NeoDialog`, `NeoBottomSheet`, `NeoTooltip`, `NeoDivider` |
+
+---
+
+## 💡 Quick Start Usage
+
+### 1. Wrap with `NeoTheme`
+
+```kotlin
+NeoTheme(
+    colors = NeoColors.defaultLightColors(),
+    lighting = NeoLighting(lightSource = NeoLightSource.TopLeft)
+) {
+    // Your app screens
+}
+```
+
+### 2. Neumorphic Pill Button
+
+```kotlin
+NeoButton(onClick = { /* Handle click */ }) {
+    Text("Sign In", style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
+}
+```
+
+### 3. Audio Player Controller Bar
+
+```kotlin
+NeoAudioPlayerBar(
+    trackTitle = "Midnight Resonance",
+    artistName = "Synthesizer Wave",
+    isPlaying = isPlaying,
+    onPlayPauseToggle = { isPlaying = !isPlaying },
+    progress = progress,
+    onProgressChange = { progress = it }
+)
+```
+
+### 4. Sliding Modal Bottom Sheet
+
+```kotlin
+NeoBottomSheet(onDismissRequest = { showSheet = false }) {
+    Text("Neumorphic Bottom Sheet", style = NeoTheme.typography.display)
+    Spacer(Modifier.height(16.dp))
+    NeoButton(onClick = { showSheet = false }, modifier = Modifier.fillMaxWidth()) {
+        Text("Close Sheet", color = NeoTheme.colors.primary)
     }
 }
 ```
 
-For setup instructions and Gradle setup, check [docs/GETTING_STARTED.md](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/GETTING_STARTED.md).
-
 ---
 
-## Documentation 📚
+## 📐 Design Tokens
 
-- 🎨 [Design & Usage Guidelines](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/DESIGN_GUIDELINES.md)
-- 📘 [Getting Started](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/GETTING_STARTED.md)
-- 🏗️ [Architecture Guide](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/ARCHITECTURE.md)
-- 🤝 [Contributing Guidelines](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/CONTRIBUTING.md)
-- 📜 [Changelog](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/CHANGELOG.md)
-- ⚡ [Performance Guide](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/PERFORMANCE.md)
+All dimensions and icon sizes are tokenized:
 
----
+```kotlin
+// Dimension Tokens
+val borderThin = NeoTheme.size.borderThin     // 1.dp
+val controlMedium = NeoTheme.size.controlMedium // 48.dp
+val trackSlim = NeoTheme.size.trackHeightSlim  // 6.dp
 
-## License 📄
-
+// Icon Tokens
+val iconMedium = NeoTheme.icons.medium        // 24.dp
+val iconLarge = NeoTheme.icons.large          // 32.dp
 ```
+
+---
+
+## 📄 License
+
+```text
 Copyright 2026 Prasad Vennam
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
 ```
