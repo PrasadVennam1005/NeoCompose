@@ -1,5 +1,6 @@
 package prasad.vennam.neo.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,9 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
@@ -21,7 +26,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Recessed Neumorphic text input field component with inset inner shadows.
+ * High-visibility recessed Neumorphic text input field component with focus border highlight.
  *
  * @param value Input text value.
  * @param onValueChange Callback on text change.
@@ -49,6 +54,14 @@ public fun NeoTextField(
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
+    var isFocused by remember { mutableStateOf(false) }
+
+    val animatedBorderColor by animateColorAsState(
+        targetValue = if (isFocused) colors.primary else colors.border.copy(alpha = 0.5f),
+        animationSpec = animationSpec.colorSpec,
+        label = "NeoTextFieldFocusBorderAnimation"
+    )
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -59,7 +72,9 @@ public fun NeoTextField(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = NeoTheme.lighting.lightSource,
+                borderWidth = if (isFocused) 2.dp else 1.dp,
+                borderColor = animatedBorderColor
             )
             .padding(horizontal = 16.dp, vertical = 14.dp),
         contentAlignment = Alignment.CenterStart
@@ -79,7 +94,9 @@ public fun NeoTextField(
             textStyle = NeoTheme.typography.body.copy(color = colors.textPrimary),
             cursorBrush = SolidColor(colors.primary),
             interactionSource = interactionSource,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged { isFocused = it.isFocused }
         )
     }
 }

@@ -23,7 +23,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Interactive Neumorphic Radio Button component.
+ * High-visibility interactive Neumorphic Radio Button component.
  *
  * @param selected Whether radio button is selected.
  * @param onClick Event callback when selected.
@@ -61,6 +61,9 @@ public fun NeoRadioButton(
         Modifier
     }
 
+    val borderWidth = if (selected) 2.dp else 1.5.dp
+    val borderColor = if (selected) colors.primary else colors.border.copy(alpha = 0.5f)
+
     Box(
         modifier = modifier
             .size(28.dp)
@@ -71,7 +74,9 @@ public fun NeoRadioButton(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = NeoTheme.lighting.lightSource,
+                borderWidth = borderWidth,
+                borderColor = borderColor
             )
             .then(selectModifier),
         contentAlignment = Alignment.Center
@@ -90,7 +95,7 @@ public fun NeoRadioButton(
                         backgroundColor = colors.primary,
                         lightColor = colors.lightShadow,
                         darkColor = colors.darkShadow,
-                        elevation = NeoTheme.elevation.level1,
+                        elevation = NeoTheme.elevation.level2,
                         lightSource = NeoTheme.lighting.lightSource
                     )
             )

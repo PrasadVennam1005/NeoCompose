@@ -25,7 +25,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Interactive Neumorphic checkbox control.
+ * High-visibility interactive Neumorphic checkbox control.
  *
  * @param checked Whether box is currently checked.
  * @param onCheckedChange Callback on toggle.
@@ -63,17 +63,23 @@ public fun NeoCheckbox(
         Modifier
     }
 
+    val backgroundColor = if (checked) colors.primary else colors.surface
+    val borderWidth = if (checked) 0.dp else 1.5.dp
+    val borderColor = if (checked) colors.primary else colors.border.copy(alpha = 0.5f)
+
     Box(
         modifier = modifier
             .size(28.dp)
             .neoStyle(
                 style = style,
                 shape = shape,
-                backgroundColor = colors.surface,
+                backgroundColor = backgroundColor,
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = NeoTheme.lighting.lightSource,
+                borderWidth = borderWidth,
+                borderColor = borderColor
             )
             .then(toggleModifier),
         contentAlignment = Alignment.Center
@@ -83,11 +89,10 @@ public fun NeoCheckbox(
             enter = fadeIn(androidx.compose.animation.core.tween(durationMillis = 200)),
             exit = fadeOut(androidx.compose.animation.core.tween(durationMillis = 200))
         ) {
-
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = "Checked",
-                tint = colors.primary,
+                tint = colors.onPrimary,
                 modifier = Modifier.size(18.dp)
             )
         }

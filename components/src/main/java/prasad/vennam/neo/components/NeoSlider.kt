@@ -1,19 +1,23 @@
 package prasad.vennam.neo.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -28,7 +32,7 @@ import prasad.vennam.neo.theme.NeoTheme
 import kotlin.math.roundToInt
 
 /**
- * Interactive Neumorphic range slider component with tap and drag gesture support.
+ * High-visibility interactive Neumorphic range slider component with active progress fill bar.
  *
  * @param value Current slider value.
  * @param onValueChange Callback when slider value changes.
@@ -61,19 +65,20 @@ public fun NeoSlider(
         ((value - valueRange.start) / rangeLength).coerceIn(0f, 1f)
     } else 0f
 
+    val density = LocalDensity.current
+
     BoxWithConstraints(
         modifier = modifier
             .fillMaxWidth()
             .height(28.dp),
         contentAlignment = Alignment.CenterStart
     ) {
-        val density = LocalDensity.current
         val totalWidthPx = constraints.maxWidth.toFloat()
-        val thumbSizePx = with(density) { 24.dp.toPx() }
+        val thumbSizePx = with(density) { 26.dp.toPx() }
         val maxOffsetPx = (totalWidthPx - thumbSizePx).coerceAtLeast(0f)
         val currentOffsetPx = normalizedValue * maxOffsetPx
 
-        // Track background
+        // Recessed track background groove
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -85,7 +90,9 @@ public fun NeoSlider(
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
                     elevation = elevation,
-                    lightSource = NeoTheme.lighting.lightSource
+                    lightSource = NeoTheme.lighting.lightSource,
+                    borderWidth = 1.dp,
+                    borderColor = colors.border.copy(alpha = 0.4f)
                 )
                 .pointerInput(enabled, valueRange, maxOffsetPx) {
                     if (enabled && maxOffsetPx > 0f) {
@@ -94,22 +101,35 @@ public fun NeoSlider(
                             onValueChange(valueRange.start + newNormalized * rangeLength)
                         }
                     }
-                }
-        )
+                },
+            contentAlignment = Alignment.CenterStart
+        ) {
+            // Active progress fill bar inside track
+            val fillWidthDp = with(density) { (currentOffsetPx + thumbSizePx / 2f).toDp() }
+            Box(
+                modifier = Modifier
+                    .width(fillWidthDp)
+                    .fillMaxHeight()
+                    .clip(shape)
+                    .background(colors.primary.copy(alpha = 0.85f))
+            )
+        }
 
-        // Thumb
+        // Draggable elevated thumb
         Box(
             modifier = Modifier
                 .offset { IntOffset(currentOffsetPx.roundToInt(), 0) }
-                .size(24.dp)
+                .size(26.dp)
                 .neoStyle(
                     style = NeoStyle.Raised,
                     shape = CircleShape,
                     backgroundColor = colors.primary,
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
-                    elevation = NeoTheme.elevation.level2,
-                    lightSource = NeoTheme.lighting.lightSource
+                    elevation = NeoTheme.elevation.level3,
+                    lightSource = NeoTheme.lighting.lightSource,
+                    borderWidth = 1.5.dp,
+                    borderColor = colors.onPrimary.copy(alpha = 0.5f)
                 )
                 .pointerInput(enabled, valueRange, maxOffsetPx) {
                     if (enabled && maxOffsetPx > 0f) {
