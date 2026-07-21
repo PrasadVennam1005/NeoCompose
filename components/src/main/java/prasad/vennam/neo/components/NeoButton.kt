@@ -3,6 +3,7 @@ package prasad.vennam.neo.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
@@ -14,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.animation.animateNeoElevationAsState
 import prasad.vennam.neo.core.NeoStyle
@@ -33,6 +33,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Base Neumorphic style when unpressed.
  * @param elevation Base shadow displacement elevation.
  * @param colors Color palette tokens.
+ * @param contentPadding Internal label & icon padding values derived from design tokens.
  * @param animationSpec Custom animation specifications.
  * @param interactionSource Stream of interaction events.
  * @param content Button label and icon composable content.
@@ -46,6 +47,10 @@ public fun NeoButton(
     style: NeoStyle = NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = NeoTheme.spacing.large,
+        vertical = NeoTheme.spacing.medium
+    ),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit
@@ -80,7 +85,7 @@ public fun NeoButton(
                 role = Role.Button,
                 onClick = onClick
             )
-            .padding(horizontal = 24.dp, vertical = 14.dp),
+            .padding(contentPadding),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         content = content

@@ -23,7 +23,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -32,7 +31,7 @@ import prasad.vennam.neo.theme.NeoTheme
 import kotlin.math.roundToInt
 
 /**
- * High-visibility interactive Neumorphic range slider component with active progress fill bar.
+ * High-visibility interactive Neumorphic range slider component with design system token dimensions.
  *
  * @param value Current slider value.
  * @param onValueChange Callback when slider value changes.
@@ -66,15 +65,18 @@ public fun NeoSlider(
     } else 0f
 
     val density = LocalDensity.current
+    val thumbSizeDp = NeoTheme.size.thumbSizeLarge
+    val trackHeightDp = NeoTheme.size.trackHeightSlim
+    val containerHeightDp = NeoTheme.size.trackHeightMedium
 
     BoxWithConstraints(
         modifier = modifier
             .fillMaxWidth()
-            .height(28.dp),
+            .height(containerHeightDp),
         contentAlignment = Alignment.CenterStart
     ) {
         val totalWidthPx = constraints.maxWidth.toFloat()
-        val thumbSizePx = with(density) { 26.dp.toPx() }
+        val thumbSizePx = with(density) { thumbSizeDp.toPx() }
         val maxOffsetPx = (totalWidthPx - thumbSizePx).coerceAtLeast(0f)
         val currentOffsetPx = normalizedValue * maxOffsetPx
 
@@ -82,7 +84,7 @@ public fun NeoSlider(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(12.dp)
+                .height(trackHeightDp)
                 .neoStyle(
                     style = style,
                     shape = shape,
@@ -91,7 +93,7 @@ public fun NeoSlider(
                     darkColor = colors.darkShadow,
                     elevation = elevation,
                     lightSource = NeoTheme.lighting.lightSource,
-                    borderWidth = 1.dp,
+                    borderWidth = NeoTheme.size.borderThin,
                     borderColor = colors.border.copy(alpha = 0.4f)
                 )
                 .pointerInput(enabled, valueRange, maxOffsetPx) {
@@ -119,7 +121,7 @@ public fun NeoSlider(
         Box(
             modifier = Modifier
                 .offset { IntOffset(currentOffsetPx.roundToInt(), 0) }
-                .size(26.dp)
+                .size(thumbSizeDp)
                 .neoStyle(
                     style = NeoStyle.Raised,
                     shape = CircleShape,
@@ -128,7 +130,7 @@ public fun NeoSlider(
                     darkColor = colors.darkShadow,
                     elevation = NeoTheme.elevation.level3,
                     lightSource = NeoTheme.lighting.lightSource,
-                    borderWidth = 1.5.dp,
+                    borderWidth = NeoTheme.size.borderMedium,
                     borderColor = colors.onPrimary.copy(alpha = 0.5f)
                 )
                 .pointerInput(enabled, valueRange, maxOffsetPx) {

@@ -3,6 +3,7 @@ package prasad.vennam.neo.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
@@ -15,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.animation.animateNeoElevationAsState
 import prasad.vennam.neo.core.NeoStyle
@@ -34,6 +34,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Base Neumorphic surface style.
  * @param elevation High elevation depth.
  * @param colors Color palette tokens.
+ * @param contentPadding Padding values derived from design tokens.
  * @param animationSpec Custom animation specs.
  * @param interactionSource Interaction stream.
  * @param content FAB icon/label composable content.
@@ -47,6 +48,7 @@ public fun NeoFAB(
     style: NeoStyle = NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level4,
     colors: NeoColors = NeoTheme.colors,
+    contentPadding: PaddingValues = PaddingValues(NeoTheme.spacing.medium),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit
@@ -81,7 +83,7 @@ public fun NeoFAB(
                 role = Role.Button,
                 onClick = onClick
             )
-            .padding(16.dp),
+            .padding(contentPadding),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         content = content

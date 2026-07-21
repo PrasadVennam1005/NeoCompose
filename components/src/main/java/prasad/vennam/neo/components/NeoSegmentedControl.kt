@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -23,7 +22,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Neumorphic Segmented Control container.
+ * Neumorphic Segmented Control container using design system tokens.
  *
  * @param items List of tab label options.
  * @param selectedIndex Index of currently selected tab option.
@@ -59,7 +58,7 @@ public fun NeoSegmentedControl(
                 elevation = elevation,
                 lightSource = NeoTheme.lighting.lightSource
             )
-            .padding(4.dp)
+            .padding(NeoTheme.spacing.extraSmall)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -79,7 +78,7 @@ public fun NeoSegmentedControl(
                             backgroundColor = if (isSelected) colors.surface else colors.surface.copy(alpha = 0f),
                             lightColor = colors.lightShadow,
                             darkColor = colors.darkShadow,
-                            elevation = if (isSelected) NeoTheme.elevation.level2 else 0.dp,
+                            elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
                             lightSource = NeoTheme.lighting.lightSource
                         )
                         .clickable(
@@ -89,7 +88,7 @@ public fun NeoSegmentedControl(
                             role = Role.Tab,
                             onClick = { onOptionSelected(index) }
                         )
-                        .padding(vertical = 10.dp),
+                        .padding(vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(

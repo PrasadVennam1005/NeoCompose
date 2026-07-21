@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -23,13 +22,14 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * High-visibility interactive Neumorphic Radio Button component.
+ * High-visibility interactive Neumorphic Radio Button component using design system tokens.
  *
  * @param selected Whether radio button is selected.
  * @param onClick Event callback when selected.
  * @param modifier Custom modifier.
  * @param enabled Whether control is interactive.
  * @param shape Component shape (defaults to [CircleShape]).
+ * @param size Control outer size derived from design tokens.
  * @param style Surface style ([NeoStyle.Inset] when selected, [NeoStyle.Raised] when unselected).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
@@ -43,6 +43,7 @@ public fun NeoRadioButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = CircleShape,
+    size: Dp = NeoTheme.size.controlSmall,
     style: NeoStyle = if (selected) NeoStyle.Inset else NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
@@ -61,12 +62,12 @@ public fun NeoRadioButton(
         Modifier
     }
 
-    val borderWidth = if (selected) 2.dp else 1.5.dp
+    val borderWidth = if (selected) NeoTheme.size.borderThick else NeoTheme.size.borderMedium
     val borderColor = if (selected) colors.primary else colors.border.copy(alpha = 0.5f)
 
     Box(
         modifier = modifier
-            .size(28.dp)
+            .size(size)
             .neoStyle(
                 style = style,
                 shape = shape,
@@ -88,7 +89,7 @@ public fun NeoRadioButton(
         ) {
             Box(
                 modifier = Modifier
-                    .size(12.dp)
+                    .size(NeoTheme.size.thumbSizeSmall)
                     .neoStyle(
                         style = NeoStyle.Raised,
                         shape = CircleShape,

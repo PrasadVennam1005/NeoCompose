@@ -21,6 +21,9 @@ public val LocalNeoShapes: ProvidableCompositionLocal<NeoShapes> =
 public val LocalNeoSpacing: ProvidableCompositionLocal<NeoSpacing> =
     staticCompositionLocalOf { NeoSpacing() }
 
+public val LocalNeoSize: ProvidableCompositionLocal<NeoSize> =
+    staticCompositionLocalOf { NeoSize() }
+
 public val LocalNeoTypography: ProvidableCompositionLocal<NeoTypography> =
     staticCompositionLocalOf { NeoTypography() }
 
@@ -32,6 +35,7 @@ public val LocalNeoTypography: ProvidableCompositionLocal<NeoTypography> =
  * @param elevation Elevation distance tokens.
  * @param shapes Corner rounding shape tokens.
  * @param spacing Layout padding & margin tokens.
+ * @param size Component sizing & border dimension tokens.
  * @param typography Text style hierarchy tokens.
  * @param content Composable tree content.
  */
@@ -42,6 +46,7 @@ public fun NeoTheme(
     elevation: NeoElevation = NeoElevation(),
     shapes: NeoShapes = NeoShapes(),
     spacing: NeoSpacing = NeoSpacing(),
+    size: NeoSize = NeoSize(),
     typography: NeoTypography = NeoTypography(),
     content: @Composable () -> Unit
 ) {
@@ -51,6 +56,7 @@ public fun NeoTheme(
         LocalNeoElevation provides elevation,
         LocalNeoShapes provides shapes,
         LocalNeoSpacing provides spacing,
+        LocalNeoSize provides size,
         LocalNeoTypography provides typography,
         content = content
     )
@@ -84,6 +90,11 @@ public object NeoTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalNeoSpacing.current
+
+    public val size: NeoSize
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalNeoSize.current
 
     public val typography: NeoTypography
         @Composable

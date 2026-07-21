@@ -3,6 +3,7 @@ package prasad.vennam.neo.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
@@ -18,7 +19,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -37,6 +37,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Inset visual style.
  * @param elevation Inner shadow displacement.
  * @param colors Color palette tokens.
+ * @param contentPadding Internal text padding values derived from design tokens.
  * @param animationSpec Custom animation specs.
  * @param interactionSource Interaction stream.
  */
@@ -51,6 +52,10 @@ public fun NeoTextField(
     style: NeoStyle = NeoStyle.Inset,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = NeoTheme.spacing.medium,
+        vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall
+    ),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
@@ -61,6 +66,8 @@ public fun NeoTextField(
         animationSpec = animationSpec.colorSpec,
         label = "NeoTextFieldFocusBorderAnimation"
     )
+
+    val borderWidth = if (isFocused) NeoTheme.size.borderThick else NeoTheme.size.borderThin
 
     Box(
         modifier = modifier
@@ -73,10 +80,10 @@ public fun NeoTextField(
                 darkColor = colors.darkShadow,
                 elevation = elevation,
                 lightSource = NeoTheme.lighting.lightSource,
-                borderWidth = if (isFocused) 2.dp else 1.dp,
+                borderWidth = borderWidth,
                 borderColor = animatedBorderColor
             )
-            .padding(horizontal = 16.dp, vertical = 14.dp),
+            .padding(contentPadding),
         contentAlignment = Alignment.CenterStart
     ) {
         if (value.isEmpty() && placeholder.isNotEmpty()) {

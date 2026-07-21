@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -22,7 +21,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Linear Neumorphic progress indicator component.
+ * Linear Neumorphic progress indicator component using design system tokens.
  *
  * @param progress Progress fraction (0.0f..1.0f).
  * @param modifier Custom modifier.
@@ -52,7 +51,7 @@ public fun NeoLinearProgressIndicator(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(12.dp)
+            .height(NeoTheme.size.trackHeightSlim)
             .neoStyle(
                 style = style,
                 shape = shape,
@@ -82,7 +81,7 @@ public fun NeoLinearProgressIndicator(
 }
 
 /**
- * Circular Neumorphic progress indicator component.
+ * Circular Neumorphic progress indicator component using design system tokens.
  *
  * @param progress Progress fraction (0.0f..1.0f).
  * @param modifier Custom modifier.
@@ -109,9 +108,12 @@ public fun NeoCircularProgressIndicator(
         label = "NeoCircularProgressAnimation"
     )
 
+    val sizeDp = NeoTheme.size.controlLarge
+    val indicatorSizeDp = NeoTheme.size.controlMedium - NeoTheme.spacing.small
+
     Box(
         modifier = modifier
-            .size(56.dp)
+            .size(sizeDp)
             .neoStyle(
                 style = style,
                 shape = shape,
@@ -127,8 +129,8 @@ public fun NeoCircularProgressIndicator(
             progress = { animatedProgress },
             color = colors.primary,
             trackColor = colors.surface,
-            modifier = Modifier.size(36.dp),
-            strokeWidth = 4.dp
+            modifier = Modifier.size(indicatorSizeDp),
+            strokeWidth = NeoTheme.spacing.extraSmall
         )
     }
 }

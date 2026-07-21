@@ -2,9 +2,8 @@ package prasad.vennam.neo.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -23,7 +21,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Compact Neumorphic Chip component.
+ * Compact Neumorphic Chip component using design system tokens.
  *
  * @param label Chip label text.
  * @param onClick Optional event callback when clicked.
@@ -33,6 +31,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param shape Component shape (defaults to [CircleShape]).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param contentPadding Internal chip padding values derived from design tokens.
  * @param animationSpec Custom animation specifications.
  * @param interactionSource Interaction stream.
  */
@@ -46,6 +45,10 @@ public fun NeoChip(
     shape: Shape = CircleShape,
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = NeoTheme.spacing.medium,
+        vertical = NeoTheme.spacing.small
+    ),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
@@ -75,7 +78,7 @@ public fun NeoChip(
                 lightSource = NeoTheme.lighting.lightSource
             )
             .then(clickModifier)
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(contentPadding),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -87,19 +90,24 @@ public fun NeoChip(
 }
 
 /**
- * Small Neumorphic Badge indicator component.
+ * Small Neumorphic Badge indicator component using design system tokens.
  *
  * @param count Badge number count or text label.
  * @param modifier Custom modifier.
  * @param shape Component shape.
  * @param colors Color palette tokens.
+ * @param contentPadding Internal badge padding values derived from design tokens.
  */
 @Composable
 public fun NeoBadge(
     count: String,
     modifier: Modifier = Modifier,
     shape: Shape = CircleShape,
-    colors: NeoColors = NeoTheme.colors
+    colors: NeoColors = NeoTheme.colors,
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = NeoTheme.spacing.small,
+        vertical = NeoTheme.spacing.extraSmall
+    )
 ) {
     Box(
         modifier = modifier
@@ -112,7 +120,7 @@ public fun NeoBadge(
                 elevation = NeoTheme.elevation.level1,
                 lightSource = NeoTheme.lighting.lightSource
             )
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+            .padding(contentPadding),
         contentAlignment = Alignment.Center
     ) {
         Text(

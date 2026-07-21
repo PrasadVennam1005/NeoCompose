@@ -3,7 +3,6 @@ package prasad.vennam.neo.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -14,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.animation.animateNeoElevationAsState
 import prasad.vennam.neo.core.NeoStyle
@@ -24,12 +22,13 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Interactive Neumorphic icon button.
+ * Interactive Neumorphic icon button component with size derived from design tokens.
  *
  * @param onClick Event callback on click.
  * @param modifier Custom modifier.
  * @param enabled Whether button is enabled.
  * @param shape Component shape (defaults to [CircleShape]).
+ * @param size Button diameter size derived from design tokens (defaults to [NeoTheme.size.controlMedium]).
  * @param style Base Neumorphic style.
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
@@ -43,6 +42,7 @@ public fun NeoIconButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = CircleShape,
+    size: Dp = NeoTheme.size.controlMedium,
     style: NeoStyle = NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
@@ -64,7 +64,7 @@ public fun NeoIconButton(
 
     Box(
         modifier = modifier
-            .size(48.dp)
+            .size(size)
             .neoStyle(
                 style = currentStyle,
                 shape = shape,

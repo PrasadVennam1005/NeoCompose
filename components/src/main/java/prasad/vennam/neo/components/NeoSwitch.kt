@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -25,7 +24,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Interactive Neumorphic toggle switch component.
+ * Interactive Neumorphic toggle switch component using design system tokens.
  *
  * @param checked Whether switch is toggled ON.
  * @param onCheckedChange Callback on toggle.
@@ -51,8 +50,14 @@ public fun NeoSwitch(
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
+    val trackWidth = NeoTheme.size.controlLarge
+    val trackHeight = NeoTheme.spacing.extraLarge
+    val thumbSize = NeoTheme.size.thumbSizeMedium
+    val internalPadding = NeoTheme.spacing.extraSmall
+    val maxTravelDistance = trackWidth - thumbSize - (internalPadding * 2)
+
     val thumbOffset by animateDpAsState(
-        targetValue = if (checked) 24.dp else 0.dp,
+        targetValue = if (checked) maxTravelDistance else Dp(0f),
         animationSpec = animationSpec.elevationSpec,
         label = "NeoSwitchThumbAnimation"
     )
@@ -77,7 +82,7 @@ public fun NeoSwitch(
 
     Box(
         modifier = modifier
-            .size(width = 56.dp, height = 32.dp)
+            .size(width = trackWidth, height = trackHeight)
             .neoStyle(
                 style = style,
                 shape = shape,
@@ -88,13 +93,13 @@ public fun NeoSwitch(
                 lightSource = NeoTheme.lighting.lightSource
             )
             .then(toggleModifier)
-            .padding(4.dp),
+            .padding(internalPadding),
         contentAlignment = Alignment.CenterStart
     ) {
         Box(
             modifier = Modifier
                 .offset(x = thumbOffset)
-                .size(24.dp)
+                .size(thumbSize)
                 .neoStyle(
                     style = NeoStyle.Raised,
                     shape = CircleShape,

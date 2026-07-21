@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -23,7 +22,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Neumorphic Tab Bar navigation component.
+ * Neumorphic Tab Bar navigation component using design system tokens.
  *
  * @param tabs List of tab titles.
  * @param selectedIndex Index of active tab.
@@ -59,7 +58,7 @@ public fun NeoTabBar(
                 elevation = elevation,
                 lightSource = NeoTheme.lighting.lightSource
             )
-            .padding(8.dp)
+            .padding(NeoTheme.spacing.small)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -79,7 +78,7 @@ public fun NeoTabBar(
                             backgroundColor = colors.surface,
                             lightColor = colors.lightShadow,
                             darkColor = colors.darkShadow,
-                            elevation = if (isSelected) NeoTheme.elevation.level2 else 0.dp,
+                            elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
                             lightSource = NeoTheme.lighting.lightSource
                         )
                         .clickable(
@@ -89,7 +88,7 @@ public fun NeoTabBar(
                             role = Role.Tab,
                             onClick = { onTabSelected(index) }
                         )
-                        .padding(vertical = 12.dp),
+                        .padding(vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(

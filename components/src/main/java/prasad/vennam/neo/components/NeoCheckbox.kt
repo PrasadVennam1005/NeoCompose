@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -25,13 +24,14 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * High-visibility interactive Neumorphic checkbox control.
+ * High-visibility interactive Neumorphic checkbox control using design system tokens.
  *
  * @param checked Whether box is currently checked.
  * @param onCheckedChange Callback on toggle.
  * @param modifier Custom modifier.
  * @param enabled Whether control is interactive.
  * @param shape Box shape.
+ * @param size Control box size derived from design tokens.
  * @param style Surface style ([NeoStyle.Inset] when checked, [NeoStyle.Raised] when unchecked).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
@@ -45,6 +45,7 @@ public fun NeoCheckbox(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = NeoTheme.shapes.small,
+    size: Dp = NeoTheme.size.controlSmall,
     style: NeoStyle = if (checked) NeoStyle.Inset else NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
@@ -64,12 +65,12 @@ public fun NeoCheckbox(
     }
 
     val backgroundColor = if (checked) colors.primary else colors.surface
-    val borderWidth = if (checked) 0.dp else 1.5.dp
+    val borderWidth = if (checked) Dp.Unspecified else NeoTheme.size.borderMedium
     val borderColor = if (checked) colors.primary else colors.border.copy(alpha = 0.5f)
 
     Box(
         modifier = modifier
-            .size(28.dp)
+            .size(size)
             .neoStyle(
                 style = style,
                 shape = shape,
@@ -93,7 +94,7 @@ public fun NeoCheckbox(
                 imageVector = Icons.Default.Check,
                 contentDescription = "Checked",
                 tint = colors.onPrimary,
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier.size(NeoTheme.size.iconSmall)
             )
         }
     }
