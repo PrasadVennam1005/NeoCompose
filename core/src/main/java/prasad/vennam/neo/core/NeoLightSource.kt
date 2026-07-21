@@ -62,5 +62,11 @@ public data class NeoLightSource(
          * Light coming from Bottom-Right (135 degrees).
          */
         public val BottomRight: NeoLightSource = NeoLightSource(angleDegrees = 135f, intensity = 1.0f)
+
+        // Naming aliases matching popular Neumorphism design specs:
+        public val LEFT_TOP: NeoLightSource get() = TopLeft
+        public val LEFT_BOTTOM: NeoLightSource get() = BottomLeft
+        public val RIGHT_TOP: NeoLightSource get() = TopRight
+        public val RIGHT_BOTTOM: NeoLightSource get() = BottomRight
     }
 }

@@ -23,37 +23,31 @@ NeoTheme {
 
 ---
 
-## 2. Neumorphic Surface Styles 🧩
+## 2. Neumorphic Light Source Presets 💡
 
-`NeoCompose` provides 6 surface visual styles via `NeoStyle`:
+`NeoLightSource` provides preset constants matching standard Neumorphism specifications:
 
-| Style | Visual Appearance | Primary Use Case |
+| Preset Name | Angle | Description |
 | :--- | :--- | :--- |
-| `NeoStyle.Raised` | Extruded surface floating above background | Unpressed buttons, cards, FABs, unselected tabs |
-| `NeoStyle.Pressed` | Compressed surface pushed closer to background | Active press feedback state on buttons & cards |
-| `NeoStyle.Inset` | Recessed groove carved into background | Text input fields, checkbox containers, progress tracks, active tabs |
-| `NeoStyle.Concave` | Curved surface sloping away from light source | Hero action cards, luxury audio controls, luxury dials |
-| `NeoStyle.Convex` | Curved surface sloping toward light source | Soft convex buttons, status badges |
-| `NeoStyle.Flat` | Flat surface level with background | Unselected subtle menu items |
+| `NeoLightSource.TopLeft` (`LEFT_TOP`) | 315° | Standard default incoming light from Top-Left |
+| `NeoLightSource.BottomLeft` (`LEFT_BOTTOM`) | 225° | Incoming light from Bottom-Left |
+| `NeoLightSource.TopRight` (`RIGHT_TOP`) | 45° | Incoming light from Top-Right |
+| `NeoLightSource.BottomRight` (`RIGHT_BOTTOM`) | 135° | Incoming light from Bottom-Right |
 
 ---
 
-## 3. Light Source & Shadow Math 💡
+## 3. Surface Shape Types (`NeoStyle`) 🧩
 
-Shadow direction is governed globally by `NeoLightSource`.
+`NeoCompose` provides full support for standard Neumorphism `ShapeType` conventions:
 
-```kotlin
-// Light coming from top-left (315°) - Standard default
-NeoTheme(
-    lighting = NeoLighting(lightSource = NeoLightSource(angleDegrees = 315f))
-)
-```
-
-- **Elevation Levels**:
-  - `NeoTheme.elevation.level1` (2.dp) – Badges, chips
-  - `NeoTheme.elevation.level2` (4.dp) – Checkboxes, radio buttons, linear progress tracks
-  - `NeoTheme.elevation.level3` (6.dp) – Standard buttons, text fields, cards
-  - `NeoTheme.elevation.level4` (10.dp) – Floating Action Buttons (FAB), hero cards
+| ShapeType / Style | Visual Appearance | Primary Use Case |
+| :--- | :--- | :--- |
+| `NeoStyle.Raised` / `FLAT` | Extruded surface floating above background with dual outer shadows | Unpressed buttons, cards, FABs |
+| `NeoStyle.Pressed` / `PRESSED` | Compressed surface pushed closer to background with inner shadows | Active press feedback, recessed inputs |
+| `NeoStyle.Basin` / `BASIN` | Curved interior rim surface sloping toward central depression | Circular media buttons, luxury dials, action pods |
+| `NeoStyle.Inset` | Recessed container with deep inner drop shadows | Text fields, checkbox containers, progress tracks |
+| `NeoStyle.Concave` | Curved interior surface with directional lighting gradient | Hero action cards, luxury controls |
+| `NeoStyle.Convex` | Curved exterior surface with reversed lighting gradient | Convex badges, convex buttons |
 
 ---
 

@@ -49,10 +49,10 @@ public fun Modifier.neoStyle(
     )
     .clip(shape)
     .then(
-        if (style is NeoStyle.Concave || style is NeoStyle.Convex) {
+        if (style is NeoStyle.Concave || style is NeoStyle.Convex || style is NeoStyle.Basin) {
             Modifier.drawBehind {
                 val brush = NeoSurfaceGradient.createSurfaceBrush(
-                    style = style,
+                    style = if (style is NeoStyle.Basin) NeoStyle.Concave else style,
                     lightSource = lightSource,
                     baseColor = backgroundColor,
                     lightColor = lightColor,

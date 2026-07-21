@@ -38,6 +38,12 @@ public sealed interface NeoStyle {
     public data object Convex : NeoStyle
 
     /**
+     * Basin curved rim surface with central inset depression.
+     */
+    @Immutable
+    public data object Basin : NeoStyle
+
+    /**
      * Flat surface level with background with subtle border elevation contrast.
      */
     @Immutable
