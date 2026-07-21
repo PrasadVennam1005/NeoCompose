@@ -80,7 +80,7 @@ public object NeoCanvasRenderer {
         offset: Offset,
         blurRadiusPx: Float
     ) {
-        val nativePaint: NativePaint = shadowPaint.asFrameworkPaint()
+        val nativePaint: android.graphics.Paint = shadowPaint.asFrameworkPaint()
         nativePaint.reset()
         nativePaint.color = color.toArgb()
 
@@ -115,7 +115,7 @@ public object NeoCanvasRenderer {
             op(outerBoundsPath, shapePath, PathOperation.Difference)
         }
 
-        val nativePaint: NativePaint = shadowPaint.asFrameworkPaint()
+        val nativePaint: android.graphics.Paint = shadowPaint.asFrameworkPaint()
         nativePaint.reset()
         nativePaint.color = color.toArgb()
 

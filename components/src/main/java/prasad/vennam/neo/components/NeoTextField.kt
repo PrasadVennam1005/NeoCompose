@@ -58,7 +58,7 @@ public fun NeoTextField(
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     shape: Shape = NeoTheme.shapes.pill,
-    style: NeoStyle = NeoStyle.Inset,
+    style: NeoStyle = NeoStyle.Pressed,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     contentPadding: PaddingValues = PaddingValues(
