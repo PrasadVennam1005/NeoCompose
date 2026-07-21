@@ -1,16 +1,25 @@
 package prasad.vennam.neo.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageVector
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
@@ -129,5 +138,20 @@ public fun NeoIcon(
             tint = tint,
             modifier = modifier.size(size)
         )
+    }
+}
+
+@Preview(name = "NeoIcon Preview")
+@Composable
+private fun NeoIconPreview() {
+    NeoTheme {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NeoIcon(imageVector = Icons.Default.Favorite, contentDescription = "Heart", style = NeoStyle.Raised)
+            Spacer(Modifier.width(16.dp))
+            NeoIcon(imageVector = Icons.Default.Star, contentDescription = "Star", style = NeoStyle.Inset)
+        }
     }
 }

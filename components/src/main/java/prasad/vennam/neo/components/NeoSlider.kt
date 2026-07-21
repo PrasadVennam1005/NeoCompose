@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -21,8 +22,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -145,5 +148,15 @@ public fun NeoSlider(
                     }
                 }
         )
+    }
+}
+
+@Preview(name = "NeoSlider Preview")
+@Composable
+private fun NeoSliderPreview() {
+    NeoTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            NeoSlider(value = 0.65f, onValueChange = {})
+        }
     }
 }

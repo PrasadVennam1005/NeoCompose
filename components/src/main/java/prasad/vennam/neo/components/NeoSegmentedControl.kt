@@ -15,7 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -99,6 +101,20 @@ public fun NeoSegmentedControl(
                     )
                 }
             }
+        }
+    }
+}
+
+@Preview(name = "NeoSegmentedControl Preview")
+@Composable
+private fun NeoSegmentedControlPreview() {
+    NeoTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            NeoSegmentedControl(
+                items = listOf("Day", "Week", "Month"),
+                selectedIndex = 0,
+                onOptionSelected = {}
+            )
         }
     }
 }

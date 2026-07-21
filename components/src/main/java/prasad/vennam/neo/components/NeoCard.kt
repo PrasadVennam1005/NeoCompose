@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.theme.NeoColors
@@ -51,5 +54,17 @@ public fun NeoCard(
             modifier = Modifier.padding(contentPadding),
             content = content
         )
+    }
+}
+
+@Preview(name = "NeoCard - Raised Preview")
+@Composable
+private fun NeoCardPreview() {
+    NeoTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            NeoCard {
+                Text("Neumorphic Card Section", style = NeoTheme.typography.body, color = NeoTheme.colors.textPrimary)
+            }
+        }
     }
 }

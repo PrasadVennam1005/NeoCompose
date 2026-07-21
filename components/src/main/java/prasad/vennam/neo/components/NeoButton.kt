@@ -3,10 +3,12 @@ package prasad.vennam.neo.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -14,7 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.animation.animateNeoElevationAsState
 import prasad.vennam.neo.core.NeoStyle
@@ -90,4 +94,28 @@ public fun NeoButton(
         verticalAlignment = Alignment.CenterVertically,
         content = content
     )
+}
+
+@Preview(name = "NeoButton - Light Mode")
+@Composable
+private fun NeoButtonLightPreview() {
+    NeoTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            NeoButton(onClick = {}) {
+                Text("Sign In", style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
+            }
+        }
+    }
+}
+
+@Preview(name = "NeoButton - Dark Mode")
+@Composable
+private fun NeoButtonDarkPreview() {
+    NeoTheme(colors = NeoColors.defaultDarkColors()) {
+        Box(modifier = Modifier.padding(16.dp)) {
+            NeoButton(onClick = {}) {
+                Text("Confirm Action", style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
+            }
+        }
+    }
 }

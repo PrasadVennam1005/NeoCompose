@@ -14,7 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -98,6 +100,20 @@ public fun NeoTabBar(
                     )
                 }
             }
+        }
+    }
+}
+
+@Preview(name = "NeoTabBar Preview")
+@Composable
+private fun NeoTabBarPreview() {
+    NeoTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            NeoTabBar(
+                tabs = listOf("Home", "Explore", "Profile"),
+                selectedIndex = 0,
+                onTabSelected = {}
+            )
         }
     }
 }

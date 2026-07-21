@@ -21,7 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
@@ -131,6 +133,20 @@ public fun NeoTextField(
                 Spacer(Modifier.width(NeoTheme.spacing.small))
                 trailingIcon()
             }
+        }
+    }
+}
+
+@Preview(name = "NeoTextField Preview")
+@Composable
+private fun NeoTextFieldPreview() {
+    NeoTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            NeoTextField(
+                value = "hello@gmail.com",
+                onValueChange = {},
+                placeholder = "Enter email..."
+            )
         }
     }
 }
