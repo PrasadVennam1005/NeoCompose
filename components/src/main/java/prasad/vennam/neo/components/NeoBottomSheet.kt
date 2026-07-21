@@ -108,7 +108,15 @@ private fun NeoBottomSheetContentPreview() {
                             .align(Alignment.CenterHorizontally)
                             .width(48.dp)
                             .height(6.dp)
-                            .neoStyle(style = NeoStyle.Inset, shape = CircleShape)
+                            .neoStyle(
+                                style = NeoStyle.Inset,
+                                shape = CircleShape,
+                                backgroundColor = NeoTheme.colors.surface,
+                                lightColor = NeoTheme.colors.lightShadow,
+                                darkColor = NeoTheme.colors.darkShadow,
+                                elevation = NeoTheme.elevation.level2,
+                                lightSource = NeoTheme.lighting.lightSource
+                            )
                     )
                     Spacer(Modifier.height(16.dp))
                     Text("Neumorphic Bottom Sheet", style = NeoTheme.typography.display, color = NeoTheme.colors.textPrimary)
