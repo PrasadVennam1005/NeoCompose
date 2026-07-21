@@ -1,0 +1,109 @@
+package prasad.vennam.neo.components
+
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoStyle
+import prasad.vennam.neo.foundation.neoStyle
+import prasad.vennam.neo.theme.NeoColors
+import prasad.vennam.neo.theme.NeoTheme
+
+/**
+ * Interactive Neumorphic toggle switch component.
+ *
+ * @param checked Whether switch is toggled ON.
+ * @param onCheckedChange Callback on toggle.
+ * @param modifier Custom modifier.
+ * @param enabled Whether control is interactive.
+ * @param shape Track shape.
+ * @param style Base track style (defaults to [NeoStyle.Inset]).
+ * @param elevation Base shadow displacement distance.
+ * @param colors Color palette tokens.
+ * @param animationSpec Custom animation specifications.
+ * @param interactionSource Interaction stream.
+ */
+@Composable
+public fun NeoSwitch(
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = CircleShape,
+    style: NeoStyle = NeoStyle.Inset,
+    elevation: Dp = NeoTheme.elevation.level3,
+    colors: NeoColors = NeoTheme.colors,
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+) {
+    val thumbOffset by animateDpAsState(
+        targetValue = if (checked) 24.dp else 0.dp,
+        animationSpec = animationSpec.elevationSpec,
+        label = "NeoSwitchThumbAnimation"
+    )
+
+    val animatedTrackBg by animateColorAsState(
+        targetValue = if (checked) colors.primary.copy(alpha = 0.15f) else colors.surface,
+        animationSpec = animationSpec.colorSpec,
+        label = "NeoSwitchTrackBgAnimation"
+    )
+
+    val toggleModifier = if (onCheckedChange != null) {
+        Modifier.clickable(
+            interactionSource = interactionSource,
+            indication = null,
+            enabled = enabled,
+            role = Role.Switch,
+            onClick = { onCheckedChange(!checked) }
+        )
+    } else {
+        Modifier
+    }
+
+    Box(
+        modifier = modifier
+            .size(width = 56.dp, height = 32.dp)
+            .neoStyle(
+                style = style,
+                shape = shape,
+                backgroundColor = animatedTrackBg,
+                lightColor = colors.lightShadow,
+                darkColor = colors.darkShadow,
+                elevation = elevation,
+                lightSource = NeoTheme.lighting.lightSource
+            )
+            .then(toggleModifier)
+            .padding(4.dp),
+        contentAlignment = Alignment.CenterStart
+    ) {
+        Box(
+            modifier = Modifier
+                .offset(x = thumbOffset)
+                .size(24.dp)
+                .neoStyle(
+                    style = NeoStyle.Raised,
+                    shape = CircleShape,
+                    backgroundColor = if (checked) colors.primary else colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = NeoTheme.elevation.level2,
+                    lightSource = NeoTheme.lighting.lightSource
+                )
+        )
+    }
+}

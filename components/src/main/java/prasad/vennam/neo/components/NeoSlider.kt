@@ -1,0 +1,127 @@
+package prasad.vennam.neo.components
+
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoStyle
+import prasad.vennam.neo.foundation.neoStyle
+import prasad.vennam.neo.theme.NeoColors
+import prasad.vennam.neo.theme.NeoTheme
+import kotlin.math.roundToInt
+
+/**
+ * Interactive Neumorphic range slider component with tap and drag gesture support.
+ *
+ * @param value Current slider value.
+ * @param onValueChange Callback when slider value changes.
+ * @param modifier Custom modifier.
+ * @param enabled Whether slider is interactive.
+ * @param valueRange Value range bounds.
+ * @param shape Track shape.
+ * @param style Base track style (defaults to [NeoStyle.Inset]).
+ * @param elevation Base shadow displacement distance.
+ * @param colors Color palette tokens.
+ * @param animationSpec Custom animation specifications.
+ * @param interactionSource Interaction stream.
+ */
+@Composable
+public fun NeoSlider(
+    value: Float,
+    onValueChange: (Float) -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
+    shape: Shape = CircleShape,
+    style: NeoStyle = NeoStyle.Inset,
+    elevation: Dp = NeoTheme.elevation.level3,
+    colors: NeoColors = NeoTheme.colors,
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+) {
+    val rangeLength = valueRange.endInclusive - valueRange.start
+    val normalizedValue = if (rangeLength > 0f) {
+        ((value - valueRange.start) / rangeLength).coerceIn(0f, 1f)
+    } else 0f
+
+    BoxWithConstraints(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(28.dp),
+        contentAlignment = Alignment.CenterStart
+    ) {
+        val density = LocalDensity.current
+        val totalWidthPx = constraints.maxWidth.toFloat()
+        val thumbSizePx = with(density) { 24.dp.toPx() }
+        val maxOffsetPx = (totalWidthPx - thumbSizePx).coerceAtLeast(0f)
+        val currentOffsetPx = normalizedValue * maxOffsetPx
+
+        // Track background
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(12.dp)
+                .neoStyle(
+                    style = style,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = elevation,
+                    lightSource = NeoTheme.lighting.lightSource
+                )
+                .pointerInput(enabled, valueRange, maxOffsetPx) {
+                    if (enabled && maxOffsetPx > 0f) {
+                        detectTapGestures { offset ->
+                            val newNormalized = (offset.x / maxOffsetPx).coerceIn(0f, 1f)
+                            onValueChange(valueRange.start + newNormalized * rangeLength)
+                        }
+                    }
+                }
+        )
+
+        // Thumb
+        Box(
+            modifier = Modifier
+                .offset { IntOffset(currentOffsetPx.roundToInt(), 0) }
+                .size(24.dp)
+                .neoStyle(
+                    style = NeoStyle.Raised,
+                    shape = CircleShape,
+                    backgroundColor = colors.primary,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = NeoTheme.elevation.level2,
+                    lightSource = NeoTheme.lighting.lightSource
+                )
+                .pointerInput(enabled, valueRange, maxOffsetPx) {
+                    if (enabled && maxOffsetPx > 0f) {
+                        detectDragGestures { change, dragAmount ->
+                            change.consume()
+                            val deltaNormalized = dragAmount.x / maxOffsetPx
+                            val currentNormalized = ((value - valueRange.start) / rangeLength).coerceIn(0f, 1f)
+                            val newNormalized = (currentNormalized + deltaNormalized).coerceIn(0f, 1f)
+                            onValueChange(valueRange.start + newNormalized * rangeLength)
+                        }
+                    }
+                }
+        )
+    }
+}
