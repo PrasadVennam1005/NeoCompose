@@ -4,8 +4,11 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,13 +29,15 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * High-visibility recessed Neumorphic text input field component with focus border highlight.
+ * High-visibility recessed Neumorphic text input field component with leading/trailing icon slots.
  *
  * @param value Input text value.
  * @param onValueChange Callback on text change.
  * @param modifier Custom modifier.
  * @param enabled Whether input is enabled.
  * @param placeholder Optional placeholder text.
+ * @param leadingIcon Optional leading icon slot composable.
+ * @param trailingIcon Optional trailing icon slot composable.
  * @param shape Field shape.
  * @param style Inset visual style.
  * @param elevation Inner shadow displacement.
@@ -48,6 +53,8 @@ public fun NeoTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     placeholder: String = "",
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     shape: Shape = NeoTheme.shapes.medium,
     style: NeoStyle = NeoStyle.Inset,
     elevation: Dp = NeoTheme.elevation.level3,
@@ -86,24 +93,44 @@ public fun NeoTextField(
             .padding(contentPadding),
         contentAlignment = Alignment.CenterStart
     ) {
-        if (value.isEmpty() && placeholder.isNotEmpty()) {
-            Text(
-                text = placeholder,
-                color = colors.textSecondary,
-                style = NeoTheme.typography.body
-            )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (leadingIcon != null) {
+                leadingIcon()
+                Spacer(Modifier.width(NeoTheme.spacing.small))
+            }
+
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                if (value.isEmpty() && placeholder.isNotEmpty()) {
+                    Text(
+                        text = placeholder,
+                        color = colors.textSecondary,
+                        style = NeoTheme.typography.body
+                    )
+                }
+                BasicTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    enabled = enabled,
+                    singleLine = true,
+                    textStyle = NeoTheme.typography.body.copy(color = colors.textPrimary),
+                    cursorBrush = SolidColor(colors.primary),
+                    interactionSource = interactionSource,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onFocusChanged { isFocused = it.isFocused }
+                )
+            }
+
+            if (trailingIcon != null) {
+                Spacer(Modifier.width(NeoTheme.spacing.small))
+                trailingIcon()
+            }
         }
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            enabled = enabled,
-            singleLine = true,
-            textStyle = NeoTheme.typography.body.copy(color = colors.textPrimary),
-            cursorBrush = SolidColor(colors.primary),
-            interactionSource = interactionSource,
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged { isFocused = it.isFocused }
-        )
     }
 }
