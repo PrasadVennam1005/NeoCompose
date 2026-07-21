@@ -2,10 +2,9 @@ package prasad.vennam.neo.theme
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
 
 /**
- * Color palette tokens for the Neumorphism design system.
+ * Premium Dribbble-grade color palette tokens for the Neumorphism design system.
  *
  * @property background Primary surface background color.
  * @property surface Component surface container color.
@@ -24,36 +23,39 @@ public data class NeoColors(
     public val surface: Color = background,
     public val lightShadow: Color,
     public val darkShadow: Color,
-    public val primary: Color = Color(0xFF6200EE),
+    public val primary: Color = Color(0xFF007AFF),
     public val onPrimary: Color = Color.White,
     public val isLight: Boolean = true,
-    public val textPrimary: Color = if (isLight) Color(0xFF212121) else Color(0xFFE0E0E0),
-    public val textSecondary: Color = if (isLight) Color(0xFF757575) else Color(0xFF9E9E9E),
-    public val border: Color = if (isLight) Color(0xFFE0E0E0) else Color(0xFF373737),
+    public val textPrimary: Color = if (isLight) Color(0xFF2D3748) else Color(0xFFE2E8F0),
+    public val textSecondary: Color = if (isLight) Color(0xFF718096) else Color(0xFFA0AEC0),
+    public val border: Color = Color.Transparent,
 ) {
     public companion object {
         /**
-         * Standard light mode Neumorphism color palette (Light Grey #E0E5EC).
+         * Standard Dribbble light mode Neumorphism color palette (#ECF0F3).
          */
         public fun defaultLightColors(
-            background: Color = Color(0xFFE0E5EC),
-            primary: Color = Color(0xFF3F51B5)
+            background: Color = Color(0xFFECF0F3),
+            primary: Color = Color(0xFF007AFF)
         ): NeoColors = NeoColors(
             background = background,
             surface = background,
-            lightShadow = Color.White.copy(alpha = 0.9f),
-            darkShadow = Color(0xFFA3B1C6).copy(alpha = 0.6f),
+            lightShadow = Color.White.copy(alpha = 0.95f),
+            darkShadow = Color(0xFFA3B1C6).copy(alpha = 0.55f),
             primary = primary,
             onPrimary = Color.White,
-            isLight = true
+            isLight = true,
+            textPrimary = Color(0xFF2D3748),
+            textSecondary = Color(0xFF718096),
+            border = Color.Transparent
         )
 
         /**
-         * Standard dark mode Neumorphism color palette (Dark Charcoal #24292E).
+         * Standard dark mode Neumorphism color palette (#24292E).
          */
         public fun defaultDarkColors(
             background: Color = Color(0xFF24292E),
-            primary: Color = Color(0xFF7986CB)
+            primary: Color = Color(0xFF38BDF8)
         ): NeoColors = NeoColors(
             background = background,
             surface = background,
@@ -61,7 +63,10 @@ public data class NeoColors(
             darkShadow = Color(0xFF121518).copy(alpha = 0.8f),
             primary = primary,
             onPrimary = Color.Black,
-            isLight = false
+            isLight = false,
+            textPrimary = Color(0xFFF1F5F9),
+            textSecondary = Color(0xFF94A3B8),
+            border = Color.Transparent
         )
     }
 }

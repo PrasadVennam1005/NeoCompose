@@ -24,14 +24,14 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Interactive Neumorphic toggle switch component using design system tokens.
+ * Interactive Neumorphic toggle switch matching Dribbble high-aesthetic visual standards.
  *
  * @param checked Whether switch is toggled ON.
  * @param onCheckedChange Callback on toggle.
  * @param modifier Custom modifier.
  * @param enabled Whether control is interactive.
- * @param shape Track shape.
- * @param style Base track style (defaults to [NeoStyle.Inset]).
+ * @param shape Track shape (defaults to [CircleShape]).
+ * @param style Base track style ([NeoStyle.Inset] when unchecked, [NeoStyle.Raised] when checked).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
  * @param animationSpec Custom animation specifications.
@@ -44,7 +44,7 @@ public fun NeoSwitch(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = CircleShape,
-    style: NeoStyle = NeoStyle.Inset,
+    style: NeoStyle = if (checked) NeoStyle.Raised else NeoStyle.Inset,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
@@ -63,7 +63,7 @@ public fun NeoSwitch(
     )
 
     val animatedTrackBg by animateColorAsState(
-        targetValue = if (checked) colors.primary.copy(alpha = 0.15f) else colors.surface,
+        targetValue = if (checked) colors.primary else colors.surface,
         animationSpec = animationSpec.colorSpec,
         label = "NeoSwitchTrackBgAnimation"
     )
@@ -103,7 +103,7 @@ public fun NeoSwitch(
                 .neoStyle(
                     style = NeoStyle.Raised,
                     shape = CircleShape,
-                    backgroundColor = if (checked) colors.primary else colors.surface,
+                    backgroundColor = colors.onPrimary,
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
                     elevation = NeoTheme.elevation.level2,

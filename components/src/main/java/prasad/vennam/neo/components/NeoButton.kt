@@ -29,7 +29,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param onClick Event callback when button is clicked.
  * @param modifier Custom modifier.
  * @param enabled Whether button is interactive.
- * @param shape Button corner shape.
+ * @param shape Button corner shape (defaults to [NeoTheme.shapes.pill]).
  * @param style Base Neumorphic style when unpressed.
  * @param elevation Base shadow displacement elevation.
  * @param colors Color palette tokens.
@@ -43,7 +43,7 @@ public fun NeoButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    shape: Shape = NeoTheme.shapes.medium,
+    shape: Shape = NeoTheme.shapes.pill,
     style: NeoStyle = NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,

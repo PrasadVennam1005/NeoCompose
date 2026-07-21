@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -22,14 +23,14 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Neumorphic Segmented Control container using design system tokens.
+ * Neumorphic Segmented Control container using pill shapes matching Dribbble designs.
  *
  * @param items List of tab label options.
  * @param selectedIndex Index of currently selected tab option.
  * @param onOptionSelected Callback when an option is selected.
  * @param modifier Custom modifier.
  * @param enabled Whether control is interactive.
- * @param shape Outer container shape.
+ * @param shape Outer container shape (defaults to [CircleShape]).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
  * @param animationSpec Custom animation specifications.
@@ -41,7 +42,7 @@ public fun NeoSegmentedControl(
     onOptionSelected: (Int) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    shape: Shape = NeoTheme.shapes.medium,
+    shape: Shape = CircleShape,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec()
@@ -74,7 +75,7 @@ public fun NeoSegmentedControl(
                         .weight(1f)
                         .neoStyle(
                             style = if (isSelected) NeoStyle.Raised else NeoStyle.Flat,
-                            shape = shape,
+                            shape = CircleShape,
                             backgroundColor = if (isSelected) colors.surface else colors.surface.copy(alpha = 0f),
                             lightColor = colors.lightShadow,
                             darkColor = colors.darkShadow,
@@ -88,7 +89,7 @@ public fun NeoSegmentedControl(
                             role = Role.Tab,
                             onClick = { onOptionSelected(index) }
                         )
-                        .padding(vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall),
+                        .padding(vertical = NeoTheme.spacing.medium),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(

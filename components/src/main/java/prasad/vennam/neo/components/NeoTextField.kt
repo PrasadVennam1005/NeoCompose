@@ -38,7 +38,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param placeholder Optional placeholder text.
  * @param leadingIcon Optional leading icon slot composable.
  * @param trailingIcon Optional trailing icon slot composable.
- * @param shape Field shape.
+ * @param shape Field shape (defaults to [NeoTheme.shapes.pill]).
  * @param style Inset visual style.
  * @param elevation Inner shadow displacement.
  * @param colors Color palette tokens.
@@ -55,13 +55,13 @@ public fun NeoTextField(
     placeholder: String = "",
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    shape: Shape = NeoTheme.shapes.medium,
+    shape: Shape = NeoTheme.shapes.pill,
     style: NeoStyle = NeoStyle.Inset,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     contentPadding: PaddingValues = PaddingValues(
-        horizontal = NeoTheme.spacing.medium,
-        vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall
+        horizontal = NeoTheme.spacing.large,
+        vertical = NeoTheme.spacing.medium
     ),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
@@ -69,7 +69,7 @@ public fun NeoTextField(
     var isFocused by remember { mutableStateOf(false) }
 
     val animatedBorderColor by animateColorAsState(
-        targetValue = if (isFocused) colors.primary else colors.border.copy(alpha = 0.5f),
+        targetValue = if (isFocused) colors.primary else colors.border,
         animationSpec = animationSpec.colorSpec,
         label = "NeoTextFieldFocusBorderAnimation"
     )
@@ -87,7 +87,7 @@ public fun NeoTextField(
                 darkColor = colors.darkShadow,
                 elevation = elevation,
                 lightSource = NeoTheme.lighting.lightSource,
-                borderWidth = borderWidth,
+                borderWidth = if (isFocused) borderWidth else Dp(0f),
                 borderColor = animatedBorderColor
             )
             .padding(contentPadding),
