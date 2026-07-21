@@ -9,6 +9,17 @@
 
 ---
 
+## 📱 Live Emulator Showcase
+
+<p neutral-align="center">
+  <img src="docs/images/demo_app_light.png" width="22%" alt="NeoCompose Light Theme" />
+  <img src="docs/images/demo_app_dark.png" width="22%" alt="NeoCompose Dark Theme" />
+  <img src="docs/images/demo_app_components.png" width="22%" alt="NeoCompose Form & Range Controls" />
+  <img src="docs/images/demo_app_pickers.png" width="22%" alt="NeoCompose Pickers & Audio Player" />
+</p>
+
+---
+
 ## 🎨 Visual Design Highlights
 
 - **Off-White Soft Palette**: Default background `#ECF0F3`, light shadow `#FFFFFF`, dark shadow `#A3B1C6` (alpha 0.55), and Electric Blue primary accent `#007AFF`.
