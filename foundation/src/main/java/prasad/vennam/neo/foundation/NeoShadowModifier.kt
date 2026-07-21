@@ -79,5 +79,7 @@ public fun Modifier.neoShadow(
                 )
             }
         }
+
+        else -> {}
     }
 }

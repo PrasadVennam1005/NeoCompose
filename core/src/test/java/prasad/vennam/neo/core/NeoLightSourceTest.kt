@@ -3,7 +3,6 @@ package prasad.vennam.neo.core
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import kotlin.math.abs
 
 class NeoLightSourceTest {
 
@@ -46,5 +45,11 @@ class NeoLightSourceTest {
         assertEquals(45f, NeoLightSource.TopRight.angleDegrees, 0.001f)
         assertEquals(225f, NeoLightSource.BottomLeft.angleDegrees, 0.001f)
         assertEquals(135f, NeoLightSource.BottomRight.angleDegrees, 0.001f)
+
+        // Directional Aliases
+        assertEquals(NeoLightSource.TopLeft, NeoLightSource.LEFT_TOP)
+        assertEquals(NeoLightSource.BottomLeft, NeoLightSource.LEFT_BOTTOM)
+        assertEquals(NeoLightSource.TopRight, NeoLightSource.RIGHT_TOP)
+        assertEquals(NeoLightSource.BottomRight, NeoLightSource.RIGHT_BOTTOM)
     }
 }

@@ -46,7 +46,8 @@ public fun animateNeoElevationForStyleAsState(
         is NeoStyle.Raised, is NeoStyle.Concave, is NeoStyle.Convex -> defaultElevation
         is NeoStyle.Pressed, is NeoStyle.Inset -> pressedElevation
         is NeoStyle.Flat -> defaultElevation * 0.5f
-    }
+        else -> {}
+    } as Dp
     return animateNeoElevationAsState(
         targetElevation = target,
         animationSpec = animationSpec

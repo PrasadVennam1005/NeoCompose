@@ -2,9 +2,9 @@ package prasad.vennam.neo.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
@@ -25,6 +25,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param colors Color palette (defaults to [NeoTheme.colors]).
  * @param lightSource Directional light vector (defaults to [NeoTheme.lighting.lightSource]).
  * @param animationSpec Custom animation specifications.
+ * @param contentAlignment Inner box alignment.
  * @param content Composable inner layout content.
  */
 @Composable
@@ -39,7 +40,7 @@ public fun NeoSurface(
     contentAlignment: Alignment = Alignment.Center,
     content: @Composable () -> Unit
 ) {
-    val animatedElevation = animateNeoElevationAsState(
+    val animatedElevation by animateNeoElevationAsState(
         targetElevation = elevation,
         animationSpec = animationSpec.elevationSpec
     )
@@ -51,7 +52,7 @@ public fun NeoSurface(
             backgroundColor = colors.surface,
             lightColor = colors.lightShadow,
             darkColor = colors.darkShadow,
-            elevation = animatedElevation.value,
+            elevation = animatedElevation,
             lightSource = lightSource
         ),
         contentAlignment = contentAlignment
