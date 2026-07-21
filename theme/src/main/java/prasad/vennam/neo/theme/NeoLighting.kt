@@ -12,7 +12,7 @@ import prasad.vennam.neo.core.NeoLightSource
  */
 @Immutable
 public data class NeoLighting(
-    public val lightSource: NeoLightSource = NeoLightSource.TopLeft,
+    public val lightSource: NeoLightSource = NeoLightSource.LEFT_TOP,
     public val intensity: Float = 1.0f,
     public val contrast: Float = 1.0f
 )

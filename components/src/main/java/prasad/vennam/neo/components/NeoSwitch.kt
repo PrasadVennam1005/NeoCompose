@@ -31,14 +31,14 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Interactive Neumorphic toggle switch with directional light source control.
+ * Interactive Neumorphic toggle switch matching Dribbble high-aesthetic visual standards.
  *
  * @param checked Whether switch is toggled ON.
  * @param onCheckedChange Callback on toggle.
  * @param modifier Custom modifier.
  * @param enabled Whether control is interactive.
  * @param shape Track shape (defaults to [CircleShape]).
- * @param style Base track style ([NeoStyle.Inset] when unchecked, [NeoStyle.Raised] when checked).
+ * @param style Track visual style (defaults to [NeoStyle.Inset]).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
  * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
@@ -52,7 +52,7 @@ public fun NeoSwitch(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = CircleShape,
-    style: NeoStyle = if (checked) NeoStyle.Raised else NeoStyle.Inset,
+    style: NeoStyle = NeoStyle.Inset,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
@@ -75,6 +75,12 @@ public fun NeoSwitch(
         targetValue = if (checked) colors.primary else colors.surface,
         animationSpec = animationSpec.colorSpec,
         label = "NeoSwitchTrackBgAnimation"
+    )
+
+    val animatedThumbBg by animateColorAsState(
+        targetValue = if (checked) colors.onPrimary else colors.surface,
+        animationSpec = animationSpec.colorSpec,
+        label = "NeoSwitchThumbBgAnimation"
     )
 
     val toggleModifier = if (onCheckedChange != null) {
@@ -112,7 +118,7 @@ public fun NeoSwitch(
                 .neoStyle(
                     style = NeoStyle.Raised,
                     shape = CircleShape,
-                    backgroundColor = colors.onPrimary,
+                    backgroundColor = animatedThumbBg,
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
                     elevation = NeoTheme.elevation.level2,

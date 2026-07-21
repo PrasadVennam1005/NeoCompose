@@ -83,6 +83,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling.preview)
 
     testImplementation(libs.junit)
