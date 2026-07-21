@@ -1,19 +1,18 @@
 package prasad.vennam.neo.sample
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.PowerSettingsNew
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Thermostat
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.components.NeoBadge
 import prasad.vennam.neo.components.NeoCard
-import prasad.vennam.neo.components.NeoChip
 import prasad.vennam.neo.components.NeoIconButton
 import prasad.vennam.neo.components.NeoLinearProgressIndicator
 import prasad.vennam.neo.components.NeoSlider
@@ -42,7 +40,7 @@ public fun SmartHomeDashboard(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        // Welcome Card
+        // Welcome Status Card
         NeoCard(style = NeoStyle.Raised) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -66,9 +64,9 @@ public fun SmartHomeDashboard(
             }
         }
 
-        // Climate Thermostat Control
+        // Climate Thermostat Control Card
         NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -107,19 +105,26 @@ public fun SmartHomeDashboard(
             }
         }
 
-        // Quick Controls Grid
+        // Quick Controls Grid (Lighting & Security)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Lighting Control
+            // Lighting Interactive Control Surface
             NeoSurface(
-                modifier = Modifier.weight(1f).height(120.dp),
-                style = if (state.isLightsOn) NeoStyle.Inset else NeoStyle.Raised
+                modifier = Modifier
+                    .weight(1f)
+                    .height(110.dp)
+                    .clickable { state.isLightsOn = !state.isLightsOn },
+                style = if (state.isLightsOn) NeoStyle.Inset else NeoStyle.Raised,
+                shape = NeoTheme.shapes.large
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.SpaceBetween
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.SpaceBetween,
+                    horizontalAlignment = Alignment.Start
                 ) {
                     Icon(
                         imageVector = Icons.Default.Lightbulb,
@@ -134,14 +139,21 @@ public fun SmartHomeDashboard(
                 }
             }
 
-            // Security Control
+            // Security Interactive Control Surface
             NeoSurface(
-                modifier = Modifier.weight(1f).height(120.dp),
-                style = if (state.isSecurityOn) NeoStyle.Inset else NeoStyle.Raised
+                modifier = Modifier
+                    .weight(1f)
+                    .height(110.dp)
+                    .clickable { state.isSecurityOn = !state.isSecurityOn },
+                style = if (state.isSecurityOn) NeoStyle.Inset else NeoStyle.Raised,
+                shape = NeoTheme.shapes.large
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.SpaceBetween
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.SpaceBetween,
+                    horizontalAlignment = Alignment.Start
                 ) {
                     Icon(
                         imageVector = Icons.Default.Lock,
@@ -157,7 +169,7 @@ public fun SmartHomeDashboard(
             }
         }
 
-        // Power Consumption Indicator
+        // Power Usage Card
         NeoCard(style = NeoStyle.Raised) {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
