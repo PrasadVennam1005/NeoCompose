@@ -47,8 +47,7 @@ dependencies {
 // 2. Wrap your content in NeoTheme
 NeoTheme {
     NeoButton(
-        onClick = { /* perform action */ },
-        style = NeoButtonStyle.Raised
+        onClick = { /* perform action */ }
     ) {
         Text("Continue")
     }
@@ -61,6 +60,7 @@ For setup instructions and Gradle setup, check [docs/GETTING_STARTED.md](file://
 
 ## Documentation 📚
 
+- 🎨 [Design & Usage Guidelines](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/DESIGN_GUIDELINES.md)
 - 📘 [Getting Started](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/GETTING_STARTED.md)
 - 🏗️ [Architecture Guide](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/ARCHITECTURE.md)
 - 🤝 [Contributing Guidelines](file:///Users/prasadvennam/AndroidStudioProjects/ComposeComponentsPlugNPlay/docs/CONTRIBUTING.md)
