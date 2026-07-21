@@ -39,7 +39,13 @@ NeoTheme(
 | `IconButton` | `NeoIconButton` | Circular inset/raised shadow options |
 | `OutlinedTextField` | `NeoTextField` | Inset inner drop shadows |
 | `Checkbox` | `NeoCheckbox` | Inset background when checked |
+| `RadioButton` | `NeoRadioButton` | Recessed inset radio ring with raised inner dot |
 | `Switch` | `NeoSwitch` | Animated thumb displacement inside inset track |
-| `Slider` | `NeoSlider` | Neumorphic raised thumb |
+| `SingleChoiceSegmentedButtonRow` | `NeoSegmentedControl` | Multi-option tab segment container |
+| `AssistChip` / `FilterChip` | `NeoChip` | Neumorphic selection chip |
+| `Badge` | `NeoBadge` | Elevated numbers & counter badge |
+| `Tab` / `ScrollableTabRow` | `NeoTabBar` | Neumorphic tab navigation bar |
+| `Slider` | `NeoSlider` | Draggable Neumorphic raised thumb |
 | `LinearProgressIndicator` | `NeoLinearProgressIndicator` | Raised progress bar inside inset track |
+| `CircularProgressIndicator` | `NeoCircularProgressIndicator` | Progress ring inside recessed container |
 | `FloatingActionButton` | `NeoFAB` | High elevation dual shadow FAB |

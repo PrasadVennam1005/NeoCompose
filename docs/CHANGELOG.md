@@ -10,10 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-07-21
 
 ### Added
-- **Multi-Module Architecture**: Split into `:core`, `:foundation`, `:theme`, `:animation`, `:components`, and `:sample`.
+- **Multi-Module Architecture**: Modular separation into `:core`, `:foundation`, `:theme`, `:animation`, `:components`, and `:sample`.
 - **Core Rendering Engine**:
   - `NeoLightSource` with 2D vector offset calculations ($\theta \in [0^\circ, 360^\circ]$) and standard presets (`TopLeft`, `TopRight`, `BottomLeft`, `BottomRight`).
   - `NeoCanvasRenderer` for GPU-accelerated dual outer drop shadows and soft inner clipped shadows using native `BlurMaskFilter`.
+  - `NeoSurfaceGradient` for light-source-oriented linear surface brushes on `Concave` and `Convex` visual styles.
   - `NeoStyle` sealed hierarchy supporting `Raised`, `Pressed`, `Inset`, `Concave`, `Convex`, and `Flat`.
 - **Theme System (`NeoTheme`)**:
   - `NeoColors` light mode (`#E0E5EC`) and dark mode (`#24292E`) palettes with automatic highlight/shadow derivations.
@@ -25,7 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Animation Engine**:
   - `animateNeoElevationAsState`, `animateNeoElevationForStyleAsState`, and `animateNeoLightSourceAsState`.
   - `NeoAnimationSpec` with spring & tween specs.
-- **Production Components**:
-  - `NeoSurface`, `NeoButton`, `NeoCard`, `NeoIconButton`, `NeoTextField`, `NeoCheckbox`, `NeoSwitch`, `NeoSlider`, `NeoLinearProgressIndicator`, `NeoCircularProgressIndicator`, and `NeoFAB`.
+- **Production Components (14 Components)**:
+  - `NeoSurface`, `NeoButton`, `NeoCard`, `NeoIconButton`, `NeoTextField`, `NeoCheckbox`, `NeoRadioButton`, `NeoSwitch`, `NeoSegmentedControl`, `NeoTabBar`, `NeoChip`, `NeoBadge`, `NeoLinearProgressIndicator`, `NeoCircularProgressIndicator`, and `NeoFAB`.
+- **Publishing Infrastructure**:
+  - `maven-publish` plugin configured across `:core`, `:foundation`, `:theme`, `:animation`, and `:components` with sources JAR generation and POM metadata (`prasad.vennam.neo`).
 - **Sample Showcase App**:
-  - Neumorphism Studio with live light vector angle, elevation depth, and light/dark theme controls.
+  - Neumorphism Studio with live light vector angle, elevation depth, and light/dark theme controls showcasing all 14 components.
