@@ -20,13 +20,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Linear Neumorphic progress indicator component using design system tokens.
+ * Linear Neumorphic progress indicator component with light source control.
  *
  * @param progress Progress fraction (0.0f..1.0f).
  * @param modifier Custom modifier.
@@ -34,6 +35,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Base inset track style.
  * @param elevation Track shadow elevation.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param animationSpec Custom animation specs.
  */
 @Composable
@@ -45,6 +47,7 @@ public fun NeoLinearProgressIndicator(
     style: NeoStyle = NeoStyle.Inset,
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec()
 ) {
     val animatedProgress by animateFloatAsState(
@@ -64,7 +67,7 @@ public fun NeoLinearProgressIndicator(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             ),
         contentAlignment = Alignment.CenterStart
     ) {
@@ -79,14 +82,14 @@ public fun NeoLinearProgressIndicator(
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
                     elevation = elevation * 0.5f,
-                    lightSource = NeoTheme.lighting.lightSource
+                    lightSource = lightSource
                 )
         )
     }
 }
 
 /**
- * Circular Neumorphic progress indicator component using design system tokens.
+ * Circular Neumorphic progress indicator component with light source control.
  *
  * @param progress Progress fraction (0.0f..1.0f).
  * @param modifier Custom modifier.
@@ -94,6 +97,7 @@ public fun NeoLinearProgressIndicator(
  * @param style Track style.
  * @param elevation Shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param animationSpec Custom animation specs.
  */
 @Composable
@@ -105,6 +109,7 @@ public fun NeoCircularProgressIndicator(
     style: NeoStyle = NeoStyle.Inset,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec()
 ) {
     val animatedProgress by animateFloatAsState(
@@ -126,7 +131,7 @@ public fun NeoCircularProgressIndicator(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             ),
         contentAlignment = Alignment.Center
     ) {

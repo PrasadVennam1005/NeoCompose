@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.animation.animateNeoElevationAsState
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.foundation.rememberNeoInteractionStyle
@@ -28,7 +29,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Interactive Neumorphic icon button component with size derived from design tokens.
+ * Interactive Neumorphic icon button component with size and light source control.
  *
  * @param onClick Event callback on click.
  * @param modifier Custom modifier.
@@ -38,6 +39,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Base Neumorphic style.
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param animationSpec Custom animation specifications.
  * @param interactionSource Interaction stream.
  * @param content Inner icon composable.
@@ -52,6 +54,7 @@ public fun NeoIconButton(
     style: NeoStyle = NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit
@@ -78,7 +81,7 @@ public fun NeoIconButton(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = animatedElevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             )
             .clickable(
                 interactionSource = interactionSource,

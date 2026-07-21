@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
@@ -34,7 +35,7 @@ import prasad.vennam.neo.theme.NeoTheme
 import kotlin.math.roundToInt
 
 /**
- * High-visibility interactive Neumorphic range slider component with design system token dimensions.
+ * High-visibility interactive Neumorphic range slider component with directional light source control.
  *
  * @param value Current slider value.
  * @param onValueChange Callback when slider value changes.
@@ -45,6 +46,7 @@ import kotlin.math.roundToInt
  * @param style Base track style (defaults to [NeoStyle.Inset]).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param animationSpec Custom animation specifications.
  * @param interactionSource Interaction stream.
  */
@@ -59,6 +61,7 @@ public fun NeoSlider(
     style: NeoStyle = NeoStyle.Inset,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
@@ -95,7 +98,7 @@ public fun NeoSlider(
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
                     elevation = elevation,
-                    lightSource = NeoTheme.lighting.lightSource,
+                    lightSource = lightSource,
                     borderWidth = NeoTheme.size.borderThin,
                     borderColor = colors.border.copy(alpha = 0.4f)
                 )
@@ -132,7 +135,7 @@ public fun NeoSlider(
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
                     elevation = NeoTheme.elevation.level3,
-                    lightSource = NeoTheme.lighting.lightSource,
+                    lightSource = lightSource,
                     borderWidth = NeoTheme.size.borderMedium,
                     borderColor = colors.onPrimary.copy(alpha = 0.5f)
                 )

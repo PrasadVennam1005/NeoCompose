@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.animation.animateNeoElevationAsState
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.foundation.rememberNeoInteractionStyle
@@ -32,7 +33,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Neumorphic Floating Action Button (FAB).
+ * Neumorphic Floating Action Button (FAB) with directional light source control.
  *
  * @param onClick Event callback on click.
  * @param modifier Custom modifier.
@@ -41,6 +42,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Base Neumorphic surface style.
  * @param elevation High elevation depth.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param contentPadding Padding values derived from design tokens.
  * @param animationSpec Custom animation specs.
  * @param interactionSource Interaction stream.
@@ -55,6 +57,7 @@ public fun NeoFAB(
     style: NeoStyle = NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level4,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     contentPadding: PaddingValues = PaddingValues(NeoTheme.spacing.medium),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -81,7 +84,7 @@ public fun NeoFAB(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = animatedElevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             )
             .clickable(
                 interactionSource = interactionSource,

@@ -23,13 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * High-visibility interactive Neumorphic Radio Button component using design system tokens.
+ * High-visibility interactive Neumorphic Radio Button component with directional light source control.
  *
  * @param selected Whether radio button is selected.
  * @param onClick Event callback when selected.
@@ -40,6 +41,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Surface style ([NeoStyle.Inset] when selected, [NeoStyle.Raised] when unselected).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param animationSpec Custom animation specifications.
  * @param interactionSource Interaction stream.
  */
@@ -54,6 +56,7 @@ public fun NeoRadioButton(
     style: NeoStyle = if (selected) NeoStyle.Inset else NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
@@ -82,7 +85,7 @@ public fun NeoRadioButton(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource,
+                lightSource = lightSource,
                 borderWidth = borderWidth,
                 borderColor = borderColor
             )
@@ -104,7 +107,7 @@ public fun NeoRadioButton(
                         lightColor = colors.lightShadow,
                         darkColor = colors.darkShadow,
                         elevation = NeoTheme.elevation.level2,
-                        lightSource = NeoTheme.lighting.lightSource
+                        lightSource = lightSource
                     )
             )
         }

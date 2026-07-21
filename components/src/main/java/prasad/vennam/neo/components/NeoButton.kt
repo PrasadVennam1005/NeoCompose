@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.animation.animateNeoElevationAsState
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.foundation.rememberNeoInteractionStyle
@@ -28,7 +29,7 @@ import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Interactive Neumorphic button component with automatic press elevation feedback.
+ * Interactive Neumorphic button component with automatic press elevation feedback and directional light source control.
  *
  * @param onClick Event callback when button is clicked.
  * @param modifier Custom modifier.
@@ -37,6 +38,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Base Neumorphic style when unpressed.
  * @param elevation Base shadow displacement elevation.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param contentPadding Internal label & icon padding values derived from design tokens.
  * @param animationSpec Custom animation specifications.
  * @param interactionSource Stream of interaction events.
@@ -51,6 +53,7 @@ public fun NeoButton(
     style: NeoStyle = NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     contentPadding: PaddingValues = PaddingValues(
         horizontal = NeoTheme.spacing.large,
         vertical = NeoTheme.spacing.medium
@@ -80,7 +83,7 @@ public fun NeoButton(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = animatedElevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             )
             .clickable(
                 interactionSource = interactionSource,

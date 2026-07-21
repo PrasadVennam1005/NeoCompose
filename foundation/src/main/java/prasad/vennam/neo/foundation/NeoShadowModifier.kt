@@ -18,7 +18,7 @@ import prasad.vennam.neo.core.NeoStyle
  * Draws Neumorphic shadows (outer dual shadows or soft inner shadows) behind a composables bounds
  * using GPU-accelerated Canvas rendering.
  *
- * @param style Visual Neumorphic surface style ([NeoStyle.Raised], [NeoStyle.Pressed], etc.).
+ * @param style Visual Neumorphic surface style ([NeoStyle.Raised], [NeoStyle.Pressed], [NeoStyle.Basin], etc.).
  * @param shape Component geometric shape outlining shadows.
  * @param lightColor Color of light highlight facing light source.
  * @param darkColor Color of dark shadow cast away from light source.
@@ -66,8 +66,26 @@ public fun Modifier.neoShadow(
                 size = size
             )
         }
+        is NeoStyle.Basin -> {
+            drawOuterShadows(
+                path = shapePath,
+                lightColor = lightColor,
+                darkColor = darkColor,
+                lightOffset = lightOffset,
+                darkOffset = darkOffset,
+                blurRadiusPx = blurRadiusPx
+            )
+            drawInnerShadows(
+                shapePath = shapePath,
+                lightColor = lightColor,
+                darkColor = darkColor,
+                lightOffset = lightOffset,
+                darkOffset = darkOffset,
+                blurRadiusPx = blurRadiusPx * 0.75f,
+                size = size
+            )
+        }
         is NeoStyle.Flat -> {
-            // Flat style uses subtle elevation without heavy blur
             if (distancePx > 0f) {
                 drawOuterShadows(
                     path = shapePath,
@@ -79,7 +97,5 @@ public fun Modifier.neoShadow(
                 )
             }
         }
-
-        else -> {}
     }
 }

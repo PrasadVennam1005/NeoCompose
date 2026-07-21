@@ -20,13 +20,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Compact Neumorphic Chip component using design system tokens.
+ * Compact Neumorphic Chip component using design system tokens with light source control.
  *
  * @param label Chip label text.
  * @param onClick Optional event callback when clicked.
@@ -36,6 +37,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param shape Component shape (defaults to [CircleShape]).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param contentPadding Internal chip padding values derived from design tokens.
  * @param animationSpec Custom animation specifications.
  * @param interactionSource Interaction stream.
@@ -50,6 +52,7 @@ public fun NeoChip(
     shape: Shape = CircleShape,
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     contentPadding: PaddingValues = PaddingValues(
         horizontal = NeoTheme.spacing.medium,
         vertical = NeoTheme.spacing.small
@@ -80,7 +83,7 @@ public fun NeoChip(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             )
             .then(clickModifier)
             .padding(contentPadding),
@@ -101,6 +104,7 @@ public fun NeoChip(
  * @param modifier Custom modifier.
  * @param shape Component shape.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param contentPadding Internal badge padding values derived from design tokens.
  */
 @Composable
@@ -109,6 +113,7 @@ public fun NeoBadge(
     modifier: Modifier = Modifier,
     shape: Shape = CircleShape,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     contentPadding: PaddingValues = PaddingValues(
         horizontal = NeoTheme.spacing.small,
         vertical = NeoTheme.spacing.extraSmall
@@ -123,7 +128,7 @@ public fun NeoBadge(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = NeoTheme.elevation.level1,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             )
             .padding(contentPadding),
         contentAlignment = Alignment.Center

@@ -13,18 +13,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Neumorphic Card container for grouping content sections.
+ * Neumorphic Card container for grouping content sections with light source direction support.
  *
  * @param modifier Custom modifier.
  * @param shape Card shape.
- * @param style Surface visual style ([NeoStyle.Raised], [NeoStyle.Concave], [NeoStyle.Convex]).
+ * @param style Surface visual style ([NeoStyle.Raised], [NeoStyle.Concave], [NeoStyle.Convex], [NeoStyle.Basin]).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param contentPadding Internal card content padding values derived from design tokens.
  * @param animationSpec Custom animation specifications.
  * @param content Card inner composable content.
@@ -37,6 +39,7 @@ public fun NeoCard(
     style: NeoStyle = NeoStyle.Raised,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     contentPadding: PaddingValues = PaddingValues(NeoTheme.spacing.medium),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     content: @Composable BoxScope.() -> Unit
@@ -47,6 +50,7 @@ public fun NeoCard(
         style = style,
         elevation = elevation,
         colors = colors,
+        lightSource = lightSource,
         animationSpec = animationSpec,
         contentAlignment = Alignment.TopStart
     ) {

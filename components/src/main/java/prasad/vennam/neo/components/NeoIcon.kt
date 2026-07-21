@@ -15,11 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageVector
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
@@ -36,6 +37,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Optional Neumorphic background style ([NeoStyle.Raised], [NeoStyle.Inset], etc.).
  * @param elevation Shadow displacement when style is provided.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  */
 @Composable
 public fun NeoIcon(
@@ -46,7 +48,8 @@ public fun NeoIcon(
     size: Dp = NeoTheme.icons.medium,
     style: NeoStyle? = null,
     elevation: Dp = NeoTheme.elevation.level2,
-    colors: NeoColors = NeoTheme.colors
+    colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource
 ) {
     if (style != null) {
         val containerPadding = NeoTheme.spacing.small
@@ -62,7 +65,7 @@ public fun NeoIcon(
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
                     elevation = elevation,
-                    lightSource = NeoTheme.lighting.lightSource
+                    lightSource = lightSource
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -94,6 +97,7 @@ public fun NeoIcon(
  * @param style Optional Neumorphic background style.
  * @param elevation Shadow displacement when style is provided.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  */
 @Composable
 public fun NeoIcon(
@@ -104,7 +108,8 @@ public fun NeoIcon(
     size: Dp = NeoTheme.icons.medium,
     style: NeoStyle? = null,
     elevation: Dp = NeoTheme.elevation.level2,
-    colors: NeoColors = NeoTheme.colors
+    colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource
 ) {
     if (style != null) {
         val containerPadding = NeoTheme.spacing.small
@@ -120,7 +125,7 @@ public fun NeoIcon(
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
                     elevation = elevation,
-                    lightSource = NeoTheme.lighting.lightSource
+                    lightSource = lightSource
                 ),
             contentAlignment = Alignment.Center
         ) {

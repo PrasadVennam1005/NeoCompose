@@ -18,13 +18,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Neumorphic Tab Bar navigation component using design system tokens.
+ * Neumorphic Tab Bar navigation component with directional light source control.
  *
  * @param tabs List of tab titles.
  * @param selectedIndex Index of active tab.
@@ -34,6 +35,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param shape Outer container shape.
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param animationSpec Custom animation specifications.
  */
 @Composable
@@ -46,6 +48,7 @@ public fun NeoTabBar(
     shape: Shape = NeoTheme.shapes.large,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec()
 ) {
     Box(
@@ -58,7 +61,7 @@ public fun NeoTabBar(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             )
             .padding(NeoTheme.spacing.small)
     ) {
@@ -81,7 +84,7 @@ public fun NeoTabBar(
                             lightColor = colors.lightShadow,
                             darkColor = colors.darkShadow,
                             elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
-                            lightSource = NeoTheme.lighting.lightSource
+                            lightSource = lightSource
                         )
                         .clickable(
                             interactionSource = interactionSource,

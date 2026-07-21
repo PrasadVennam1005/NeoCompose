@@ -24,13 +24,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Interactive Neumorphic toggle switch matching Dribbble high-aesthetic visual standards.
+ * Interactive Neumorphic toggle switch with directional light source control.
  *
  * @param checked Whether switch is toggled ON.
  * @param onCheckedChange Callback on toggle.
@@ -40,6 +41,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param style Base track style ([NeoStyle.Inset] when unchecked, [NeoStyle.Raised] when checked).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param animationSpec Custom animation specifications.
  * @param interactionSource Interaction stream.
  */
@@ -53,6 +55,7 @@ public fun NeoSwitch(
     style: NeoStyle = if (checked) NeoStyle.Raised else NeoStyle.Inset,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
@@ -96,7 +99,7 @@ public fun NeoSwitch(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             )
             .then(toggleModifier)
             .padding(internalPadding),
@@ -113,7 +116,7 @@ public fun NeoSwitch(
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
                     elevation = NeoTheme.elevation.level2,
-                    lightSource = NeoTheme.lighting.lightSource
+                    lightSource = lightSource
                 )
         )
     }

@@ -19,13 +19,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
+import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
- * Neumorphic Segmented Control container using pill shapes matching Dribbble designs.
+ * Neumorphic Segmented Control container using pill shapes with directional light source control.
  *
  * @param items List of tab label options.
  * @param selectedIndex Index of currently selected tab option.
@@ -35,6 +36,7 @@ import prasad.vennam.neo.theme.NeoTheme
  * @param shape Outer container shape (defaults to [CircleShape]).
  * @param elevation Base shadow displacement distance.
  * @param colors Color palette tokens.
+ * @param lightSource Directional light source (defaults to [NeoTheme.lighting.lightSource]).
  * @param animationSpec Custom animation specifications.
  */
 @Composable
@@ -47,6 +49,7 @@ public fun NeoSegmentedControl(
     shape: Shape = CircleShape,
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec()
 ) {
     Box(
@@ -59,7 +62,7 @@ public fun NeoSegmentedControl(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = elevation,
-                lightSource = NeoTheme.lighting.lightSource
+                lightSource = lightSource
             )
             .padding(NeoTheme.spacing.extraSmall)
     ) {
@@ -82,7 +85,7 @@ public fun NeoSegmentedControl(
                             lightColor = colors.lightShadow,
                             darkColor = colors.darkShadow,
                             elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
-                            lightSource = NeoTheme.lighting.lightSource
+                            lightSource = lightSource
                         )
                         .clickable(
                             interactionSource = interactionSource,
