@@ -38,10 +38,10 @@ public fun SmartHomeDashboard(
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium + NeoTheme.spacing.extraSmall)
     ) {
         // Welcome Status Card
-        NeoCard(style = NeoStyle.Raised) {
+        NeoCard(style = state.selectedStyle) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -65,8 +65,8 @@ public fun SmartHomeDashboard(
         }
 
         // Climate Thermostat Control Card
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium + NeoTheme.spacing.extraSmall)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -76,7 +76,7 @@ public fun SmartHomeDashboard(
                         NeoIconButton(onClick = { }) {
                             Icon(Icons.Default.Thermostat, contentDescription = null, tint = NeoTheme.colors.primary)
                         }
-                        Spacer(Modifier.width(12.dp))
+                        Spacer(Modifier.width(NeoTheme.spacing.small + NeoTheme.spacing.extraSmall))
                         Column {
                             Text(
                                 text = "Climate Control",
@@ -108,13 +108,13 @@ public fun SmartHomeDashboard(
         // Quick Controls Grid (Lighting & Security)
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)
         ) {
             // Lighting Interactive Control Surface
             NeoSurface(
                 modifier = Modifier
                     .weight(1f)
-                    .height(110.dp)
+                    .height(NeoTheme.size.controlLarge * 2)
                     .clickable { state.isLightsOn = !state.isLightsOn },
                 style = if (state.isLightsOn) NeoStyle.Inset else NeoStyle.Raised,
                 shape = NeoTheme.shapes.large
@@ -122,7 +122,7 @@ public fun SmartHomeDashboard(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp),
+                        .padding(NeoTheme.spacing.medium),
                     verticalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.Start
                 ) {
@@ -143,7 +143,7 @@ public fun SmartHomeDashboard(
             NeoSurface(
                 modifier = Modifier
                     .weight(1f)
-                    .height(110.dp)
+                    .height(NeoTheme.size.controlLarge * 2)
                     .clickable { state.isSecurityOn = !state.isSecurityOn },
                 style = if (state.isSecurityOn) NeoStyle.Inset else NeoStyle.Raised,
                 shape = NeoTheme.shapes.large
@@ -151,7 +151,7 @@ public fun SmartHomeDashboard(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp),
+                        .padding(NeoTheme.spacing.medium),
                     verticalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.Start
                 ) {
@@ -170,8 +170,8 @@ public fun SmartHomeDashboard(
         }
 
         // Power Usage Card
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small + NeoTheme.spacing.extraSmall)) {
                 Text(
                     text = "Daily Power Usage (2.4 kWh)",
                     style = NeoTheme.typography.label,

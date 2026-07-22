@@ -2,6 +2,7 @@ package prasad.vennam.neo.foundation
 
 import androidx.compose.foundation.background
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.core.NeoSurfaceGradient
+import prasad.vennam.neo.theme.NeoTheme
 
 /**
  * Convenient high-level modifier applying Neumorphism shadows, shape clipping, background surface gradients, and borders.
@@ -37,40 +39,52 @@ public fun Modifier.neoStyle(
     elevation: Dp = 6.dp,
     lightSource: NeoLightSource = NeoLightSource.TopLeft,
     borderWidth: Dp = 0.dp,
-    borderColor: Color = Color.Transparent
-): Modifier = this
-    .neoShadow(
-        style = style,
-        shape = shape,
-        lightColor = lightColor,
-        darkColor = darkColor,
-        elevation = elevation,
-        lightSource = lightSource
-    )
-    .clip(shape)
-    .then(
-        if (style is NeoStyle.Concave || style is NeoStyle.Convex || style is NeoStyle.Basin) {
-            Modifier.drawBehind {
-                val brush = NeoSurfaceGradient.createSurfaceBrush(
-                    style = if (style is NeoStyle.Basin) NeoStyle.Concave else style,
-                    lightSource = lightSource,
-                    baseColor = backgroundColor,
-                    lightColor = lightColor,
-                    darkColor = darkColor,
-                    size = size
-                )
-                val outline: Outline = shape.createOutline(size, layoutDirection, this)
-                val path = Path().apply { addOutline(outline) }
-                drawPath(path, brush = brush)
+    borderColor: Color = Color.Transparent,
+    specularHighlight: Boolean = false
+): Modifier = this.composed {
+    val colors = NeoTheme.colors
+    val isHighContrast = colors.isHighContrast
+    val activeBorderWidth = if (isHighContrast && borderWidth == 0.dp) 1.dp else borderWidth
+    val activeBorderColor = if (isHighContrast && borderWidth == 0.dp) colors.textSecondary else borderColor
+
+    this
+        .neoShadow(
+            style = style,
+            shape = shape,
+            lightColor = lightColor,
+            darkColor = darkColor,
+            elevation = elevation,
+            lightSource = lightSource
+        )
+        .clip(shape)
+        .then(
+            if (style is NeoStyle.Concave || style is NeoStyle.Convex || style is NeoStyle.Basin) {
+                Modifier.drawBehind {
+                    val brush = NeoSurfaceGradient.createSurfaceBrush(
+                        style = if (style is NeoStyle.Basin) NeoStyle.Concave else style,
+                        lightSource = lightSource,
+                        baseColor = backgroundColor,
+                        lightColor = lightColor,
+                        darkColor = darkColor,
+                        size = size
+                    )
+                    val outline: Outline = shape.createOutline(size, layoutDirection, this)
+                    val path = Path().apply { addOutline(outline) }
+                    drawPath(path, brush = brush)
+                }
+            } else {
+                Modifier.background(backgroundColor, shape)
             }
-        } else {
-            Modifier.background(backgroundColor, shape)
-        }
-    )
-    .then(
-        if (borderWidth > 0.dp && borderColor != Color.Transparent) {
-            Modifier.neoBorder(width = borderWidth, color = borderColor, shape = shape)
-        } else {
-            Modifier
-        }
-    )
+        )
+        .neoSpecular(
+            lightSource = lightSource,
+            enabled = specularHighlight
+        )
+        .then(
+            if (activeBorderWidth > 0.dp && activeBorderColor != Color.Transparent) {
+                Modifier.neoBorder(width = activeBorderWidth, color = activeBorderColor, shape = shape)
+            } else {
+                Modifier
+            }
+        )
+}

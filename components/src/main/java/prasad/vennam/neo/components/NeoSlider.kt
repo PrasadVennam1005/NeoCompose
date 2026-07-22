@@ -26,6 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
@@ -69,6 +74,16 @@ public fun NeoSlider(
     val normalizedValue = if (rangeLength > 0f) {
         ((value - valueRange.start) / rangeLength).coerceIn(0f, 1f)
     } else 0f
+
+    val haptic = LocalHapticFeedback.current
+    val stepSize = 0.05f
+    var lastTickStep by remember { mutableIntStateOf((normalizedValue / stepSize).roundToInt()) }
+
+    val currentStep = (normalizedValue / stepSize).roundToInt()
+    if (enabled && currentStep != lastTickStep) {
+        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+        lastTickStep = currentStep
+    }
 
     val density = LocalDensity.current
     val thumbSizeDp = NeoTheme.size.thumbSizeLarge

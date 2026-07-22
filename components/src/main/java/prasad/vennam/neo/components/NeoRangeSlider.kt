@@ -25,6 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
@@ -65,6 +70,24 @@ public fun NeoRangeSlider(
     val totalSpan = valueRange.endInclusive - valueRange.start
     val startNorm = if (totalSpan > 0f) ((values.start - valueRange.start) / totalSpan).coerceIn(0f, 1f) else 0f
     val endNorm = if (totalSpan > 0f) ((values.endInclusive - valueRange.start) / totalSpan).coerceIn(0f, 1f) else 1f
+
+    val haptic = LocalHapticFeedback.current
+    val stepSize = 0.05f
+
+    var lastStartStep by remember { mutableIntStateOf((startNorm / stepSize).roundToInt()) }
+    var lastEndStep by remember { mutableIntStateOf((endNorm / stepSize).roundToInt()) }
+
+    val currentStartStep = (startNorm / stepSize).roundToInt()
+    if (enabled && currentStartStep != lastStartStep) {
+        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+        lastStartStep = currentStartStep
+    }
+
+    val currentEndStep = (endNorm / stepSize).roundToInt()
+    if (enabled && currentEndStep != lastEndStep) {
+        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+        lastEndStep = currentEndStep
+    }
 
     val density = LocalDensity.current
     val thumbSizeDp = NeoTheme.size.thumbSizeLarge

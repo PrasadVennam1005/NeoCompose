@@ -19,10 +19,18 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import prasad.vennam.neo.foundation.neoInteraction
 import prasad.vennam.neo.components.NeoAudioPlayerBar
 import prasad.vennam.neo.components.NeoAvatar
 import prasad.vennam.neo.components.NeoBadge
@@ -65,7 +73,7 @@ public fun ComponentCatalog(
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.large)
     ) {
         Text(
             text = "Component Suite Catalog",
@@ -74,35 +82,50 @@ public fun ComponentCatalog(
         )
 
         // 1. NeoSurface Showcase
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("1. NeoSurface (Concave, Convex & Basin)", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    NeoSurface(
-                        modifier = Modifier.weight(1f).height(60.dp),
-                        style = NeoStyle.Concave
-                    ) {
-                        Text("Concave", style = NeoTheme.typography.label, color = NeoTheme.colors.textSecondary)
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small + NeoTheme.spacing.extraSmall)) {
+                Text("1. NeoSurface (All 7 Variants Showcase)", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small)
+                ) {
+                    listOf(
+                        NeoStyle.Raised to "Raised",
+                        NeoStyle.Pressed to "Pressed",
+                        NeoStyle.Inset to "Inset",
+                        NeoStyle.Flat to "Flat"
+                    ).forEach { (style, label) ->
+                        NeoSurface(
+                            modifier = Modifier.weight(1f).height(NeoTheme.size.controlMedium),
+                            style = style
+                        ) {
+                            Text(label, style = NeoTheme.typography.label, color = NeoTheme.colors.textSecondary)
+                        }
                     }
-                    NeoSurface(
-                        modifier = Modifier.weight(1f).height(60.dp),
-                        style = NeoStyle.Convex
-                    ) {
-                        Text("Convex", style = NeoTheme.typography.label, color = NeoTheme.colors.textSecondary)
-                    }
-                    NeoSurface(
-                        modifier = Modifier.weight(1f).height(60.dp),
-                        style = NeoStyle.Basin
-                    ) {
-                        Text("Basin", style = NeoTheme.typography.label, color = NeoTheme.colors.textSecondary)
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small)
+                ) {
+                    listOf(
+                        NeoStyle.Concave to "Concave",
+                        NeoStyle.Convex to "Convex",
+                        NeoStyle.Basin to "Basin"
+                    ).forEach { (style, label) ->
+                        NeoSurface(
+                            modifier = Modifier.weight(1f).height(NeoTheme.size.controlMedium),
+                            style = style
+                        ) {
+                            Text(label, style = NeoTheme.typography.label, color = NeoTheme.colors.textSecondary)
+                        }
                     }
                 }
             }
         }
 
         // 2. Buttons & Icon Buttons
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small + NeoTheme.spacing.extraSmall)) {
                 Text("2. Buttons & Icon Buttons", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -111,7 +134,7 @@ public fun ComponentCatalog(
                 ) {
                     NeoButton(onClick = { }) {
                         Icon(Icons.Default.PlayArrow, contentDescription = null, tint = NeoTheme.colors.primary)
-                        Spacer(Modifier.width(8.dp))
+                        Spacer(Modifier.width(NeoTheme.spacing.small))
                         Text("Primary Action", style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
                     }
                     NeoIconButton(onClick = { }) {
@@ -122,8 +145,8 @@ public fun ComponentCatalog(
         }
 
         // 3. Form Inputs & Selection Controls
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
                 Text("3. Form Inputs & Select Controls", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
 
                 NeoSearchField(
@@ -143,7 +166,7 @@ public fun ComponentCatalog(
                     onOptionSelected = { state.selectedCountry = it }
                 )
 
-                NeoDivider(thickness = 2.dp)
+                NeoDivider(thickness = NeoTheme.size.borderThick)
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -155,7 +178,7 @@ public fun ComponentCatalog(
                             checked = state.isCheckboxChecked,
                             onCheckedChange = { state.isCheckboxChecked = it }
                         )
-                        Spacer(Modifier.width(8.dp))
+                        Spacer(Modifier.width(NeoTheme.spacing.small))
                         Text("Checkbox", style = NeoTheme.typography.body, color = NeoTheme.colors.textPrimary)
                     }
 
@@ -164,7 +187,7 @@ public fun ComponentCatalog(
                             selected = state.isRadioSelected,
                             onClick = { state.isRadioSelected = !state.isRadioSelected }
                         )
-                        Spacer(Modifier.width(8.dp))
+                        Spacer(Modifier.width(NeoTheme.spacing.small))
                         Text("Radio", style = NeoTheme.typography.body, color = NeoTheme.colors.textPrimary)
                     }
 
@@ -193,8 +216,8 @@ public fun ComponentCatalog(
         )
 
         // 5. Segmented Control & Navigation Tabs
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
                 Text("5. Segmented Control & Navigation Bar", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
 
                 NeoSegmentedControl(
@@ -212,8 +235,8 @@ public fun ComponentCatalog(
         }
 
         // 6. Dual-Thumb Range Slider & Stepper
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
                 Text("6. Range Slider & Number Stepper", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
 
                 Text("Dual-Thumb Range Slider", style = NeoTheme.typography.label, color = NeoTheme.colors.textSecondary)
@@ -250,8 +273,8 @@ public fun ComponentCatalog(
         )
 
         // 8. Tooltips, Banners, Sheets & Dialogs
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
                 Text("8. Tooltips, Banners & Bottom Sheets", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
 
                 if (state.showTooltip) {
@@ -271,7 +294,7 @@ public fun ComponentCatalog(
                     )
                 }
 
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small + NeoTheme.spacing.extraSmall)) {
                     NeoButton(
                         onClick = { state.showBottomSheet = true },
                         modifier = Modifier.weight(1f)
@@ -292,9 +315,9 @@ public fun ComponentCatalog(
         if (state.showBottomSheet) {
             NeoBottomSheet(onDismissRequest = { state.showBottomSheet = false }) {
                 Text("Neumorphic Bottom Sheet Drawer", style = NeoTheme.typography.display, color = NeoTheme.colors.textPrimary)
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(NeoTheme.spacing.small))
                 Text("Contains fully styled Neumorphic options and actions.", style = NeoTheme.typography.body, color = NeoTheme.colors.textSecondary)
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(NeoTheme.spacing.medium))
                 NeoButton(
                     onClick = { state.showBottomSheet = false },
                     modifier = Modifier.fillMaxWidth()
@@ -317,8 +340,8 @@ public fun ComponentCatalog(
         }
 
         // 9. Chips, Badges & Avatars
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
                 Text("9. Chips, Badges & User Avatars", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
 
                 Row(
@@ -340,8 +363,8 @@ public fun ComponentCatalog(
         }
 
         // 10. Slider & Progress Indicators
-        NeoCard(style = NeoStyle.Raised) {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
                 Text("10. Slider & Progress Indicators", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
 
                 NeoSlider(
@@ -362,7 +385,81 @@ public fun ComponentCatalog(
             }
         }
 
-        // 11. Floating Action Speed Dial
+        // 11. Material 3 Interoperability
+        NeoCard(style = state.selectedStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
+                Text(
+                    text = "11. Material 3 Interoperability",
+                    style = NeoTheme.typography.title,
+                    color = NeoTheme.colors.textPrimary
+                )
+
+                Text(
+                    text = "Observe how standard Material 3 components dynamically adapt their neumorphic shadow states (e.g., Raised to Pressed) via Modifier.neoInteraction.",
+                    style = NeoTheme.typography.body,
+                    color = NeoTheme.colors.textSecondary
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)
+                ) {
+                    val m3ButtonInteractionSource = remember { MutableInteractionSource() }
+                    Button(
+                        onClick = {},
+                        interactionSource = m3ButtonInteractionSource,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = NeoTheme.colors.primary
+                        ),
+                        elevation = null,
+                        shape = NeoTheme.shapes.pill,
+                        modifier = Modifier
+                            .weight(1f)
+                            .neoInteraction(
+                                interactionSource = m3ButtonInteractionSource,
+                                shape = NeoTheme.shapes.pill
+                            )
+                    ) {
+                        Text("M3 Button", style = NeoTheme.typography.label)
+                    }
+
+                    val m3CardInteractionSource = remember { MutableInteractionSource() }
+                    Card(
+                        onClick = {},
+                        interactionSource = m3CardInteractionSource,
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.Transparent,
+                            contentColor = NeoTheme.colors.textPrimary
+                        ),
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 0.dp,
+                            pressedElevation = 0.dp,
+                            focusedElevation = 0.dp,
+                            hoveredElevation = 0.dp
+                        ),
+                        shape = NeoTheme.shapes.medium,
+                        modifier = Modifier
+                            .weight(1f)
+                            .neoInteraction(
+                                interactionSource = m3CardInteractionSource,
+                                shape = NeoTheme.shapes.medium
+                            )
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(NeoTheme.size.controlMedium),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("M3 Card (Click)", style = NeoTheme.typography.label)
+                        }
+                    }
+                }
+            }
+        }
+
+        // 12. Floating Action Speed Dial
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End

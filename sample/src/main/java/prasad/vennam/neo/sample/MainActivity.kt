@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.components.NeoBadge
 import prasad.vennam.neo.components.NeoSegmentedControl
+import prasad.vennam.neo.foundation.rememberSensorLightSource
 import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoElevation
@@ -41,13 +42,19 @@ class MainActivity : ComponentActivity() {
             val studioState = remember { StudioState() }
 
             val colors = if (studioState.isDarkTheme) {
-                NeoColors.defaultDarkColors()
+                NeoColors.defaultDarkColors(isHighContrast = studioState.isAccessibilityMode)
             } else {
-                NeoColors.defaultLightColors()
+                NeoColors.defaultLightColors(isHighContrast = studioState.isAccessibilityMode)
             }
 
+            val sensorLightSource = rememberSensorLightSource(defaultAngleDegrees = studioState.lightAngle)
+
             val lighting = NeoLighting(
-                lightSource = NeoLightSource(angleDegrees = studioState.lightAngle)
+                lightSource = if (studioState.isSensorLightingEnabled) {
+                    sensorLightSource
+                } else {
+                    NeoLightSource(angleDegrees = studioState.lightAngle)
+                }
             )
 
             val elevation = NeoElevation(
@@ -68,13 +75,16 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .background(NeoTheme.colors.background)
                             .padding(innerPadding)
-                            .padding(horizontal = 20.dp, vertical = 12.dp)
+                            .padding(
+                                horizontal = NeoTheme.spacing.medium + NeoTheme.spacing.extraSmall,
+                                vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall
+                            )
                     ) {
                         // Header
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 16.dp),
+                                .padding(bottom = NeoTheme.spacing.medium),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
@@ -82,7 +92,7 @@ class MainActivity : ComponentActivity() {
                                 style = NeoTheme.typography.display,
                                 color = NeoTheme.colors.textPrimary
                             )
-                            Spacer(Modifier.width(12.dp))
+                            Spacer(Modifier.width(NeoTheme.spacing.small + NeoTheme.spacing.extraSmall))
                             NeoBadge(count = "v1.0.0")
                         }
 
@@ -91,7 +101,7 @@ class MainActivity : ComponentActivity() {
                             items = listOf("Studio", "Catalog", "Dashboard"),
                             selectedIndex = studioState.selectedCategoryTab,
                             onOptionSelected = { studioState.selectedCategoryTab = it },
-                            modifier = Modifier.padding(bottom = 16.dp)
+                            modifier = Modifier.padding(bottom = NeoTheme.spacing.medium)
                         )
 
                         // Content

@@ -70,6 +70,7 @@ afterEvaluate {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":theme"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

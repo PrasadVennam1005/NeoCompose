@@ -40,6 +40,7 @@ NeoCompose is engineered to provide realistic Neumorphism rendering in Jetpack C
 
 3. **Zero Allocation in Composition**:
    - `Paint`, `Path`, `RenderEffect`, and color calculations are remembered during composition phase and cached across re-renders.
+   - Computations are offloaded to pre-rendered bitmap caches on draw calls.
 
 ---
 
@@ -52,4 +53,24 @@ NeoCompose is engineered to provide realistic Neumorphism rendering in Jetpack C
 | **Inset** | Recessed container | Inset inner drop shadows |
 | **Concave** | Curved interior | Convex color gradient + outer dual shadow |
 | **Convex** | Curved exterior | Reverse convex color gradient + outer dual shadow |
+| **Basin** | Double-recessed edge | Combined outer shadow + inner shadow gradient |
 | **Flat** | Level with background | Subtle border elevation |
+
+---
+
+## 4. High-Contrast Accessibility Mode
+- Integrates systemic high-contrast tokens into the color palette factories.
+- Modifiers automatically adjust shadow alphas (enhancing shadow contrast) and draw a WCAG-compliant `1.dp` border of `colors.textSecondary` if no custom border is configured.
+
+---
+
+## 5. Orientation Sensor Binding (`rememberSensorLightSource`)
+- Resolves accelerometer device measurements into a real-time light angle vector.
+- Implements gravity vector thresholding to stabilize light coordinates when flat, and low-pass filtering to guarantee smooth shadow rotations on rotation movements.
+
+---
+
+## 6. Specular Highlights Shader
+- Implements hardware-accelerated 3D Blinn-Phong specular highlight shading using Android Graphics Shading Language (AGSL).
+- Generates hemispherical normal vectors relative to the component center, calculating light-reflectance angles.
+- Provides a clean radial gradient overlay fallback on older API levels (< API 33).

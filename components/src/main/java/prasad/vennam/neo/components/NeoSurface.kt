@@ -43,6 +43,7 @@ public fun NeoSurface(
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     contentAlignment: Alignment = Alignment.Center,
+    specularHighlight: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val animatedElevation by animateNeoElevationAsState(
@@ -58,7 +59,8 @@ public fun NeoSurface(
             lightColor = colors.lightShadow,
             darkColor = colors.darkShadow,
             elevation = animatedElevation,
-            lightSource = lightSource
+            lightSource = lightSource,
+            specularHighlight = specularHighlight
         ),
         contentAlignment = contentAlignment
     ) {

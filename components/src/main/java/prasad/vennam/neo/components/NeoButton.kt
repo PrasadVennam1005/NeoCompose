@@ -15,10 +15,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import prasad.vennam.neo.theme.NeoPreviewParams
+import prasad.vennam.neo.theme.NeoPreviewParamsProvider
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.animation.animateNeoElevationAsState
 import prasad.vennam.neo.core.NeoLightSource
@@ -60,6 +65,7 @@ public fun NeoButton(
     ),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    specularHighlight: Boolean = false,
     content: @Composable RowScope.() -> Unit
 ) {
     val currentStyle by rememberNeoInteractionStyle(
@@ -74,6 +80,8 @@ public fun NeoButton(
         animationSpec = animationSpec.elevationSpec
     )
 
+    val haptic = LocalHapticFeedback.current
+
     Row(
         modifier = modifier
             .neoStyle(
@@ -83,14 +91,20 @@ public fun NeoButton(
                 lightColor = colors.lightShadow,
                 darkColor = colors.darkShadow,
                 elevation = animatedElevation,
-                lightSource = lightSource
+                lightSource = lightSource,
+                specularHighlight = specularHighlight
             )
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 enabled = enabled,
                 role = Role.Button,
-                onClick = onClick
+                onClick = {
+                    if (enabled) {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    }
+                    onClick()
+                }
             )
             .padding(contentPadding),
         horizontalArrangement = Arrangement.Center,
@@ -99,25 +113,22 @@ public fun NeoButton(
     )
 }
 
-@Preview(name = "NeoButton - Light Mode")
+@Preview(name = "NeoButton - Parameterized Previews")
 @Composable
-private fun NeoButtonLightPreview() {
-    NeoTheme {
+private fun NeoButtonParameterizedPreview(
+    @PreviewParameter(NeoPreviewParamsProvider::class) params: NeoPreviewParams
+) {
+    NeoTheme(colors = params.colors) {
         Box(modifier = Modifier.padding(16.dp)) {
-            NeoButton(onClick = {}) {
-                Text("Sign In", style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
-            }
-        }
-    }
-}
-
-@Preview(name = "NeoButton - Dark Mode")
-@Composable
-private fun NeoButtonDarkPreview() {
-    NeoTheme(colors = NeoColors.defaultDarkColors()) {
-        Box(modifier = Modifier.padding(16.dp)) {
-            NeoButton(onClick = {}) {
-                Text("Confirm Action", style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
+            NeoButton(
+                onClick = {},
+                style = params.style
+            ) {
+                Text(
+                    text = params.name,
+                    style = NeoTheme.typography.label,
+                    color = NeoTheme.colors.textPrimary
+                )
             }
         }
     }

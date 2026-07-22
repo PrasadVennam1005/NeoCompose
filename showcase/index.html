@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoCompose Interactive Showcase & Playground</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            
+            /* Neumorphic Simulator Theme Defaults (Light Soft UI) */
+            --neo-bg: #ecf0f3;
+            --neo-light-shadow: rgba(255, 255, 255, 0.9);
+            --neo-dark-shadow: rgba(163, 177, 198, 0.55);
+            --neo-primary: #007aff;
+            --neo-on-primary: #ffffff;
+            --neo-border: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] {
+            --neo-bg: #2d3238;
+            --neo-light-shadow: rgba(60, 66, 73, 0.9);
+            --neo-dark-shadow: rgba(24, 27, 30, 0.8);
+            --neo-primary: #3b82f6;
+            --neo-on-primary: #ffffff;
+            --neo-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            padding: 2rem 4rem 1rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        .logo-section h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-section p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        .badge {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+            padding: 2rem 4rem;
+            max-width: 1600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Simulator Area */
+        .preview-pane {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 4rem 2rem;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+        }
+
+        .simulator-canvas {
+            width: 100%;
+            max-width: 480px;
+            aspect-ratio: 4 / 3;
+            background-color: var(--neo-bg);
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            padding: 2.5rem;
+        }
+
+        /* Neumorphic Components in CSS */
+        .neo-preview-card {
+            width: 280px;
+            height: 180px;
+            background-color: var(--neo-bg);
+            border-radius: 24px;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            gap: 0.75rem;
+        }
+
+        .neo-preview-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dark"] .neo-preview-title {
+            color: #e2e8f0;
+        }
+
+        .neo-preview-desc {
+            font-size: 0.8rem;
+            color: #718096;
+            text-align: center;
+        }
+
+        [data-theme="dark"] .neo-preview-desc {
+            color: #a0aec0;
+        }
+
+        .neo-preview-button {
+            padding: 0.8rem 2.2rem;
+            border-radius: 99px;
+            background-color: var(--neo-primary);
+            color: var(--neo-on-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Switch */
+        .neo-preview-switch {
+            width: 76px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: var(--neo-bg);
+            padding: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .neo-switch-thumb {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--neo-primary);
+            position: absolute;
+            left: 5px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .switch-checked .neo-switch-thumb {
+            left: 41px;
+            background-color: var(--neo-on-primary);
+        }
+
+        /* Slider */
+        .neo-preview-slider {
+            width: 280px;
+            height: 44px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .neo-slider-track {
+            width: 100%;
+            height: 10px;
+            border-radius: 99px;
+            background-color: var(--neo-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .neo-slider-fill {
+            width: 60%;
+            height: 100%;
+            background-color: var(--neo-primary);
+            border-radius: 99px;
+            opacity: 0.85;
+        }
+
+        .neo-slider-thumb {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background-color: var(--neo-primary);
+            position: absolute;
+            left: 60%;
+            transform: translateX(-50%);
+            cursor: grab;
+            transition: left 0.1s linear;
+        }
+
+        /* Segmented Control */
+        .neo-preview-segmented {
+            display: flex;
+            background-color: var(--neo-bg);
+            border-radius: 14px;
+            padding: 6px;
+            gap: 6px;
+            width: 300px;
+        }
+
+        .segmented-item {
+            flex: 1;
+            padding: 8px 0;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            color: #718096;
+            transition: all 0.2s ease;
+        }
+
+        [data-theme="dark"] .segmented-item {
+            color: #a0aec0;
+        }
+
+        .segmented-item.active {
+            background-color: var(--neo-bg);
+            color: var(--neo-primary);
+        }
+
+        /* Stepper */
+        .neo-preview-stepper {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stepper-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--neo-bg);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--neo-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .stepper-val {
+            width: 48px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #2d3748;
+            background-color: var(--neo-bg);
+            font-size: 1.05rem;
+        }
+
+        [data-theme="dark"] .stepper-val {
+            color: #e2e8f0;
+        }
+
+        /* Avatar */
+        .neo-preview-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background-color: var(--neo-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--neo-primary);
+            transition: all 0.3s ease;
+        }
+
+        .avatar-badge {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #10b981;
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            border: 2px solid var(--neo-bg);
+        }
+
+        /* Badge */
+        .neo-preview-badge {
+            padding: 8px 18px;
+            border-radius: 99px;
+            background-color: var(--neo-bg);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--neo-primary);
+            transition: all 0.3s ease;
+        }
+
+        /* Audio Player Bar */
+        .neo-preview-audio {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 24px;
+            border-radius: 20px;
+            width: 320px;
+            background-color: var(--neo-bg);
+            transition: all 0.3s ease;
+        }
+
+        .audio-play {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--neo-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--neo-primary);
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+        }
+
+        .audio-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .audio-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        [data-theme="dark"] .audio-title {
+            color: #e2e8f0;
+        }
+
+        .audio-artist {
+            font-size: 0.75rem;
+            color: #718096;
+        }
+
+        [data-theme="dark"] .audio-artist {
+            color: #a0aec0;
+        }
+
+        /* Expanded Components */
+        
+        /* 10. Text Field */
+        .neo-preview-textfield {
+            width: 280px;
+            padding: 12px 20px;
+            border-radius: 14px;
+            background-color: var(--neo-bg);
+            color: #718096;
+            text-align: left;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        /* 11. Search Field */
+        .neo-preview-searchfield {
+            width: 280px;
+            padding: 12px 20px;
+            border-radius: 99px;
+            background-color: var(--neo-bg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #718096;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        /* 12. Checkbox */
+        .neo-preview-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #2d3748;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        [data-theme="dark"] .neo-preview-checkbox {
+            color: #e2e8f0;
+        }
+
+        .checkbox-box {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            background-color: var(--neo-bg);
+            color: var(--neo-primary);
+            transition: all 0.3s ease;
+        }
+
+        /* 13. Radio Button */
+        .neo-preview-radio {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #2d3748;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        [data-theme="dark"] .neo-preview-radio {
+            color: #e2e8f0;
+        }
+
+        .radio-outer {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--neo-bg);
+            transition: all 0.3s ease;
+        }
+
+        .radio-inner {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--neo-primary);
+        }
+
+        /* 14. FAB */
+        .neo-preview-fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            border: none;
+            background-color: var(--neo-bg);
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--neo-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* 15. Chip */
+        .neo-preview-chip {
+            padding: 8px 18px;
+            border-radius: 99px;
+            background-color: var(--neo-bg);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #718096;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .neo-preview-chip {
+            color: #a0aec0;
+        }
+
+        /* 16. Linear Progress */
+        .neo-preview-linearprogress {
+            width: 280px;
+            height: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 100%;
+            border-radius: 99px;
+            background-color: var(--neo-bg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            width: 70%;
+            height: 100%;
+            background-color: var(--neo-primary);
+            border-radius: 99px;
+        }
+
+        /* 17. Circular Progress */
+        .neo-preview-circularprogress {
+            width: 82px;
+            height: 82px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circular-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .circle-bg {
+            stroke: var(--neo-border);
+            transition: stroke 0.3s ease;
+        }
+
+        .circle-fill {
+            stroke: var(--neo-primary);
+            transition: stroke 0.3s ease;
+        }
+
+        .circular-text {
+            position: absolute;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        [data-theme="dark"] .circular-text {
+            color: #e2e8f0;
+        }
+
+        /* 18. Icon Button */
+        .neo-preview-iconbutton {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--neo-bg);
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neo-primary);
+            transition: all 0.3s ease;
+        }
+
+        /* 19. Divider */
+        .neo-preview-divider {
+            width: 280px;
+            height: 6px;
+            border-radius: 99px;
+            background-color: var(--neo-bg);
+            transition: all 0.3s ease;
+        }
+
+        /* 20. Tooltip */
+        .neo-preview-tooltip {
+            padding: 10px 18px;
+            border-radius: 12px;
+            background-color: var(--neo-bg);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #718096;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .neo-preview-tooltip {
+            color: #a0aec0;
+        }
+
+        /* Shadow Configurations */
+        .shadow-raised {
+            box-shadow: 
+                calc(-1 * var(--offset-x)) calc(-1 * var(--offset-y)) var(--blur-radius) var(--neo-light-shadow),
+                var(--offset-x) var(--offset-y) var(--blur-radius) var(--neo-dark-shadow);
+        }
+
+        .shadow-pressed {
+            box-shadow: 
+                inset calc(-1 * var(--offset-x)) calc(-1 * var(--offset-y)) var(--blur-radius) var(--neo-light-shadow),
+                inset var(--offset-x) var(--offset-y) var(--blur-radius) var(--neo-dark-shadow);
+        }
+
+        .shadow-inset {
+            box-shadow: 
+                inset calc(-1 * var(--offset-x) * 0.7) calc(-1 * var(--offset-y) * 0.7) calc(var(--blur-radius) * 0.8) var(--neo-light-shadow),
+                inset calc(var(--offset-x) * 0.7) calc(var(--offset-y) * 0.7) calc(var(--blur-radius) * 0.8) var(--neo-dark-shadow);
+        }
+
+        .shadow-flat {
+            box-shadow: none;
+        }
+
+        .shadow-basin {
+            box-shadow: 
+                calc(-1 * var(--offset-x) * 0.5) calc(-1 * var(--offset-y) * 0.5) calc(var(--blur-radius) * 0.6) var(--neo-light-shadow),
+                var(--offset-x) var(--offset-y) calc(var(--blur-radius) * 0.6) var(--neo-dark-shadow),
+                inset calc(-1 * var(--offset-x) * 0.4) calc(-1 * var(--offset-y) * 0.4) calc(var(--blur-radius) * 0.4) var(--neo-light-shadow),
+                inset calc(var(--offset-x) * 0.4) calc(var(--offset-y) * 0.4) calc(var(--blur-radius) * 0.4) var(--neo-dark-shadow);
+        }
+
+        /* High contrast mode border */
+        .contrast-border {
+            border: 1px solid #718096 !important;
+        }
+
+        [data-theme="dark"] .contrast-border {
+            border: 1px solid #a0aec0 !important;
+        }
+
+        /* Specular Highlights Overlay */
+        .specular-gloss::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: radial-gradient(
+                circle at var(--spec-x) var(--spec-y), 
+                rgba(255, 255, 255, 0.45) 0%, 
+                rgba(255, 255, 255, 0) 55%
+            );
+            mix-blend-mode: overlay;
+            transition: all 0.1s linear;
+        }
+
+        /* Controls Panel */
+        .controls-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .control-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(16px);
+        }
+
+        .control-card h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            border-left: 3px solid var(--primary-accent);
+            padding-left: 0.5rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .control-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* Switch UI */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #334155;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Range Slider Styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #334155;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary-accent);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:active {
+            transform: scale(1.3);
+        }
+
+        /* Option Buttons */
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .option-btn {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .option-btn.active {
+            background: var(--primary-accent);
+            border-color: var(--primary-accent);
+            color: #ffffff;
+        }
+
+        /* Dynamic Dial for Light Angle */
+        .dial-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .angle-dial {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            position: relative;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .angle-pointer {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-accent);
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            transform-origin: 50% 26px;
+        }
+
+        /* Code Block Display */
+        .code-card {
+            background: #090d16;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        pre {
+            color: #38bdf8;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .keyword { color: #f472b6; }
+        .property { color: #818cf8; }
+        .value { color: #fbbf24; }
+        .comment { color: #475569; }
+
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-section">
+            <h1>NeoCompose</h1>
+            <p>Interactive Neumorphic Component Playground</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="badge">Production Ready</div>
+            <div class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3);">v1.3.0 / v2.0.0</div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Simulator Preview Section -->
+        <div class="preview-pane">
+            <div class="simulator-canvas" id="simulator-canvas">
+                
+                <!-- 1. NeoCard Component -->
+                <div class="neo-preview-card" id="preview-NeoCard">
+                    <div class="neo-preview-title" id="card-title">NeoCard Component</div>
+                    <div class="neo-preview-desc">Grouping content sections with premium Neumorphic styles.</div>
+                </div>
+
+                <!-- 2. NeoButton Component -->
+                <button class="neo-preview-button" id="preview-NeoButton" style="display:none;">Interactive Button</button>
+
+                <!-- 3. NeoSwitch Component -->
+                <div class="neo-preview-switch" id="preview-NeoSwitch" style="display:none;">
+                    <div class="neo-switch-thumb"></div>
+                </div>
+
+                <!-- 4. NeoSlider Component -->
+                <div class="neo-preview-slider" id="preview-NeoSlider" style="display:none;">
+                    <div class="neo-slider-track">
+                        <div class="neo-slider-fill"></div>
+                    </div>
+                    <div class="neo-slider-thumb"></div>
+                </div>
+
+                <!-- 5. NeoSegmentedControl Component -->
+                <div class="neo-preview-segmented" id="preview-NeoSegmentedControl" style="display:none;">
+                    <div class="segmented-item active">Tab 1</div>
+                    <div class="segmented-item">Tab 2</div>
+                    <div class="segmented-item">Tab 3</div>
+                </div>
+
+                <!-- 6. NeoNumberStepper Component -->
+                <div class="neo-preview-stepper" id="preview-NeoNumberStepper" style="display:none;">
+                    <button class="stepper-btn">-</button>
+                    <div class="stepper-val">5</div>
+                    <button class="stepper-btn">+</button>
+                </div>
+
+                <!-- 7. NeoAvatar Component -->
+                <div class="neo-preview-avatar" id="preview-NeoAvatar" style="display:none;">
+                    <span>JD</span>
+                    <div class="avatar-badge"></div>
+                </div>
+
+                <!-- 8. NeoBadge Component -->
+                <div class="neo-preview-badge" id="preview-NeoBadge" style="display:none;">v1.3.0</div>
+
+                <!-- 9. NeoAudioPlayerBar Component -->
+                <div class="neo-preview-audio" id="preview-NeoAudioPlayerBar" style="display:none;">
+                    <button class="audio-play">▶</button>
+                    <div class="audio-info">
+                        <div class="audio-title">Neon Dreams</div>
+                        <div class="audio-artist">Future Wave</div>
+                    </div>
+                </div>
+
+                <!-- 10. NeoTextField Component -->
+                <div class="neo-preview-textfield" id="preview-NeoTextField" style="display:none;">
+                    <span>Enter text...</span>
+                </div>
+
+                <!-- 11. NeoSearchField Component -->
+                <div class="neo-preview-searchfield" id="preview-NeoSearchField" style="display:none;">
+                    <span style="margin-right: 4px;">🔍</span>
+                    <span>Search...</span>
+                </div>
+
+                <!-- 12. NeoCheckbox Component -->
+                <div class="neo-preview-checkbox" id="preview-NeoCheckbox" style="display:none;">
+                    <div class="checkbox-box">✓</div>
+                    <span>Checkbox Label</span>
+                </div>
+
+                <!-- 13. NeoRadioButton Component -->
+                <div class="neo-preview-radio" id="preview-NeoRadioButton" style="display:none;">
+                    <div class="radio-outer">
+                        <div class="radio-inner"></div>
+                    </div>
+                    <span>Radio Option</span>
+                </div>
+
+                <!-- 14. NeoFAB Component -->
+                <button class="neo-preview-fab" id="preview-NeoFAB" style="display:none;">+</button>
+
+                <!-- 15. NeoChip Component -->
+                <div class="neo-preview-chip" id="preview-NeoChip" style="display:none;">Compose</div>
+
+                <!-- 16. NeoLinearProgressIndicator Component -->
+                <div class="neo-preview-linearprogress" id="preview-NeoLinearProgressIndicator" style="display:none;">
+                    <div class="progress-track">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- 17. NeoCircularProgressIndicator Component -->
+                <div class="neo-preview-circularprogress" id="preview-NeoCircularProgressIndicator" style="display:none;">
+                    <svg class="circular-svg" viewBox="0 0 36 36">
+                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#ddd" stroke-width="3.5" />
+                        <path class="circle-fill" stroke-dasharray="70, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3.5" stroke-linecap="round" />
+                    </svg>
+                    <div class="circular-text">70%</div>
+                </div>
+
+                <!-- 18. NeoIconButton Component -->
+                <button class="neo-preview-iconbutton" id="preview-NeoIconButton" style="display:none;">⚙</button>
+
+                <!-- 19. NeoDivider Component -->
+                <div class="neo-preview-divider" id="preview-NeoDivider" style="display:none;"></div>
+
+                <!-- 20. NeoTooltip Component -->
+                <div class="neo-preview-tooltip" id="preview-NeoTooltip" style="display:none;">Tooltip Box Label</div>
+
+            </div>
+        </div>
+
+        <!-- Controls Pane Section -->
+        <div class="controls-pane">
+            <!-- Component Picker -->
+            <div class="control-card">
+                <h3>Choose Component</h3>
+                <div class="control-group">
+                    <select id="component-selector" style="width: 100%; padding: 0.75rem; border-radius: 10px; background: rgba(30, 41, 59, 0.9); border: 1px solid var(--border-color); color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; cursor: pointer;">
+                        <optgroup label="Surfaces & Containers">
+                            <option value="NeoCard">NeoCard (Container Card)</option>
+                            <option value="NeoAvatar">NeoAvatar (Profile Container)</option>
+                        </optgroup>
+                        <optgroup label="Buttons & Actions">
+                            <option value="NeoButton">NeoButton (Pill Button)</option>
+                            <option value="NeoIconButton">NeoIconButton (Circular Icon Action)</option>
+                            <option value="NeoFAB">NeoFAB (Floating Action Button)</option>
+                        </optgroup>
+                        <optgroup label="Form Inputs & Selectors">
+                            <option value="NeoTextField">NeoTextField (Text Input Field)</option>
+                            <option value="NeoSearchField">NeoSearchField (Search Input Field)</option>
+                            <option value="NeoSwitch">NeoSwitch (Toggle Switch)</option>
+                            <option value="NeoCheckbox">NeoCheckbox (Checkbox Selector)</option>
+                            <option value="NeoRadioButton">NeoRadioButton (Radio Option)</option>
+                        </optgroup>
+                        <optgroup label="Range & Steppers">
+                            <option value="NeoSlider">NeoSlider (Stepped Slider)</option>
+                            <option value="NeoNumberStepper">NeoNumberStepper (Counter Stepper)</option>
+                        </optgroup>
+                        <optgroup label="Navigation & Badges">
+                            <option value="NeoSegmentedControl">NeoSegmentedControl (Navigation Tabs)</option>
+                            <option value="NeoChip">NeoChip (Tag Chip)</option>
+                            <option value="NeoBadge">NeoBadge (Badge Indicator)</option>
+                        </optgroup>
+                        <optgroup label="Progress & Media">
+                            <option value="NeoLinearProgressIndicator">NeoLinearProgressIndicator (Progress Bar)</option>
+                            <option value="NeoCircularProgressIndicator">NeoCircularProgressIndicator (Circular Progress)</option>
+                            <option value="NeoAudioPlayerBar">NeoAudioPlayerBar (Media Scrub Bar)</option>
+                        </optgroup>
+                        <optgroup label="Utilities">
+                            <option value="NeoDivider">NeoDivider (Grooved Line)</option>
+                            <option value="NeoTooltip">NeoTooltip (Bubble Box)</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Styling Configurations Card -->
+            <div class="control-card">
+                <h3>Visual Parameters</h3>
+                <div class="control-group">
+                    <div class="control-row">
+                        <span class="control-label">Neumorphism Theme</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-row">
+                        <span class="control-label">High-Contrast Mode (Accessibility)</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="contrast-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-row">
+                        <span class="control-label">Specular Highlights Shader (AGSL 3D Gloss)</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="specular-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <span class="control-label" style="display:block; margin-bottom: 0.5rem;">Surface Style</span>
+                        <div class="option-grid" id="style-selector">
+                            <button class="option-btn active" data-style="Raised">Raised</button>
+                            <button class="option-btn" data-style="Pressed">Pressed</button>
+                            <button class="option-btn" data-style="Inset">Inset</button>
+                            <button class="option-btn" data-style="Concave">Concave</button>
+                            <button class="option-btn" data-style="Convex">Convex</button>
+                            <button class="option-btn" data-style="Basin">Basin</button>
+                            <button class="option-btn" data-style="Flat" style="grid-column: span 3;">Flat</button>
+                        </div>
+                    </div>
+
+                    <div class="control-row">
+                        <span class="control-label">Elevation Depth (Dp)</span>
+                        <input type="range" id="elevation-slider" min="2" max="16" value="6" style="width: 140px;">
+                    </div>
+
+                    <div class="dial-container">
+                        <div class="angle-dial" id="angle-dial">
+                            <div class="angle-pointer" id="angle-pointer" style="transform: rotate(315deg);"></div>
+                        </div>
+                        <div>
+                            <span class="control-label" style="display:block; font-size: 0.9rem;">Light Direction Vector</span>
+                            <span class="control-label" id="angle-text" style="font-size: 0.8rem; font-family: monospace;">Angle: 315° (TopLeft)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compose Code Exporter -->
+            <div class="code-card">
+                <div class="code-header">
+                    <span>Jetpack Compose Snippet</span>
+                    <button class="copy-btn" id="copy-btn">Copy</button>
+                </div>
+                <pre id="compose-code-block"></pre>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Copyright © 2026 Prasad Vennam. Built for the Google DeepMind pair programming showcase.</p>
+    </footer>
+
+    <script>
+        // State parameters
+        let state = {
+            selectedComponent: 'NeoCard', // Active component selection
+            theme: 'light', // 'light' or 'dark'
+            style: 'Raised', // Raised, Pressed, Inset, Concave, Convex, Basin, Flat
+            elevation: 6,
+            angle: 315,
+            highContrast: false,
+            specular: false,
+            switchChecked: false,
+            checkboxChecked: false,
+            radioChecked: false
+        };
+
+        // DOM elements
+        const canvas = document.getElementById('simulator-canvas');
+        const themeToggle = document.getElementById('theme-toggle');
+        const contrastToggle = document.getElementById('contrast-toggle');
+        const specularToggle = document.getElementById('specular-toggle');
+        const elevationSlider = document.getElementById('elevation-slider');
+        const styleButtons = document.querySelectorAll('#style-selector button');
+        const dial = document.getElementById('angle-dial');
+        const pointer = document.getElementById('angle-pointer');
+        const angleText = document.getElementById('angle-text');
+        const codeBlock = document.getElementById('compose-code-block');
+        const copyBtn = document.getElementById('copy-btn');
+        const componentSelector = document.getElementById('component-selector');
+
+        // Circular dial dragging logic
+        let isDragging = false;
+        dial.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDrag);
+        
+        dial.addEventListener('touchstart', startDrag, { passive: true });
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('touchend', stopDrag);
+
+        function startDrag(e) {
+            isDragging = true;
+            drag(e);
+        }
+
+        function stopDrag() {
+            isDragging = false;
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const rect = dial.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const angleRad = Math.atan2(clientY - centerY, clientX - centerX);
+            let angleDeg = Math.round(angleRad * (180 / Math.PI));
+            angleDeg = (angleDeg + 90 + 360) % 360; // Map so top is 0, clockwise
+            
+            let composeAngle = (angleDeg - 90 + 360) % 360;
+            
+            state.angle = composeAngle;
+            pointer.style.transform = `rotate(${angleDeg}deg)`;
+            
+            const dirLabel = getDirectionLabel(composeAngle);
+            angleText.innerText = `Angle: ${composeAngle}° (${dirLabel})`;
+            updateRendering();
+        }
+
+        function getDirectionLabel(angle) {
+            if (angle >= 337.5 || angle < 22.5) return 'Right';
+            if (angle >= 22.5 && angle < 67.5) return 'BottomRight';
+            if (angle >= 67.5 && angle < 112.5) return 'Bottom';
+            if (angle >= 112.5 && angle < 157.5) return 'BottomLeft';
+            if (angle >= 157.5 && angle < 202.5) return 'Left';
+            if (angle >= 202.5 && angle < 247.5) return 'TopLeft';
+            if (angle >= 247.5 && angle < 292.5) return 'Top';
+            return 'TopLeft';
+        }
+
+        // Color toggle
+        themeToggle.addEventListener('change', (e) => {
+            state.theme = e.target.checked ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', state.theme);
+            updateRendering();
+        });
+
+        // Contrast toggle
+        contrastToggle.addEventListener('change', (e) => {
+            state.highContrast = e.target.checked;
+            updateRendering();
+        });
+
+        // Specular toggle
+        specularToggle.addEventListener('change', (e) => {
+            state.specular = e.target.checked;
+            updateRendering();
+        });
+
+        // Elevation slider
+        elevationSlider.addEventListener('input', (e) => {
+            state.elevation = parseInt(e.target.value);
+            updateRendering();
+        });
+
+        // Style selector
+        styleButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                styleButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.style = btn.getAttribute('data-style');
+                updateRendering();
+            });
+        });
+
+        // Component selector listener
+        componentSelector.addEventListener('change', (e) => {
+            state.selectedComponent = e.target.value;
+            
+            // Adjust default styles to look natural on textfields / switches
+            const insetStyled = ['NeoSwitch', 'NeoSlider', 'NeoTextField', 'NeoSearchField', 'NeoCheckbox', 'NeoRadioButton', 'NeoLinearProgressIndicator', 'NeoDivider'];
+            if (insetStyled.includes(state.selectedComponent)) {
+                state.style = 'Inset';
+                styleButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.getAttribute('data-style') === 'Inset') b.classList.add('active');
+                });
+            } else {
+                state.style = 'Raised';
+                styleButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.getAttribute('data-style') === 'Raised') b.classList.add('active');
+                });
+            }
+
+            updateRendering();
+        });
+
+        // Clickable interactive toggles inside preview pane
+        const switchElement = document.getElementById('preview-NeoSwitch');
+        switchElement.addEventListener('click', () => {
+            state.switchChecked = !state.switchChecked;
+            if (state.switchChecked) {
+                switchElement.classList.add('switch-checked');
+            } else {
+                switchElement.classList.remove('switch-checked');
+            }
+            updateCodeSnippet();
+        });
+
+        const checkboxElement = document.getElementById('preview-NeoCheckbox');
+        checkboxElement.addEventListener('click', () => {
+            state.checkboxChecked = !state.checkboxChecked;
+            const box = checkboxElement.querySelector('.checkbox-box');
+            if (state.checkboxChecked) {
+                box.style.display = 'flex';
+                box.innerText = '✓';
+            } else {
+                box.innerText = '';
+            }
+            updateCodeSnippet();
+        });
+
+        const radioElement = document.getElementById('preview-NeoRadioButton');
+        radioElement.addEventListener('click', () => {
+            state.radioChecked = !state.radioChecked;
+            const inner = radioElement.querySelector('.radio-inner');
+            if (state.radioChecked) {
+                inner.style.display = 'block';
+            } else {
+                inner.style.display = 'none';
+            }
+            updateCodeSnippet();
+        });
+
+        // Main rendering updater
+        function updateRendering() {
+            // Hide all previews
+            const previewIds = [
+                'preview-NeoCard', 'preview-NeoButton', 'preview-NeoSwitch', 
+                'preview-NeoSlider', 'preview-NeoSegmentedControl', 'preview-NeoNumberStepper', 
+                'preview-NeoAvatar', 'preview-NeoBadge', 'preview-NeoAudioPlayerBar',
+                'preview-NeoTextField', 'preview-NeoSearchField', 'preview-NeoCheckbox',
+                'preview-NeoRadioButton', 'preview-NeoFAB', 'preview-NeoChip',
+                'preview-NeoLinearProgressIndicator', 'preview-NeoCircularProgressIndicator',
+                'preview-NeoIconButton', 'preview-NeoDivider', 'preview-NeoTooltip'
+            ];
+            previewIds.forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
+
+            // Show selected component
+            const activePreview = document.getElementById(`preview-${state.selectedComponent}`);
+            
+            // Layout alignment matching standard flex setups
+            const flexLayouts = ['NeoAvatar', 'NeoNumberStepper', 'NeoAudioPlayerBar', 'NeoCheckbox', 'NeoRadioButton', 'NeoCircularProgressIndicator'];
+            if (flexLayouts.includes(state.selectedComponent)) {
+                activePreview.style.display = 'flex';
+            } else {
+                activePreview.style.display = 'block';
+            }
+
+            // Distance of shadow offsets based on elevation
+            const distance = state.elevation;
+            const blur = distance * 1.5;
+            
+            // Calculate offsets based on angle vector (Standard Trig: dx = d * cos(theta), dy = d * sin(theta))
+            const angleRad = (state.angle * Math.PI) / 180;
+            const dx = Math.round(distance * Math.cos(angleRad));
+            const dy = Math.round(distance * Math.sin(angleRad));
+
+            // Set CSS variables for shadow offsets
+            canvas.style.setProperty('--offset-x', `${dx}px`);
+            canvas.style.setProperty('--offset-y', `${dy}px`);
+            canvas.style.setProperty('--blur-radius', `${blur}px`);
+
+            // Apply high-contrast borders and adjustments
+            if (state.theme === 'dark') {
+                const darkOpacity = state.highContrast ? 0.95 : 0.8;
+                const lightOpacity = state.highContrast ? 0.95 : 0.15;
+                canvas.style.setProperty('--neo-dark-shadow', `rgba(10, 12, 14, ${darkOpacity})`);
+                canvas.style.setProperty('--neo-light-shadow', `rgba(75, 83, 92, ${lightOpacity})`);
+            } else {
+                const darkOpacity = state.highContrast ? 0.85 : 0.55;
+                const lightOpacity = state.highContrast ? 1.0 : 0.9;
+                canvas.style.setProperty('--neo-dark-shadow', `rgba(163, 177, 198, ${darkOpacity})`);
+                canvas.style.setProperty('--neo-light-shadow', `rgba(255, 255, 255, ${lightOpacity})`);
+            }
+
+            // Select sub-items within components that draw Neumorphic shadows
+            const shadowContainers = [];
+            
+            if (state.selectedComponent === 'NeoCard') {
+                shadowContainers.push(document.getElementById('preview-NeoCard'));
+            } else if (state.selectedComponent === 'NeoButton') {
+                shadowContainers.push(document.getElementById('preview-NeoButton'));
+            } else if (state.selectedComponent === 'NeoSwitch') {
+                shadowContainers.push(document.getElementById('preview-NeoSwitch'));
+                const thumb = document.querySelector('#preview-NeoSwitch .neo-switch-thumb');
+                thumb.className = 'neo-switch-thumb shadow-raised';
+                if (state.highContrast) thumb.classList.add('contrast-border');
+            } else if (state.selectedComponent === 'NeoSlider') {
+                shadowContainers.push(document.querySelector('#preview-NeoSlider .neo-slider-track'));
+                const thumb = document.querySelector('#preview-NeoSlider .neo-slider-thumb');
+                thumb.className = 'neo-slider-thumb shadow-raised';
+                if (state.highContrast) thumb.classList.add('contrast-border');
+            } else if (state.selectedComponent === 'NeoSegmentedControl') {
+                shadowContainers.push(document.getElementById('preview-NeoSegmentedControl'));
+                const activeItem = document.querySelector('#preview-NeoSegmentedControl .segmented-item.active');
+                activeItem.className = 'segmented-item active shadow-raised';
+                if (state.highContrast) activeItem.classList.add('contrast-border');
+            } else if (state.selectedComponent === 'NeoNumberStepper') {
+                const buttons = document.querySelectorAll('#preview-NeoNumberStepper .stepper-btn');
+                buttons.forEach(btn => {
+                    btn.className = 'stepper-btn shadow-raised';
+                    if (state.highContrast) btn.classList.add('contrast-border');
+                });
+                const valBox = document.querySelector('#preview-NeoNumberStepper .stepper-val');
+                valBox.className = 'stepper-val shadow-pressed';
+                if (state.highContrast) valBox.classList.add('contrast-border');
+            } else if (state.selectedComponent === 'NeoAvatar') {
+                shadowContainers.push(document.getElementById('preview-NeoAvatar'));
+            } else if (state.selectedComponent === 'NeoBadge') {
+                shadowContainers.push(document.getElementById('preview-NeoBadge'));
+            } else if (state.selectedComponent === 'NeoAudioPlayerBar') {
+                shadowContainers.push(document.getElementById('preview-NeoAudioPlayerBar'));
+                const playBtn = document.querySelector('#preview-NeoAudioPlayerBar .audio-play');
+                playBtn.className = 'audio-play shadow-pressed';
+                if (state.highContrast) playBtn.classList.add('contrast-border');
+            } else if (state.selectedComponent === 'NeoTextField') {
+                shadowContainers.push(document.getElementById('preview-NeoTextField'));
+            } else if (state.selectedComponent === 'NeoSearchField') {
+                shadowContainers.push(document.getElementById('preview-NeoSearchField'));
+            } else if (state.selectedComponent === 'NeoCheckbox') {
+                shadowContainers.push(document.querySelector('#preview-NeoCheckbox .checkbox-box'));
+            } else if (state.selectedComponent === 'NeoRadioButton') {
+                shadowContainers.push(document.querySelector('#preview-NeoRadioButton .radio-outer'));
+            } else if (state.selectedComponent === 'NeoFAB') {
+                shadowContainers.push(document.getElementById('preview-NeoFAB'));
+            } else if (state.selectedComponent === 'NeoChip') {
+                shadowContainers.push(document.getElementById('preview-NeoChip'));
+            } else if (state.selectedComponent === 'NeoLinearProgressIndicator') {
+                shadowContainers.push(document.querySelector('#preview-NeoLinearProgressIndicator .progress-track'));
+            } else if (state.selectedComponent === 'NeoIconButton') {
+                shadowContainers.push(document.getElementById('preview-NeoIconButton'));
+            } else if (state.selectedComponent === 'NeoDivider') {
+                shadowContainers.push(document.getElementById('preview-NeoDivider'));
+            } else if (state.selectedComponent === 'NeoTooltip') {
+                shadowContainers.push(document.getElementById('preview-NeoTooltip'));
+            }
+
+            // Apply base shadow style & details to all targets
+            shadowContainers.forEach(el => {
+                if (!el) return;
+                
+                // Clear previous classes
+                el.className = el.className.split(' ').filter(c => !c.startsWith('shadow-') && c !== 'contrast-border' && c !== 'specular-gloss').join(' ');
+
+                // Apply selected style class
+                if (state.style === 'Raised') el.classList.add('shadow-raised');
+                else if (state.style === 'Pressed') el.classList.add('shadow-pressed');
+                else if (state.style === 'Inset') el.classList.add('shadow-inset');
+                else if (state.style === 'Basin') el.classList.add('shadow-basin');
+                else if (state.style === 'Flat') el.classList.add('shadow-flat');
+                else if (state.style === 'Concave' || state.style === 'Convex') el.classList.add('shadow-raised');
+
+                // High contrast borders
+                if (state.highContrast) el.classList.add('contrast-border');
+
+                // Specular highlight gloss overlay
+                if (state.specular) {
+                    el.classList.add('specular-gloss');
+                    const specX = 50 - 35 * Math.cos(angleRad);
+                    const specY = 50 - 35 * Math.sin(angleRad);
+                    el.style.setProperty('--spec-x', `${specX}%`);
+                    el.style.setProperty('--spec-y', `${specY}%`);
+                } else {
+                    el.style.removeProperty('--spec-x');
+                    el.style.removeProperty('--spec-y');
+                }
+
+                // Interior gradients
+                if (state.style === 'Concave') {
+                    const angleDeg = (state.angle + 180) % 360;
+                    el.style.background = `linear-gradient(${angleDeg}deg, var(--neo-bg), var(--neo-light-shadow))`;
+                } else if (state.style === 'Convex') {
+                    const angleDeg = state.angle;
+                    el.style.background = `linear-gradient(${angleDeg}deg, var(--neo-bg), var(--neo-light-shadow))`;
+                } else {
+                    el.style.background = 'var(--neo-bg)';
+                }
+            });
+
+            // Adjust circular SVG path color on dark mode
+            const circleFill = document.querySelector('#preview-NeoCircularProgressIndicator .circle-fill');
+            const circleBg = document.querySelector('#preview-NeoCircularProgressIndicator .circle-bg');
+            if (circleFill && circleBg) {
+                circleFill.setAttribute('stroke', 'var(--neo-primary)');
+                circleBg.setAttribute('stroke', state.theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)');
+            }
+
+            updateCodeSnippet();
+        }
+
+        // Code exporter block builder
+        function updateCodeSnippet() {
+            const styleArg = state.style === 'Raised' ? '' : `\n    style = NeoStyle.${state.style},`;
+            const specularArg = state.specular ? `\n    specularHighlight = true,` : '';
+            const contrastComment = state.highContrast ? ' // Auto high-contrast active\n' : '';
+            const elevationVal = `${state.elevation}.dp`;
+            const angleVal = `${state.angle}f`;
+
+            let code = '';
+
+            switch (state.selectedComponent) {
+                case 'NeoCard':
+                    code = `<span class="keyword">NeoCard</span>(${styleArg}${specularArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)${contrastComment}
+) {
+    <span class="keyword">Text</span>(
+        text = <span class="value">"Neumorphic Card Section"</span>,
+        color = NeoTheme.colors.textPrimary
+    )
+}`;
+                    break;
+                case 'NeoButton':
+                    code = `<span class="keyword">NeoButton</span>(
+    onClick = { <span class="comment">/* Action */</span> },${styleArg}${specularArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)${contrastComment}
+) {
+    <span class="keyword">Text</span>(
+        text = <span class="value">"Interactive Button"</span>,
+        color = NeoTheme.colors.textPrimary
+    )
+}`;
+                    break;
+                case 'NeoSwitch':
+                    code = `<span class="keyword">NeoSwitch</span>(
+    checked = <span class="value">${state.switchChecked}</span>,
+    onCheckedChange = { isChecked = it },${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoSlider':
+                    code = `<span class="keyword">NeoSlider</span>(
+    value = sliderValue,
+    onValueChange = { sliderValue = it },${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoSegmentedControl':
+                    code = `<span class="keyword">NeoSegmentedControl</span>(
+    items = listOf(<span class="value">"Tab 1"</span>, <span class="value">"Tab 2"</span>, <span class="value">"Tab 3"</span>),
+    selectedIndex = selectedIndex,
+    onOptionSelected = { selectedIndex = it },
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoNumberStepper':
+                    code = `<span class="keyword">NeoNumberStepper</span>(
+    value = stepperValue,
+    onValueChange = { stepperValue = it },
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoAvatar':
+                    code = `<span class="keyword">NeoAvatar</span>(
+    initials = <span class="value">"JD"</span>,
+    isOnline = <span class="value">true</span>,${styleArg}
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoBadge':
+                    code = `<span class="keyword">NeoBadge</span>(
+    count = <span class="value">"v1.3.0"</span>,${styleArg}
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoAudioPlayerBar':
+                    code = `<span class="keyword">NeoAudioPlayerBar</span>(
+    trackTitle = <span class="value">"Neon Dreams"</span>,
+    artistName = <span class="value">"Future Wave"</span>,
+    isPlaying = isPlaying,
+    onPlayPauseToggle = { isPlaying = !isPlaying },
+    progress = progress,
+    onProgressChange = { progress = it },
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoTextField':
+                    code = `<span class="keyword">NeoTextField</span>(
+    value = textValue,
+    onValueChange = { textValue = it },
+    placeholder = { <span class="keyword">Text</span>(<span class="value">"Enter text..."</span>) },${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoSearchField':
+                    code = `<span class="keyword">NeoSearchField</span>(
+    value = searchQuery,
+    onValueChange = { searchQuery = it },
+    placeholder = { <span class="keyword">Text</span>(<span class="value">"Search..."</span>) },${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoCheckbox':
+                    code = `<span class="keyword">NeoCheckbox</span>(
+    checked = <span class="value">${state.checkboxChecked}</span>,
+    onCheckedChange = { isChecked = it },
+    label = { <span class="keyword">Text</span>(<span class="value">"Checkbox Label"</span>) },${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoRadioButton':
+                    code = `<span class="keyword">NeoRadioButton</span>(
+    selected = <span class="value">${state.radioChecked}</span>,
+    onClick = { isSelected = !isSelected },
+    label = { <span class="keyword">Text</span>(<span class="value">"Radio Option"</span>) },${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoFAB':
+                    code = `<span class="keyword">NeoFAB</span>(
+    onClick = { <span class="comment">/* Action */</span> },
+    icon = { <span class="keyword">Icon</span>(Icons.Default.Add, contentDescription = <span class="value">"Add"</span>) },${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoChip':
+                    code = `<span class="keyword">NeoChip</span>(
+    label = <span class="value">"Compose"</span>,${styleArg}
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoLinearProgressIndicator':
+                    code = `<span class="keyword">NeoLinearProgressIndicator</span>(
+    progress = <span class="value">0.7f</span>,${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoCircularProgressIndicator':
+                    code = `<span class="keyword">NeoCircularProgressIndicator</span>(
+    progress = <span class="value">0.7f</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoIconButton':
+                    code = `<span class="keyword">NeoIconButton</span>(
+    onClick = { <span class="comment">/* Action */</span> },
+    icon = { <span class="keyword">Icon</span>(Icons.Default.Settings, contentDescription = <span class="value">"Settings"</span>) },${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoDivider':
+                    code = `<span class="keyword">NeoDivider</span>(${styleArg}
+    elevation = <span class="value">${elevationVal}</span>,
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+                case 'NeoTooltip':
+                    code = `<span class="keyword">NeoTooltip</span>(
+    text = <span class="value">"Tooltip Box Label"</span>,${styleArg}
+    lightSource = NeoLightSource(angleDegrees = <span class="value">${angleVal}</span>)
+)`;
+                    break;
+            }
+
+            codeBlock.innerHTML = code;
+        }
+
+        // Copy button trigger
+        copyBtn.addEventListener('click', () => {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = codeBlock.innerHTML;
+            const plainText = tempDiv.innerText;
+
+            navigator.clipboard.writeText(plainText).then(() => {
+                copyBtn.innerText = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.innerText = 'Copy';
+                }, 2000);
+            });
+        });
+
+        // Initialize state
+        updateRendering();
+    </script>
+</body>
+</html>

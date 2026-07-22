@@ -29,6 +29,17 @@
 
 ---
 
+## 🌟 Advanced Capabilities
+
+NeoCompose is built with high-performance and modern developer demands in mind:
+- **Hardware-Accelerated Shadow Caching**: Uses a thread-safe `LruCache` to pre-render blurred neumorphic shadow paths onto offscreen `ImageBitmap` buffers. Subsequent draws bypass CPU mask filters entirely, enabling smooth **120fps scrolling** in lists.
+- **Interactive Specular Shaders**: Utilizes custom AGSL (Android Graphics Shading Language) fragment shaders on Android 13+ to calculate dynamic 3D specular glare highlights based on light source vectors, with a clean radial gradient fallback on older devices.
+- **Sensor-Driven Dynamic Lighting**: Connects the Neumorphic light source coordinates directly to the accelerometer via `rememberSensorLightSource()`, rotating highlights and shadows smoothly as the user tilts their physical device.
+- **High-Contrast Accessibility Mode**: WCAG-compliant design modes that automatically enhance shadow alphas and apply subtle `1.dp` contrast borders to meet AA accessibility guidelines without breaking the soft UI aesthetic.
+- **Tactile Haptic Feedback**: Integrates click haptics (`LongPress`) for buttons/switches and stepped micro-vibrations (`TextHandleMove`) for every 5% interval boundary of sliders to simulate physical mechanical control.
+
+---
+
 ## 🚀 Installation
 
 Add the dependency to your app's `build.gradle.kts`:

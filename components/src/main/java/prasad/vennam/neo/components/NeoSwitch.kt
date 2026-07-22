@@ -19,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -83,13 +85,20 @@ public fun NeoSwitch(
         label = "NeoSwitchThumbBgAnimation"
     )
 
+    val haptic = LocalHapticFeedback.current
+
     val toggleModifier = if (onCheckedChange != null) {
         Modifier.clickable(
             interactionSource = interactionSource,
             indication = null,
             enabled = enabled,
             role = Role.Switch,
-            onClick = { onCheckedChange(!checked) }
+            onClick = {
+                if (enabled) {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                }
+                onCheckedChange(!checked)
+            }
         )
     } else {
         Modifier

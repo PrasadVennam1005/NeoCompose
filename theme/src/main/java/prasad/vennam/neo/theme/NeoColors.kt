@@ -29,6 +29,7 @@ public data class NeoColors(
     public val textPrimary: Color = if (isLight) Color(0xFF2D3748) else Color(0xFFE2E8F0),
     public val textSecondary: Color = if (isLight) Color(0xFF718096) else Color(0xFFA0AEC0),
     public val border: Color = Color.Transparent,
+    public val isHighContrast: Boolean = false,
 ) {
     public companion object {
         /**
@@ -36,18 +37,20 @@ public data class NeoColors(
          */
         public fun defaultLightColors(
             background: Color = Color(0xFFECF0F3),
-            primary: Color = Color(0xFF007AFF)
+            primary: Color = Color(0xFF007AFF),
+            isHighContrast: Boolean = false
         ): NeoColors = NeoColors(
             background = background,
             surface = background,
-            lightShadow = Color.White.copy(alpha = 0.95f),
-            darkShadow = Color(0xFFA3B1C6).copy(alpha = 0.55f),
+            lightShadow = if (isHighContrast) Color.White else Color.White.copy(alpha = 0.95f),
+            darkShadow = if (isHighContrast) Color(0xFF718096).copy(alpha = 0.9f) else Color(0xFFA3B1C6).copy(alpha = 0.55f),
             primary = primary,
             onPrimary = Color.White,
             isLight = true,
             textPrimary = Color(0xFF2D3748),
             textSecondary = Color(0xFF718096),
-            border = Color.Transparent
+            border = Color.Transparent,
+            isHighContrast = isHighContrast
         )
 
         /**
@@ -55,18 +58,20 @@ public data class NeoColors(
          */
         public fun defaultDarkColors(
             background: Color = Color(0xFF24292E),
-            primary: Color = Color(0xFF38BDF8)
+            primary: Color = Color(0xFF38BDF8),
+            isHighContrast: Boolean = false
         ): NeoColors = NeoColors(
             background = background,
             surface = background,
-            lightShadow = Color(0xFF3A414A).copy(alpha = 0.7f),
-            darkShadow = Color(0xFF121518).copy(alpha = 0.8f),
+            lightShadow = if (isHighContrast) Color(0xFF4B5563).copy(alpha = 0.9f) else Color(0xFF3A414A).copy(alpha = 0.7f),
+            darkShadow = if (isHighContrast) Color.Black else Color(0xFF121518).copy(alpha = 0.8f),
             primary = primary,
             onPrimary = Color.Black,
             isLight = false,
             textPrimary = Color(0xFFF1F5F9),
             textSecondary = Color(0xFF94A3B8),
-            border = Color.Transparent
+            border = Color.Transparent,
+            isHighContrast = isHighContrast
         )
     }
 }

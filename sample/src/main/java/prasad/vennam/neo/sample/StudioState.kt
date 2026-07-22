@@ -5,10 +5,28 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import prasad.vennam.neo.core.NeoStyle
 
 public class StudioState {
     public var selectedCategoryTab: Int by mutableIntStateOf(0)
+    public val styleOptions: List<String> = listOf("Raised", "Pressed", "Inset", "Concave", "Convex", "Basin", "Flat")
+    public var selectedStyleIndex: Int by mutableIntStateOf(0)
+
+    public val selectedStyle: NeoStyle
+        get() = when (selectedStyleIndex) {
+            0 -> NeoStyle.Raised
+            1 -> NeoStyle.Pressed
+            2 -> NeoStyle.Inset
+            3 -> NeoStyle.Concave
+            4 -> NeoStyle.Convex
+            5 -> NeoStyle.Basin
+            else -> NeoStyle.Flat
+        }
+
     public var isDarkTheme: Boolean by mutableStateOf(false)
+    public var isAccessibilityMode: Boolean by mutableStateOf(false)
+    public var isSensorLightingEnabled: Boolean by mutableStateOf(false)
+    public var isGlossyShineEnabled: Boolean by mutableStateOf(false)
     public var lightAngle: Float by mutableFloatStateOf(315f)
     public var elevationDp: Float by mutableFloatStateOf(6f)
 

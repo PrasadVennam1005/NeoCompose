@@ -2,6 +2,26 @@
 
 All notable changes to the **NeoCompose** library will be documented in this file.
 
+## [2.0.0-alpha01] - 2026-07-22
+
+### Added
+- **Specular Highlights (AGSL Shaders)**: High-fidelity Blinn-Phong 3D specular glare highlights on surfaces (`Modifier.neoSpecular`). Uses AGSL RuntimeShader on Android 13+ and radial gradient white highlights on older APIs.
+- **specularHighlight Parameter**: Integrated specular gloss options across `NeoButton`, `NeoCard`, and `NeoSurface` containers.
+
+---
+
+## [1.3.0] - 2026-07-22
+
+### Added
+- **High-Contrast Accessibility Mode**: WCAG AA compliant mode setting (`isHighContrast = true`) that deepens shadow contrast and draws `1.dp` high-contrast borders around interactive elements.
+- **Material 3 Interoperability (`Modifier.neoInteraction`)**: Clickable interaction wrapper translating focused, hovered, and pressed actions into Neumorphic Raised/Pressed transitions on M3 buttons/cards.
+- **Hardware-Accelerated Shadow Caching**: Thread-safe `LruCache` shadow renderer caching pre-rendered blurred bitmaps to bypass CPU blurs, achieving **120fps scrolling**.
+- **Stepped Tactile Feedback**: Integrated micro-vibration ticks (`HapticFeedbackType.TextHandleMove`) on every 5% interval boundary of sliders/range sliders, and click haptics on buttons.
+- **Dynamic Sensor-Driven Lighting (`rememberSensorLightSource`)**: Accelerometer light vector binder that smooths shadow rotations in response to physical tilt.
+- **Previews Parameterization**: `NeoPreviewParamsProvider` providing 6 common preview setups in Android Studio.
+
+---
+
 ## [1.2.0] - 2026-07-21
 
 ### Added

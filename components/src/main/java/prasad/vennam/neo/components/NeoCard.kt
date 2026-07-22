@@ -10,12 +10,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.theme.NeoColors
+import prasad.vennam.neo.theme.NeoPreviewParams
+import prasad.vennam.neo.theme.NeoPreviewParamsProvider
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
@@ -42,6 +45,7 @@ public fun NeoCard(
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     contentPadding: PaddingValues = PaddingValues(NeoTheme.spacing.medium),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
+    specularHighlight: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     NeoSurface(
@@ -52,7 +56,8 @@ public fun NeoCard(
         colors = colors,
         lightSource = lightSource,
         animationSpec = animationSpec,
-        contentAlignment = Alignment.TopStart
+        contentAlignment = Alignment.TopStart,
+        specularHighlight = specularHighlight
     ) {
         Box(
             modifier = Modifier.padding(contentPadding),
@@ -61,14 +66,17 @@ public fun NeoCard(
     }
 }
 
-@Preview(name = "NeoCard - Raised Preview")
+@Preview(name = "NeoCard - Parameterized Previews")
 @Composable
-private fun NeoCardPreview() {
-    NeoTheme {
+private fun NeoCardParameterizedPreview(
+    @PreviewParameter(NeoPreviewParamsProvider::class) params: NeoPreviewParams
+) {
+    NeoTheme(colors = params.colors) {
         Box(modifier = Modifier.padding(16.dp)) {
-            NeoCard {
+            NeoCard(style = params.style) {
                 Text("Neumorphic Card Section", style = NeoTheme.typography.body, color = NeoTheme.colors.textPrimary)
             }
         }
     }
 }
+

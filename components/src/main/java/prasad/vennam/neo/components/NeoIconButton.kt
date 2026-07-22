@@ -15,6 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -71,6 +73,8 @@ public fun NeoIconButton(
         animationSpec = animationSpec.elevationSpec
     )
 
+    val haptic = LocalHapticFeedback.current
+
     Box(
         modifier = modifier
             .size(size)
@@ -88,7 +92,12 @@ public fun NeoIconButton(
                 indication = null,
                 enabled = enabled,
                 role = Role.Button,
-                onClick = onClick
+                onClick = {
+                    if (enabled) {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    }
+                    onClick()
+                }
             ),
         contentAlignment = Alignment.Center
     ) {
