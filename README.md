@@ -7,6 +7,8 @@
 
 **NeoCompose** is a state-of-the-art, high-performance **Neumorphism (Soft UI)** design system library built natively for **Android & Jetpack Compose**. It provides hardware-accelerated Canvas rendering, tokenized design system architecture (`NeoTheme.size`, `NeoTheme.icons`), smooth 60fps/120fps elevation physics, and **31 production-ready components**.
 
+👉 **[Try the Interactive Web Showcase & Playground!](https://prasadvennam1005.github.io/NeoCompose/showcase/index.html)**
+
 ---
 
 ## 📱 Live Emulator Showcase
