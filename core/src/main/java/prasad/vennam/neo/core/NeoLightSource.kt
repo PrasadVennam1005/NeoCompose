@@ -15,7 +15,7 @@ import kotlin.math.sin
 @Immutable
 public data class NeoLightSource(
     public val angleDegrees: Float = 315f,
-    public val intensity: Float = 1.0f
+    public val intensity: Float = 1.0f,
 ) {
     /**
      * Calculates the 2D offset vector for dark shadows cast away from the light source.

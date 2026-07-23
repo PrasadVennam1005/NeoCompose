@@ -21,19 +21,21 @@ import androidx.compose.ui.unit.dp
 public fun Modifier.neoBorder(
     width: Dp = 1.dp,
     color: Color = Color.White.copy(alpha = 0.2f),
-    shape: Shape
-): Modifier = this.drawBehind {
-    val widthPx = width.toPx()
-    if (widthPx <= 0f) return@drawBehind
+    shape: Shape,
+): Modifier =
+    this.drawBehind {
+        val widthPx = width.toPx()
+        if (widthPx <= 0f) return@drawBehind
 
-    val outline: Outline = shape.createOutline(size, layoutDirection, this)
-    val path = Path().apply {
-        addOutline(outline)
+        val outline: Outline = shape.createOutline(size, layoutDirection, this)
+        val path =
+            Path().apply {
+                addOutline(outline)
+            }
+
+        drawPath(
+            path = path,
+            color = color,
+            style = Stroke(width = widthPx),
+        )
     }
-
-    drawPath(
-        path = path,
-        color = color,
-        style = Stroke(width = widthPx)
-    )
-}

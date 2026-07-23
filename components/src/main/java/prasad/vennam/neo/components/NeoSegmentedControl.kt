@@ -50,57 +50,59 @@ public fun NeoSegmentedControl(
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .neoStyle(
-                style = NeoStyle.Inset,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = elevation,
-                lightSource = lightSource
-            )
-            .padding(NeoTheme.spacing.extraSmall)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .neoStyle(
+                    style = NeoStyle.Inset,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = elevation,
+                    lightSource = lightSource,
+                )
+                .padding(NeoTheme.spacing.extraSmall),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             items.forEachIndexed { index, title ->
                 val isSelected = index == selectedIndex
                 val interactionSource = remember { MutableInteractionSource() }
 
                 Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .neoStyle(
-                            style = if (isSelected) NeoStyle.Raised else NeoStyle.Flat,
-                            shape = CircleShape,
-                            backgroundColor = if (isSelected) colors.surface else colors.surface.copy(alpha = 0f),
-                            lightColor = colors.lightShadow,
-                            darkColor = colors.darkShadow,
-                            elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
-                            lightSource = lightSource
-                        )
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            enabled = enabled,
-                            role = Role.Tab,
-                            onClick = { onOptionSelected(index) }
-                        )
-                        .padding(vertical = NeoTheme.spacing.medium),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .neoStyle(
+                                style = if (isSelected) NeoStyle.Raised else NeoStyle.Flat,
+                                shape = CircleShape,
+                                backgroundColor = if (isSelected) colors.surface else colors.surface.copy(alpha = 0f),
+                                lightColor = colors.lightShadow,
+                                darkColor = colors.darkShadow,
+                                elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
+                                lightSource = lightSource,
+                            )
+                            .clickable(
+                                interactionSource = interactionSource,
+                                indication = null,
+                                enabled = enabled,
+                                role = Role.Tab,
+                                onClick = { onOptionSelected(index) },
+                            )
+                            .padding(vertical = NeoTheme.spacing.medium),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = title,
                         style = NeoTheme.typography.label,
-                        color = if (isSelected) colors.primary else colors.textSecondary
+                        color = if (isSelected) colors.primary else colors.textSecondary,
                     )
                 }
             }
@@ -116,7 +118,7 @@ private fun NeoSegmentedControlPreview() {
             NeoSegmentedControl(
                 items = listOf("Day", "Week", "Month"),
                 selectedIndex = 0,
-                onOptionSelected = {}
+                onOptionSelected = {},
             )
         }
     }

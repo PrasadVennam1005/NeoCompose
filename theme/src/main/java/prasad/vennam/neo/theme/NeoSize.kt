@@ -35,5 +35,5 @@ public data class NeoSize(
     public val trackHeightMedium: Dp = 28.dp,
     public val thumbSizeSmall: Dp = 12.dp,
     public val thumbSizeMedium: Dp = 24.dp,
-    public val thumbSizeLarge: Dp = 26.dp
+    public val thumbSizeLarge: Dp = 26.dp,
 )

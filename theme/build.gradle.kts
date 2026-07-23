@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     `maven-publish`
 }
@@ -44,7 +45,9 @@ afterEvaluate {
 
                 pom {
                     name.set("NeoCompose Theme")
-                    description.set("NeoTheme design system tokens, auto-derived light/dark color schemes, and CompositionLocals.")
+                    description.set(
+                        "NeoTheme design system tokens, auto-derived light/dark color schemes, and CompositionLocals.",
+                    )
                     url.set("https://github.com/prasadvennam/ComposeComponentsPlugNPlay")
                     licenses {
                         license {

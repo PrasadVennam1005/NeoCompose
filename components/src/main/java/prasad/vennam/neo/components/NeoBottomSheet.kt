@@ -55,7 +55,7 @@ public fun NeoBottomSheet(
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
@@ -66,32 +66,34 @@ public fun NeoBottomSheet(
         dragHandle = {
             // Recessed Neumorphic drag handle pill
             Box(
-                modifier = Modifier
-                    .padding(vertical = NeoTheme.spacing.medium)
-                    .width(NeoTheme.size.controlMedium)
-                    .height(NeoTheme.size.trackHeightSlim)
-                    .neoStyle(
-                        style = NeoStyle.Inset,
-                        shape = CircleShape,
-                        backgroundColor = colors.surface,
-                        lightColor = colors.lightShadow,
-                        darkColor = colors.darkShadow,
-                        elevation = NeoTheme.elevation.level2,
-                        lightSource = lightSource
-                    )
+                modifier =
+                    Modifier
+                        .padding(vertical = NeoTheme.spacing.medium)
+                        .width(NeoTheme.size.controlMedium)
+                        .height(NeoTheme.size.trackHeightSlim)
+                        .neoStyle(
+                            style = NeoStyle.Inset,
+                            shape = CircleShape,
+                            backgroundColor = colors.surface,
+                            lightColor = colors.lightShadow,
+                            darkColor = colors.darkShadow,
+                            elevation = NeoTheme.elevation.level2,
+                            lightSource = lightSource,
+                        ),
             )
         },
-        modifier = modifier
+        modifier = modifier,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = NeoTheme.spacing.medium,
-                    end = NeoTheme.spacing.medium,
-                    bottom = NeoTheme.spacing.large
-                ),
-            content = content
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = NeoTheme.spacing.medium,
+                        end = NeoTheme.spacing.medium,
+                        bottom = NeoTheme.spacing.large,
+                    ),
+            content = content,
         )
     }
 }
@@ -104,24 +106,33 @@ private fun NeoBottomSheetContentPreview() {
             NeoCard(modifier = Modifier.fillMaxWidth()) {
                 Column {
                     Box(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .width(48.dp)
-                            .height(6.dp)
-                            .neoStyle(
-                                style = NeoStyle.Inset,
-                                shape = CircleShape,
-                                backgroundColor = NeoTheme.colors.surface,
-                                lightColor = NeoTheme.colors.lightShadow,
-                                darkColor = NeoTheme.colors.darkShadow,
-                                elevation = NeoTheme.elevation.level2,
-                                lightSource = NeoTheme.lighting.lightSource
-                            )
+                        modifier =
+                            Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .width(48.dp)
+                                .height(6.dp)
+                                .neoStyle(
+                                    style = NeoStyle.Inset,
+                                    shape = CircleShape,
+                                    backgroundColor = NeoTheme.colors.surface,
+                                    lightColor = NeoTheme.colors.lightShadow,
+                                    darkColor = NeoTheme.colors.darkShadow,
+                                    elevation = NeoTheme.elevation.level2,
+                                    lightSource = NeoTheme.lighting.lightSource,
+                                ),
                     )
                     Spacer(Modifier.height(16.dp))
-                    Text("Neumorphic Bottom Sheet", style = NeoTheme.typography.display, color = NeoTheme.colors.textPrimary)
+                    Text(
+                        "Neumorphic Bottom Sheet",
+                        style = NeoTheme.typography.display,
+                        color = NeoTheme.colors.textPrimary,
+                    )
                     Spacer(Modifier.height(8.dp))
-                    Text("Drag down or tap backdrop to dismiss", style = NeoTheme.typography.body, color = NeoTheme.colors.textSecondary)
+                    Text(
+                        "Drag down or tap backdrop to dismiss",
+                        style = NeoTheme.typography.body,
+                        color = NeoTheme.colors.textSecondary,
+                    )
                 }
             }
         }

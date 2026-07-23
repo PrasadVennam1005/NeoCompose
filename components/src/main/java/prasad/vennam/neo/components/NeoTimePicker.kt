@@ -4,10 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -53,7 +51,7 @@ public fun NeoTimePicker(
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     NeoCard(
         modifier = modifier.fillMaxWidth(),
@@ -62,12 +60,12 @@ public fun NeoTimePicker(
         elevation = elevation,
         colors = colors,
         lightSource = lightSource,
-        animationSpec = animationSpec
+        animationSpec = animationSpec,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             // Hour Stepper
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -76,7 +74,7 @@ public fun NeoTimePicker(
                     value = hour,
                     onValueChange = onHourChange,
                     range = 1..12,
-                    lightSource = lightSource
+                    lightSource = lightSource,
                 )
             }
 
@@ -90,7 +88,7 @@ public fun NeoTimePicker(
                     onValueChange = onMinuteChange,
                     range = 0..59,
                     step = 5,
-                    lightSource = lightSource
+                    lightSource = lightSource,
                 )
             }
 
@@ -101,7 +99,7 @@ public fun NeoTimePicker(
                     label = if (isAm) "AM" else "PM",
                     selected = true,
                     onClick = { onAmPmToggle(!isAm) },
-                    lightSource = lightSource
+                    lightSource = lightSource,
                 )
             }
         }
@@ -119,7 +117,7 @@ private fun NeoTimePickerPreview() {
                 isAm = true,
                 onHourChange = {},
                 onMinuteChange = {},
-                onAmPmToggle = {}
+                onAmPmToggle = {},
             )
         }
     }

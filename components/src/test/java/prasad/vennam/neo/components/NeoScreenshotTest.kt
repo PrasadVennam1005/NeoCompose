@@ -14,24 +14,25 @@ import org.junit.Test
 import prasad.vennam.neo.theme.NeoTheme
 
 class NeoScreenshotTest {
-
     @get:Rule
-    val paparazzi = Paparazzi(
-        deviceConfig = DeviceConfig.PIXEL_5
-    )
+    val paparazzi =
+        Paparazzi(
+            deviceConfig = DeviceConfig.PIXEL_5,
+        )
 
     @Test
     fun renderNeoButton_defaultState() {
         paparazzi.snapshot {
             NeoTheme {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(24.dp),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(24.dp),
+                    contentAlignment = Alignment.Center,
                 ) {
                     NeoButton(
-                        onClick = {}
+                        onClick = {},
                     ) {
                         Text("Paparazzi Button")
                     }

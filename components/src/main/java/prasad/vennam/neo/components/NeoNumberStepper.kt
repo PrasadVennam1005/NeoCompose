@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
@@ -14,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -54,39 +51,40 @@ public fun NeoNumberStepper(
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     val canDecrement = enabled && value - step >= range.first
     val canIncrement = enabled && value + step <= range.last
 
     Box(
-        modifier = modifier
-            .neoStyle(
-                style = style,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = elevation,
-                lightSource = lightSource
-            )
-            .padding(NeoTheme.spacing.extraSmall)
+        modifier =
+            modifier
+                .neoStyle(
+                    style = style,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = elevation,
+                    lightSource = lightSource,
+                )
+                .padding(NeoTheme.spacing.extraSmall),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small)
+            horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small),
         ) {
             // Decrement Button (-)
             NeoIconButton(
                 onClick = { if (canDecrement) onValueChange(value - step) },
                 enabled = canDecrement,
                 size = NeoTheme.size.controlSmall,
-                lightSource = lightSource
+                lightSource = lightSource,
             ) {
                 Text(
                     text = "−",
                     style = NeoTheme.typography.title,
-                    color = if (canDecrement) colors.primary else colors.textSecondary.copy(alpha = 0.5f)
+                    color = if (canDecrement) colors.primary else colors.textSecondary.copy(alpha = 0.5f),
                 )
             }
 
@@ -95,7 +93,7 @@ public fun NeoNumberStepper(
                 text = value.toString(),
                 style = NeoTheme.typography.title,
                 color = colors.textPrimary,
-                modifier = Modifier.padding(horizontal = NeoTheme.spacing.small)
+                modifier = Modifier.padding(horizontal = NeoTheme.spacing.small),
             )
 
             // Increment Button (+)
@@ -103,12 +101,12 @@ public fun NeoNumberStepper(
                 onClick = { if (canIncrement) onValueChange(value + step) },
                 enabled = canIncrement,
                 size = NeoTheme.size.controlSmall,
-                lightSource = lightSource
+                lightSource = lightSource,
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Increment",
-                    tint = if (canIncrement) colors.primary else colors.textSecondary.copy(alpha = 0.5f)
+                    tint = if (canIncrement) colors.primary else colors.textSecondary.copy(alpha = 0.5f),
                 )
             }
         }
@@ -122,7 +120,7 @@ private fun NeoNumberStepperPreview() {
         Box(modifier = Modifier.padding(16.dp)) {
             NeoNumberStepper(
                 value = 5,
-                onValueChange = {}
+                onValueChange = {},
             )
         }
     }

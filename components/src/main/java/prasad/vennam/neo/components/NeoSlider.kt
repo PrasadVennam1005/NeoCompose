@@ -15,22 +15,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
@@ -68,12 +68,15 @@ public fun NeoSlider(
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val rangeLength = valueRange.endInclusive - valueRange.start
-    val normalizedValue = if (rangeLength > 0f) {
-        ((value - valueRange.start) / rangeLength).coerceIn(0f, 1f)
-    } else 0f
+    val normalizedValue =
+        if (rangeLength > 0f) {
+            ((value - valueRange.start) / rangeLength).coerceIn(0f, 1f)
+        } else {
+            0f
+        }
 
     val haptic = LocalHapticFeedback.current
     val stepSize = 0.05f
@@ -91,10 +94,11 @@ public fun NeoSlider(
     val containerHeightDp = NeoTheme.size.trackHeightMedium
 
     BoxWithConstraints(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(containerHeightDp),
-        contentAlignment = Alignment.CenterStart
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(containerHeightDp),
+        contentAlignment = Alignment.CenterStart,
     ) {
         val totalWidthPx = constraints.maxWidth.toFloat()
         val thumbSizePx = with(density) { thumbSizeDp.toPx() }
@@ -103,68 +107,71 @@ public fun NeoSlider(
 
         // Recessed track background groove
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(trackHeightDp)
-                .neoStyle(
-                    style = style,
-                    shape = shape,
-                    backgroundColor = colors.surface,
-                    lightColor = colors.lightShadow,
-                    darkColor = colors.darkShadow,
-                    elevation = elevation,
-                    lightSource = lightSource,
-                    borderWidth = NeoTheme.size.borderThin,
-                    borderColor = colors.border.copy(alpha = 0.4f)
-                )
-                .pointerInput(enabled, valueRange, maxOffsetPx) {
-                    if (enabled && maxOffsetPx > 0f) {
-                        detectTapGestures { offset ->
-                            val newNormalized = (offset.x / maxOffsetPx).coerceIn(0f, 1f)
-                            onValueChange(valueRange.start + newNormalized * rangeLength)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(trackHeightDp)
+                    .neoStyle(
+                        style = style,
+                        shape = shape,
+                        backgroundColor = colors.surface,
+                        lightColor = colors.lightShadow,
+                        darkColor = colors.darkShadow,
+                        elevation = elevation,
+                        lightSource = lightSource,
+                        borderWidth = NeoTheme.size.borderThin,
+                        borderColor = colors.border.copy(alpha = 0.4f),
+                    )
+                    .pointerInput(enabled, valueRange, maxOffsetPx) {
+                        if (enabled && maxOffsetPx > 0f) {
+                            detectTapGestures { offset ->
+                                val newNormalized = (offset.x / maxOffsetPx).coerceIn(0f, 1f)
+                                onValueChange(valueRange.start + newNormalized * rangeLength)
+                            }
                         }
-                    }
-                },
-            contentAlignment = Alignment.CenterStart
+                    },
+            contentAlignment = Alignment.CenterStart,
         ) {
             // Active progress fill bar inside track
             val fillWidthDp = with(density) { (currentOffsetPx + thumbSizePx / 2f).toDp() }
             Box(
-                modifier = Modifier
-                    .width(fillWidthDp)
-                    .fillMaxHeight()
-                    .clip(shape)
-                    .background(colors.primary.copy(alpha = 0.85f))
+                modifier =
+                    Modifier
+                        .width(fillWidthDp)
+                        .fillMaxHeight()
+                        .clip(shape)
+                        .background(colors.primary.copy(alpha = 0.85f)),
             )
         }
 
         // Draggable elevated thumb
         Box(
-            modifier = Modifier
-                .offset { IntOffset(currentOffsetPx.roundToInt(), 0) }
-                .size(thumbSizeDp)
-                .neoStyle(
-                    style = NeoStyle.Raised,
-                    shape = CircleShape,
-                    backgroundColor = colors.primary,
-                    lightColor = colors.lightShadow,
-                    darkColor = colors.darkShadow,
-                    elevation = NeoTheme.elevation.level3,
-                    lightSource = lightSource,
-                    borderWidth = NeoTheme.size.borderMedium,
-                    borderColor = colors.onPrimary.copy(alpha = 0.5f)
-                )
-                .pointerInput(enabled, valueRange, maxOffsetPx) {
-                    if (enabled && maxOffsetPx > 0f) {
-                        detectDragGestures { change, dragAmount ->
-                            change.consume()
-                            val deltaNormalized = dragAmount.x / maxOffsetPx
-                            val currentNormalized = ((value - valueRange.start) / rangeLength).coerceIn(0f, 1f)
-                            val newNormalized = (currentNormalized + deltaNormalized).coerceIn(0f, 1f)
-                            onValueChange(valueRange.start + newNormalized * rangeLength)
+            modifier =
+                Modifier
+                    .offset { IntOffset(currentOffsetPx.roundToInt(), 0) }
+                    .size(thumbSizeDp)
+                    .neoStyle(
+                        style = NeoStyle.Raised,
+                        shape = CircleShape,
+                        backgroundColor = colors.primary,
+                        lightColor = colors.lightShadow,
+                        darkColor = colors.darkShadow,
+                        elevation = NeoTheme.elevation.level3,
+                        lightSource = lightSource,
+                        borderWidth = NeoTheme.size.borderMedium,
+                        borderColor = colors.onPrimary.copy(alpha = 0.5f),
+                    )
+                    .pointerInput(enabled, valueRange, maxOffsetPx) {
+                        if (enabled && maxOffsetPx > 0f) {
+                            detectDragGestures { change, dragAmount ->
+                                change.consume()
+                                val deltaNormalized = dragAmount.x / maxOffsetPx
+                                val currentNormalized = ((value - valueRange.start) / rangeLength).coerceIn(0f, 1f)
+                                val newNormalized = (currentNormalized + deltaNormalized).coerceIn(0f, 1f)
+                                onValueChange(valueRange.start + newNormalized * rangeLength)
+                            }
                         }
-                    }
-                }
+                    },
         )
     }
 }

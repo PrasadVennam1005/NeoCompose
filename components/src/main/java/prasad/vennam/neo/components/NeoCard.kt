@@ -46,7 +46,7 @@ public fun NeoCard(
     contentPadding: PaddingValues = PaddingValues(NeoTheme.spacing.medium),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     specularHighlight: Boolean = false,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     NeoSurface(
         modifier = modifier,
@@ -57,11 +57,11 @@ public fun NeoCard(
         lightSource = lightSource,
         animationSpec = animationSpec,
         contentAlignment = Alignment.TopStart,
-        specularHighlight = specularHighlight
+        specularHighlight = specularHighlight,
     ) {
         Box(
             modifier = Modifier.padding(contentPadding),
-            content = content
+            content = content,
         )
     }
 }
@@ -69,7 +69,7 @@ public fun NeoCard(
 @Preview(name = "NeoCard - Parameterized Previews")
 @Composable
 private fun NeoCardParameterizedPreview(
-    @PreviewParameter(NeoPreviewParamsProvider::class) params: NeoPreviewParams
+    @PreviewParameter(NeoPreviewParamsProvider::class) params: NeoPreviewParams,
 ) {
     NeoTheme(colors = params.colors) {
         Box(modifier = Modifier.padding(16.dp)) {
@@ -79,4 +79,3 @@ private fun NeoCardParameterizedPreview(
         }
     }
 }
-

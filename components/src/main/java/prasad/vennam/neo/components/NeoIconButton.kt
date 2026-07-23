@@ -59,47 +59,48 @@ public fun NeoIconButton(
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val currentStyle by rememberNeoInteractionStyle(
         interactionSource = interactionSource,
         defaultStyle = style,
-        pressedStyle = NeoStyle.Pressed
+        pressedStyle = NeoStyle.Pressed,
     )
 
     val targetElevation = if (currentStyle is NeoStyle.Pressed) elevation * 0.3f else elevation
     val animatedElevation by animateNeoElevationAsState(
         targetElevation = targetElevation,
-        animationSpec = animationSpec.elevationSpec
+        animationSpec = animationSpec.elevationSpec,
     )
 
     val haptic = LocalHapticFeedback.current
 
     Box(
-        modifier = modifier
-            .size(size)
-            .neoStyle(
-                style = currentStyle,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = animatedElevation,
-                lightSource = lightSource
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                enabled = enabled,
-                role = Role.Button,
-                onClick = {
-                    if (enabled) {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    }
-                    onClick()
-                }
-            ),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .size(size)
+                .neoStyle(
+                    style = currentStyle,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = animatedElevation,
+                    lightSource = lightSource,
+                )
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    enabled = enabled,
+                    role = Role.Button,
+                    onClick = {
+                        if (enabled) {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
+                        onClick()
+                    },
+                ),
+        contentAlignment = Alignment.Center,
     ) {
         content()
     }

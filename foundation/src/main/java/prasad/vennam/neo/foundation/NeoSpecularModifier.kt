@@ -65,46 +65,49 @@ public fun Modifier.neoSpecular(
     lightSource: NeoLightSource,
     intensity: Float = 0.2f,
     shininess: Float = 12f,
-    enabled: Boolean = true
-): Modifier = if (enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-    this.graphicsLayer {
-        val lightDist = max(size.width, size.height) * 1.5f
-        val angleRad = Math.toRadians(lightSource.angleDegrees.toDouble())
-        val lightX = (size.width / 2f) + lightDist * cos(angleRad).toFloat()
-        val lightY = (size.height / 2f) + lightDist * sin(angleRad).toFloat()
+    enabled: Boolean = true,
+): Modifier =
+    if (enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        this.graphicsLayer {
+            val lightDist = max(size.width, size.height) * 1.5f
+            val angleRad = Math.toRadians(lightSource.angleDegrees.toDouble())
+            val lightX = (size.width / 2f) + lightDist * cos(angleRad).toFloat()
+            val lightY = (size.height / 2f) + lightDist * sin(angleRad).toFloat()
 
-        val shader = RuntimeShader(SPECULAR_SHADER_CODE)
-        shader.setFloatUniform("size", size.width, size.height)
-        shader.setFloatUniform("lightPosition", lightX, lightY)
-        shader.setFloatUniform("specularIntensity", intensity)
-        shader.setFloatUniform("specularShininess", shininess)
+            val shader = RuntimeShader(SPECULAR_SHADER_CODE)
+            shader.setFloatUniform("size", size.width, size.height)
+            shader.setFloatUniform("lightPosition", lightX, lightY)
+            shader.setFloatUniform("specularIntensity", intensity)
+            shader.setFloatUniform("specularShininess", shininess)
 
-        renderEffect = AndroidRenderEffect.createRuntimeShaderEffect(shader, "content").asComposeRenderEffect()
-    }
-} else if (enabled) {
-    // Fallback for API < 33: Draw a subtle specular highlight gradient overlay
-    this.drawWithCache {
-        val angleRad = Math.toRadians(lightSource.angleDegrees.toDouble())
-        // Start point is offset in direction of light source angle
-        val startOffset = Offset(
-            x = (size.width / 2f) - (size.width * 0.35f) * cos(angleRad).toFloat(),
-            y = (size.height / 2f) - (size.height * 0.35f) * sin(angleRad).toFloat()
-        )
-
-        onDrawWithContent {
-            drawContent()
-            // Draw a subtle radial gloss highlight at the light direction side
-            drawCircle(
-                brush = Brush.radialGradient(
-                    colors = listOf(Color.White.copy(alpha = intensity * 0.5f), Color.Transparent),
-                    center = startOffset,
-                    radius = max(size.width, size.height) * 0.4f
-                ),
-                radius = max(size.width, size.height) * 0.4f,
-                center = startOffset
-            )
+            renderEffect = AndroidRenderEffect.createRuntimeShaderEffect(shader, "content").asComposeRenderEffect()
         }
+    } else if (enabled) {
+        // Fallback for API < 33: Draw a subtle specular highlight gradient overlay
+        this.drawWithCache {
+            val angleRad = Math.toRadians(lightSource.angleDegrees.toDouble())
+            // Start point is offset in direction of light source angle
+            val startOffset =
+                Offset(
+                    x = (size.width / 2f) - (size.width * 0.35f) * cos(angleRad).toFloat(),
+                    y = (size.height / 2f) - (size.height * 0.35f) * sin(angleRad).toFloat(),
+                )
+
+            onDrawWithContent {
+                drawContent()
+                // Draw a subtle radial gloss highlight at the light direction side
+                drawCircle(
+                    brush =
+                        Brush.radialGradient(
+                            colors = listOf(Color.White.copy(alpha = intensity * 0.5f), Color.Transparent),
+                            center = startOffset,
+                            radius = max(size.width, size.height) * 0.4f,
+                        ),
+                    radius = max(size.width, size.height) * 0.4f,
+                    center = startOffset,
+                )
+            }
+        }
+    } else {
+        this
     }
-} else {
-    this
-}

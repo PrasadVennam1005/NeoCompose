@@ -1,10 +1,6 @@
 package prasad.vennam.neo.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -70,41 +66,42 @@ public fun NeoDropdownMenu(
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     Box(modifier = modifier) {
         // Dropdown Header Box
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .neoStyle(
-                    style = style,
-                    shape = shape,
-                    backgroundColor = colors.surface,
-                    lightColor = colors.lightShadow,
-                    darkColor = colors.darkShadow,
-                    elevation = elevation,
-                    lightSource = lightSource,
-                    borderWidth = if (expanded) NeoTheme.size.borderMedium else Dp(0f),
-                    borderColor = if (expanded) colors.primary else colors.border
-                )
-                .clickable(
-                    enabled = enabled,
-                    role = Role.Button,
-                    onClick = { expanded = !expanded }
-                )
-                .padding(
-                    horizontal = NeoTheme.spacing.medium,
-                    vertical = NeoTheme.spacing.medium
-                ),
-            contentAlignment = Alignment.CenterStart
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .neoStyle(
+                        style = style,
+                        shape = shape,
+                        backgroundColor = colors.surface,
+                        lightColor = colors.lightShadow,
+                        darkColor = colors.darkShadow,
+                        elevation = elevation,
+                        lightSource = lightSource,
+                        borderWidth = if (expanded) NeoTheme.size.borderMedium else Dp(0f),
+                        borderColor = if (expanded) colors.primary else colors.border,
+                    )
+                    .clickable(
+                        enabled = enabled,
+                        role = Role.Button,
+                        onClick = { expanded = !expanded },
+                    )
+                    .padding(
+                        horizontal = NeoTheme.spacing.medium,
+                        vertical = NeoTheme.spacing.medium,
+                    ),
+            contentAlignment = Alignment.CenterStart,
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (leadingIcon != null) {
@@ -114,7 +111,7 @@ public fun NeoDropdownMenu(
                     Text(
                         text = selectedOption.ifEmpty { placeholder },
                         style = NeoTheme.typography.body,
-                        color = if (selectedOption.isNotEmpty()) colors.textPrimary else colors.textSecondary
+                        color = if (selectedOption.isNotEmpty()) colors.textPrimary else colors.textSecondary,
                     )
                 }
 
@@ -122,7 +119,7 @@ public fun NeoDropdownMenu(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = "Dropdown Toggle",
                     tint = if (expanded) colors.primary else colors.textSecondary,
-                    modifier = Modifier.padding(start = NeoTheme.spacing.small)
+                    modifier = Modifier.padding(start = NeoTheme.spacing.small),
                 )
             }
         }
@@ -131,55 +128,64 @@ public fun NeoDropdownMenu(
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .neoStyle(
-                    style = NeoStyle.Raised,
-                    shape = NeoTheme.shapes.large,
-                    backgroundColor = colors.surface,
-                    lightColor = colors.lightShadow,
-                    darkColor = colors.darkShadow,
-                    elevation = NeoTheme.elevation.level4,
-                    lightSource = lightSource
-                )
-                .padding(NeoTheme.spacing.small)
+            modifier =
+                Modifier
+                    .fillMaxWidth(0.9f)
+                    .neoStyle(
+                        style = NeoStyle.Raised,
+                        shape = NeoTheme.shapes.large,
+                        backgroundColor = colors.surface,
+                        lightColor = colors.lightShadow,
+                        darkColor = colors.darkShadow,
+                        elevation = NeoTheme.elevation.level4,
+                        lightSource = lightSource,
+                    )
+                    .padding(NeoTheme.spacing.small),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.extraSmall)) {
                 options.forEach { option ->
                     val isSelected = option == selectedOption
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .neoStyle(
-                                style = if (isSelected) NeoStyle.Inset else NeoStyle.Flat,
-                                shape = NeoTheme.shapes.medium,
-                                backgroundColor = if (isSelected) colors.surface else colors.surface.copy(alpha = 0f),
-                                lightColor = colors.lightShadow,
-                                darkColor = colors.darkShadow,
-                                elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
-                                lightSource = lightSource
-                            )
-                            .clickable {
-                                onOptionSelected(option)
-                                expanded = false
-                            }
-                            .padding(
-                                horizontal = NeoTheme.spacing.medium,
-                                vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall
-                            ),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .neoStyle(
+                                    style = if (isSelected) NeoStyle.Inset else NeoStyle.Flat,
+                                    shape = NeoTheme.shapes.medium,
+                                    backgroundColor =
+                                        if (isSelected) {
+                                            colors.surface
+                                        } else {
+                                            colors.surface.copy(
+                                                alpha = 0f,
+                                            )
+                                        },
+                                    lightColor = colors.lightShadow,
+                                    darkColor = colors.darkShadow,
+                                    elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
+                                    lightSource = lightSource,
+                                )
+                                .clickable {
+                                    onOptionSelected(option)
+                                    expanded = false
+                                }
+                                .padding(
+                                    horizontal = NeoTheme.spacing.medium,
+                                    vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall,
+                                ),
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = option,
                             style = NeoTheme.typography.body,
-                            color = if (isSelected) colors.primary else colors.textPrimary
+                            color = if (isSelected) colors.primary else colors.textPrimary,
                         )
                         if (isSelected) {
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = "Selected",
-                                tint = colors.primary
+                                tint = colors.primary,
                             )
                         }
                     }
@@ -197,7 +203,7 @@ private fun NeoDropdownMenuPreview() {
             NeoDropdownMenu(
                 selectedOption = "Australia",
                 options = listOf("Argentina", "Armenia", "Australia"),
-                onOptionSelected = {}
+                onOptionSelected = {},
             )
         }
     }

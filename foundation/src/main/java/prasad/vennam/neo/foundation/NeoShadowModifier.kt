@@ -35,7 +35,7 @@ public data class ShadowCacheKey(
     val lightColor: Color,
     val darkColor: Color,
     val elevationDp: Float,
-    val lightSource: NeoLightSource
+    val lightSource: NeoLightSource,
 )
 
 // Thread-safe shadow cache with a limit of 50 computed bitmaps.
@@ -58,119 +58,123 @@ public fun Modifier.neoShadow(
     lightColor: Color,
     darkColor: Color,
     elevation: Dp = 6.dp,
-    lightSource: NeoLightSource = NeoLightSource.TopLeft
-): Modifier = this.drawBehind {
-    val width = size.width.toInt()
-    val height = size.height.toInt()
-    if (width <= 0 || height <= 0) return@drawBehind
+    lightSource: NeoLightSource = NeoLightSource.TopLeft,
+): Modifier =
+    this.drawBehind {
+        val width = size.width.toInt()
+        val height = size.height.toInt()
+        if (width <= 0 || height <= 0) return@drawBehind
 
-    val distancePx = elevation.toPx()
-    val blurRadiusPx = distancePx * 1.5f
+        val distancePx = elevation.toPx()
+        val blurRadiusPx = distancePx * 1.5f
 
-    // Calculate dynamic padding to prevent shadow boundary clipping
-    val darkOffset = lightSource.calculateDarkShadowOffset(distancePx)
-    val lightOffset = lightSource.calculateLightShadowOffset(distancePx)
-    val maxOffset = max(
-        max(abs(darkOffset.x), abs(darkOffset.y)),
-        max(abs(lightOffset.x), abs(lightOffset.y))
-    )
-    val padding = ceil(blurRadiusPx * 2f + maxOffset).toInt()
+        // Calculate dynamic padding to prevent shadow boundary clipping
+        val darkOffset = lightSource.calculateDarkShadowOffset(distancePx)
+        val lightOffset = lightSource.calculateLightShadowOffset(distancePx)
+        val maxOffset =
+            max(
+                max(abs(darkOffset.x), abs(darkOffset.y)),
+                max(abs(lightOffset.x), abs(lightOffset.y)),
+            )
+        val padding = ceil(blurRadiusPx * 2f + maxOffset).toInt()
 
-    val cacheKey = ShadowCacheKey(
-        width = width,
-        height = height,
-        style = style,
-        shape = shape,
-        lightColor = lightColor,
-        darkColor = darkColor,
-        elevationDp = elevation.value,
-        lightSource = lightSource
-    )
+        val cacheKey =
+            ShadowCacheKey(
+                width = width,
+                height = height,
+                style = style,
+                shape = shape,
+                lightColor = lightColor,
+                darkColor = darkColor,
+                elevationDp = elevation.value,
+                lightSource = lightSource,
+            )
 
-    var cachedBitmap = shadowCache.get(cacheKey)
-    if (cachedBitmap == null) {
-        val bitmapWidth = width + padding * 2
-        val bitmapHeight = height + padding * 2
-        val imageBitmap = ImageBitmap(bitmapWidth, bitmapHeight)
-        val canvas = Canvas(imageBitmap)
-        val drawScope = CanvasDrawScope()
+        var cachedBitmap = shadowCache.get(cacheKey)
+        if (cachedBitmap == null) {
+            val bitmapWidth = width + padding * 2
+            val bitmapHeight = height + padding * 2
+            val imageBitmap = ImageBitmap(bitmapWidth, bitmapHeight)
+            val canvas = Canvas(imageBitmap)
+            val drawScope = CanvasDrawScope()
 
-        val componentSize = Size(width.toFloat(), height.toFloat())
+            val componentSize = Size(width.toFloat(), height.toFloat())
 
-        drawScope.draw(
-            density = this,
-            layoutDirection = layoutDirection,
-            canvas = canvas,
-            size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat())
-        ) {
-            translate(padding.toFloat(), padding.toFloat()) {
-                val outline: Outline = shape.createOutline(componentSize, layoutDirection, this)
-                val shapePath = Path().apply {
-                    addOutline(outline)
-                }
+            drawScope.draw(
+                density = this,
+                layoutDirection = layoutDirection,
+                canvas = canvas,
+                size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
+            ) {
+                translate(padding.toFloat(), padding.toFloat()) {
+                    val outline: Outline = shape.createOutline(componentSize, layoutDirection, this)
+                    val shapePath =
+                        Path().apply {
+                            addOutline(outline)
+                        }
 
-                when (style) {
-                    is NeoStyle.Raised, is NeoStyle.Concave, is NeoStyle.Convex -> {
-                        drawOuterShadows(
-                            path = shapePath,
-                            lightColor = lightColor,
-                            darkColor = darkColor,
-                            lightOffset = lightOffset,
-                            darkOffset = darkOffset,
-                            blurRadiusPx = blurRadiusPx
-                        )
-                    }
-                    is NeoStyle.Pressed, is NeoStyle.Inset -> {
-                        drawInnerShadows(
-                            shapePath = shapePath,
-                            lightColor = lightColor,
-                            darkColor = darkColor,
-                            lightOffset = lightOffset,
-                            darkOffset = darkOffset,
-                            blurRadiusPx = blurRadiusPx,
-                            size = componentSize
-                        )
-                    }
-                    is NeoStyle.Basin -> {
-                        drawOuterShadows(
-                            path = shapePath,
-                            lightColor = lightColor,
-                            darkColor = darkColor,
-                            lightOffset = lightOffset,
-                            darkOffset = darkOffset,
-                            blurRadiusPx = blurRadiusPx
-                        )
-                        drawInnerShadows(
-                            shapePath = shapePath,
-                            lightColor = lightColor,
-                            darkColor = darkColor,
-                            lightOffset = lightOffset,
-                            darkOffset = darkOffset,
-                            blurRadiusPx = blurRadiusPx * 0.75f,
-                            size = componentSize
-                        )
-                    }
-                    is NeoStyle.Flat -> {
-                        if (distancePx > 0f) {
+                    when (style) {
+                        is NeoStyle.Raised, is NeoStyle.Concave, is NeoStyle.Convex -> {
                             drawOuterShadows(
                                 path = shapePath,
-                                lightColor = lightColor.copy(alpha = lightColor.alpha * 0.5f),
-                                darkColor = darkColor.copy(alpha = darkColor.alpha * 0.5f),
-                                lightOffset = lightOffset * 0.5f,
-                                darkOffset = darkOffset * 0.5f,
-                                blurRadiusPx = blurRadiusPx * 0.5f
+                                lightColor = lightColor,
+                                darkColor = darkColor,
+                                lightOffset = lightOffset,
+                                darkOffset = darkOffset,
+                                blurRadiusPx = blurRadiusPx,
                             )
+                        }
+                        is NeoStyle.Pressed, is NeoStyle.Inset -> {
+                            drawInnerShadows(
+                                shapePath = shapePath,
+                                lightColor = lightColor,
+                                darkColor = darkColor,
+                                lightOffset = lightOffset,
+                                darkOffset = darkOffset,
+                                blurRadiusPx = blurRadiusPx,
+                                size = componentSize,
+                            )
+                        }
+                        is NeoStyle.Basin -> {
+                            drawOuterShadows(
+                                path = shapePath,
+                                lightColor = lightColor,
+                                darkColor = darkColor,
+                                lightOffset = lightOffset,
+                                darkOffset = darkOffset,
+                                blurRadiusPx = blurRadiusPx,
+                            )
+                            drawInnerShadows(
+                                shapePath = shapePath,
+                                lightColor = lightColor,
+                                darkColor = darkColor,
+                                lightOffset = lightOffset,
+                                darkOffset = darkOffset,
+                                blurRadiusPx = blurRadiusPx * 0.75f,
+                                size = componentSize,
+                            )
+                        }
+                        is NeoStyle.Flat -> {
+                            if (distancePx > 0f) {
+                                drawOuterShadows(
+                                    path = shapePath,
+                                    lightColor = lightColor.copy(alpha = lightColor.alpha * 0.5f),
+                                    darkColor = darkColor.copy(alpha = darkColor.alpha * 0.5f),
+                                    lightOffset = lightOffset * 0.5f,
+                                    darkOffset = darkOffset * 0.5f,
+                                    blurRadiusPx = blurRadiusPx * 0.5f,
+                                )
+                            }
                         }
                     }
                 }
             }
+            cachedBitmap = imageBitmap
+            shadowCache.put(cacheKey, cachedBitmap)
         }
-        cachedBitmap = imageBitmap
-        shadowCache.put(cacheKey, cachedBitmap)
-    }
 
-    drawImage(
-        image = cachedBitmap,
-        topLeft = Offset(-padding.toFloat(), -padding.toFloat())
-    )
-}
+        drawImage(
+            image = cachedBitmap,
+            topLeft = Offset(-padding.toFloat(), -padding.toFloat()),
+        )
+    }

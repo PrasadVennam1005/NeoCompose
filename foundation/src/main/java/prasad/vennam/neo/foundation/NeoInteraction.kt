@@ -20,7 +20,7 @@ import prasad.vennam.neo.core.NeoStyle
 public fun rememberNeoInteractionStyle(
     interactionSource: InteractionSource,
     defaultStyle: NeoStyle = NeoStyle.Raised,
-    pressedStyle: NeoStyle = NeoStyle.Pressed
+    pressedStyle: NeoStyle = NeoStyle.Pressed,
 ): State<NeoStyle> {
     val isPressed = interactionSource.collectIsPressedAsState()
     return remember(defaultStyle, pressedStyle) {

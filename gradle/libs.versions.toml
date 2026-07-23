@@ -36,10 +36,21 @@ androidx-compose-material-icons-extended = { group = "androidx.compose.material"
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "uiToolingPreview" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+androidx-benchmark-macro = { module = "androidx.benchmark:benchmark-macro-junit4", version = "1.4.1" }
+androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version = "1.4.0" }
+androidx-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version = "2.3.0" }
 
 [plugins]
+androidx-baselineprofile = { id = "androidx.baselineprofile", version = "1.4.1" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.6" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.1" }
+binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.16.3" }
+dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
+paparazzi = { id = "app.cash.paparazzi", version = "2.0.0-alpha05" }
+
 
 

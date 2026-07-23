@@ -14,7 +14,7 @@ import prasad.vennam.neo.core.NeoStyle
 public data class NeoPreviewParams(
     public val style: NeoStyle,
     public val colors: NeoColors,
-    public val name: String
+    public val name: String,
 )
 
 /**
@@ -22,36 +22,37 @@ public data class NeoPreviewParams(
  * surface styles for `@PreviewParameter` usage.
  */
 public class NeoPreviewParamsProvider : PreviewParameterProvider<NeoPreviewParams> {
-    override val values: Sequence<NeoPreviewParams> = sequenceOf(
-        NeoPreviewParams(
-            style = NeoStyle.Raised,
-            colors = NeoColors.defaultLightColors(),
-            name = "Light Raised"
-        ),
-        NeoPreviewParams(
-            style = NeoStyle.Pressed,
-            colors = NeoColors.defaultLightColors(),
-            name = "Light Pressed"
-        ),
-        NeoPreviewParams(
-            style = NeoStyle.Concave,
-            colors = NeoColors.defaultLightColors(),
-            name = "Light Concave"
-        ),
-        NeoPreviewParams(
-            style = NeoStyle.Raised,
-            colors = NeoColors.defaultDarkColors(),
-            name = "Dark Raised"
-        ),
-        NeoPreviewParams(
-            style = NeoStyle.Pressed,
-            colors = NeoColors.defaultDarkColors(),
-            name = "Dark Pressed"
-        ),
-        NeoPreviewParams(
-            style = NeoStyle.Concave,
-            colors = NeoColors.defaultDarkColors(),
-            name = "Dark Concave"
+    override val values: Sequence<NeoPreviewParams> =
+        sequenceOf(
+            NeoPreviewParams(
+                style = NeoStyle.Raised,
+                colors = NeoColors.defaultLightColors(),
+                name = "Light Raised",
+            ),
+            NeoPreviewParams(
+                style = NeoStyle.Pressed,
+                colors = NeoColors.defaultLightColors(),
+                name = "Light Pressed",
+            ),
+            NeoPreviewParams(
+                style = NeoStyle.Concave,
+                colors = NeoColors.defaultLightColors(),
+                name = "Light Concave",
+            ),
+            NeoPreviewParams(
+                style = NeoStyle.Raised,
+                colors = NeoColors.defaultDarkColors(),
+                name = "Dark Raised",
+            ),
+            NeoPreviewParams(
+                style = NeoStyle.Pressed,
+                colors = NeoColors.defaultDarkColors(),
+                name = "Dark Pressed",
+            ),
+            NeoPreviewParams(
+                style = NeoStyle.Concave,
+                colors = NeoColors.defaultDarkColors(),
+                name = "Dark Concave",
+            ),
         )
-    )
 }

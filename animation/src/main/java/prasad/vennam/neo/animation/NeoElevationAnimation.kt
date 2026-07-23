@@ -19,12 +19,13 @@ import prasad.vennam.neo.core.NeoStyle
 public fun animateNeoElevationAsState(
     targetElevation: Dp,
     animationSpec: AnimationSpec<Dp> = NeoAnimationSpec().elevationSpec,
-    label: String = "NeoElevationAnimation"
-): State<Dp> = animateDpAsState(
-    targetValue = targetElevation,
-    animationSpec = animationSpec,
-    label = label
-)
+    label: String = "NeoElevationAnimation",
+): State<Dp> =
+    animateDpAsState(
+        targetValue = targetElevation,
+        animationSpec = animationSpec,
+        label = label,
+    )
 
 /**
  * Derives and animates target elevation for a given [NeoStyle].
@@ -40,16 +41,17 @@ public fun animateNeoElevationForStyleAsState(
     style: NeoStyle,
     defaultElevation: Dp,
     pressedElevation: Dp = defaultElevation * 0.3f,
-    animationSpec: AnimationSpec<Dp> = NeoAnimationSpec().elevationSpec
+    animationSpec: AnimationSpec<Dp> = NeoAnimationSpec().elevationSpec,
 ): State<Dp> {
-    val target: Dp = when (style) {
-        is NeoStyle.Raised, is NeoStyle.Concave, is NeoStyle.Convex -> defaultElevation
-        is NeoStyle.Pressed, is NeoStyle.Inset -> pressedElevation
-        is NeoStyle.Flat -> defaultElevation * 0.5f
-        else -> {}
-    } as Dp
+    val target: Dp =
+        when (style) {
+            is NeoStyle.Raised, is NeoStyle.Concave, is NeoStyle.Convex -> defaultElevation
+            is NeoStyle.Pressed, is NeoStyle.Inset -> pressedElevation
+            is NeoStyle.Flat -> defaultElevation * 0.5f
+            else -> {}
+        } as Dp
     return animateNeoElevationAsState(
         targetElevation = target,
-        animationSpec = animationSpec
+        animationSpec = animationSpec,
     )
 }

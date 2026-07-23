@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     `maven-publish`
 }
@@ -44,7 +45,9 @@ afterEvaluate {
 
                 pom {
                     name.set("NeoCompose Animation")
-                    description.set("Spring and tween elevation depth transitions and dynamic light source rotation animators.")
+                    description.set(
+                        "Spring and tween elevation depth transitions and dynamic light source rotation animators.",
+                    )
                     url.set("https://github.com/prasadvennam/ComposeComponentsPlugNPlay")
                     licenses {
                         license {

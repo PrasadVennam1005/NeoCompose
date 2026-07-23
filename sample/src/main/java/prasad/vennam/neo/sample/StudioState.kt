@@ -1,8 +1,8 @@
 package prasad.vennam.neo.sample
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import prasad.vennam.neo.core.NeoStyle
@@ -13,20 +13,23 @@ public class StudioState {
     public var selectedStyleIndex: Int by mutableIntStateOf(0)
 
     public val selectedStyle: NeoStyle
-        get() = when (selectedStyleIndex) {
-            0 -> NeoStyle.Raised
-            1 -> NeoStyle.Pressed
-            2 -> NeoStyle.Inset
-            3 -> NeoStyle.Concave
-            4 -> NeoStyle.Convex
-            5 -> NeoStyle.Basin
-            else -> NeoStyle.Flat
-        }
+        get() =
+            when (selectedStyleIndex) {
+                0 -> NeoStyle.Raised
+                1 -> NeoStyle.Pressed
+                2 -> NeoStyle.Inset
+                3 -> NeoStyle.Concave
+                4 -> NeoStyle.Convex
+                5 -> NeoStyle.Basin
+                else -> NeoStyle.Flat
+            }
 
     public var isDarkTheme: Boolean by mutableStateOf(false)
     public var isAccessibilityMode: Boolean by mutableStateOf(false)
     public var isSensorLightingEnabled: Boolean by mutableStateOf(false)
     public var isGlossyShineEnabled: Boolean by mutableStateOf(false)
+    public var isAmbientContrastEnabled: Boolean by mutableStateOf(false)
+    public var isParallaxTiltEnabled: Boolean by mutableStateOf(false)
     public var lightAngle: Float by mutableFloatStateOf(315f)
     public var elevationDp: Float by mutableFloatStateOf(6f)
 
@@ -65,4 +68,15 @@ public class StudioState {
     public var isLightsOn: Boolean by mutableStateOf(true)
     public var isSecurityOn: Boolean by mutableStateOf(false)
     public var roomTemperature: Float by mutableFloatStateOf(22f)
+
+    // Interactive Sandbox State
+    public var sandboxSelectedComponent: String by mutableStateOf("NeoButton")
+    public var sandboxStyleIndex: Int by mutableIntStateOf(0)
+    public var sandboxButtonLabel: String by mutableStateOf("Neo Action")
+    public var sandboxButtonEnabled: Boolean by mutableStateOf(true)
+    public var sandboxCardElevation: Float by mutableFloatStateOf(6f)
+    public var sandboxCardSpecular: Boolean by mutableStateOf(false)
+    public var sandboxSwitchChecked: Boolean by mutableStateOf(true)
+    public var sandboxSliderValue: Float by mutableFloatStateOf(0.5f)
+    public var sandboxCodeCopied: Boolean by mutableStateOf(false)
 }

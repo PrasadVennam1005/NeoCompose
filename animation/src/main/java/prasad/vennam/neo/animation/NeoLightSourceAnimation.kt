@@ -18,24 +18,26 @@ import prasad.vennam.neo.core.NeoLightSource
 @Composable
 public fun animateNeoLightSourceAsState(
     targetLightSource: NeoLightSource,
-    animationSpec: AnimationSpec<Float> = NeoAnimationSpec().lightSourceSpec
+    animationSpec: AnimationSpec<Float> = NeoAnimationSpec().lightSourceSpec,
 ): State<NeoLightSource> {
-    val animatedAngle = animateFloatAsState(
-        targetValue = targetLightSource.angleDegrees,
-        animationSpec = animationSpec,
-        label = "NeoLightSourceAngleAnimation"
-    )
-    val animatedIntensity = animateFloatAsState(
-        targetValue = targetLightSource.intensity,
-        animationSpec = animationSpec,
-        label = "NeoLightSourceIntensityAnimation"
-    )
+    val animatedAngle =
+        animateFloatAsState(
+            targetValue = targetLightSource.angleDegrees,
+            animationSpec = animationSpec,
+            label = "NeoLightSourceAngleAnimation",
+        )
+    val animatedIntensity =
+        animateFloatAsState(
+            targetValue = targetLightSource.intensity,
+            animationSpec = animationSpec,
+            label = "NeoLightSourceIntensityAnimation",
+        )
 
     return remember(targetLightSource) {
         derivedStateOf {
             NeoLightSource(
                 angleDegrees = animatedAngle.value,
-                intensity = animatedIntensity.value
+                intensity = animatedIntensity.value,
             )
         }
     }

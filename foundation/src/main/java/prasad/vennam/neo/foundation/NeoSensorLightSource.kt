@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import prasad.vennam.neo.core.NeoLightSource
 import kotlin.math.atan2
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 /**
@@ -26,7 +27,7 @@ import kotlin.math.sqrt
 @Composable
 public fun rememberSensorLightSource(
     defaultAngleDegrees: Float = 315f,
-    smoothingFactor: Float = 0.1f
+    smoothingFactor: Float = 0.1f,
 ): NeoLightSource {
     val context = LocalContext.current
     var angleDegrees by remember { mutableFloatStateOf(defaultAngleDegrees) }
@@ -38,46 +39,53 @@ public fun rememberSensorLightSource(
         var listener: SensorEventListener? = null
 
         if (sensorManager != null && accelerometer != null) {
-            listener = object : SensorEventListener {
-                private var currentAngle = defaultAngleDegrees
+            listener =
+                object : SensorEventListener {
+                    private var currentAngle = defaultAngleDegrees
 
-                override fun onSensorChanged(event: SensorEvent) {
-                    val ax = event.values[0]
-                    val ay = event.values[1]
+                    override fun onSensorChanged(event: SensorEvent) {
+                        val ax = event.values[0]
+                        val ay = event.values[1]
 
-                    // Calculate tilt magnitude in the XY plane
-                    val magnitude = sqrt(ax * ax + ay * ay)
-                    if (magnitude > 1.5f) { // Only update when there's a clear tilt
-                        val targetAngleRad = atan2(-ay.toDouble(), ax.toDouble())
-                        var targetAngleDeg = Math.toDegrees(targetAngleRad).toFloat()
-                        // Map to [0, 360) range
-                        if (targetAngleDeg < 0) {
-                            targetAngleDeg += 360f
+                        // Calculate tilt magnitude in the XY plane
+                        val magnitude = sqrt(ax * ax + ay * ay)
+                        if (magnitude > 1.5f) { // Only update when there's a clear tilt
+                            val targetAngleRad = atan2(-ay.toDouble(), ax.toDouble())
+                            var targetAngleDeg = Math.toDegrees(targetAngleRad).toFloat()
+                            // Map to [0, 360) range
+                            if (targetAngleDeg < 0) {
+                                targetAngleDeg += 360f
+                            }
+
+                            // Apply low-pass smoothing
+                            // Handle wrap-around transitions smoothly
+                            var diff = targetAngleDeg - currentAngle
+                            if (diff > 180f) {
+                                diff -= 360f
+                            } else if (diff < -180f) {
+                                diff += 360f
+                            }
+
+                            currentAngle += diff * smoothingFactor
+                            // Clamp currentAngle to [0, 360)
+                            currentAngle = (currentAngle + 360f) % 360f
+
+                            // Discretize the light source angle to 15-degree steps to eliminate constant recompositions
+                            val discretized = (currentAngle / 15f).roundToInt() * 15
+                            angleDegrees = (discretized % 360).toFloat()
                         }
-
-                        // Apply low-pass smoothing
-                        // Handle wrap-around transitions smoothly
-                        var diff = targetAngleDeg - currentAngle
-                        if (diff > 180f) {
-                            diff -= 360f
-                        } else if (diff < -180f) {
-                            diff += 360f
-                        }
-
-                        currentAngle += diff * smoothingFactor
-                        // Clamp currentAngle to [0, 360)
-                        currentAngle = (currentAngle + 360f) % 360f
-                        angleDegrees = currentAngle
                     }
-                }
 
-                override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
-            }
+                    override fun onAccuracyChanged(
+                        sensor: Sensor,
+                        accuracy: Int,
+                    ) {}
+                }
 
             sensorManager.registerListener(
                 listener,
                 accelerometer,
-                SensorManager.SENSOR_DELAY_UI
+                SensorManager.SENSOR_DELAY_UI,
             )
         }
 

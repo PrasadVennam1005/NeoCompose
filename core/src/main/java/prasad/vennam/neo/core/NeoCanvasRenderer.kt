@@ -19,10 +19,10 @@ import androidx.compose.ui.graphics.toArgb
  * hardware-accelerated blur mask filters, and surface lighting gradients.
  */
 public object NeoCanvasRenderer {
-
-    private val shadowPaint: Paint = Paint().apply {
-        style = PaintingStyle.Fill
-    }
+    private val shadowPaint: Paint =
+        Paint().apply {
+            style = PaintingStyle.Fill
+        }
 
     /**
      * Renders dual outer drop shadows (light highlight + dark shadow) around a [Path].
@@ -33,7 +33,7 @@ public object NeoCanvasRenderer {
         darkColor: Color,
         lightOffset: Offset,
         darkOffset: Offset,
-        blurRadiusPx: Float
+        blurRadiusPx: Float,
     ) {
         if (blurRadiusPx <= 0f) return
 
@@ -55,7 +55,7 @@ public object NeoCanvasRenderer {
         lightOffset: Offset,
         darkOffset: Offset,
         blurRadiusPx: Float,
-        size: Size
+        size: Size,
     ) {
         if (blurRadiusPx <= 0f) return
 
@@ -78,7 +78,7 @@ public object NeoCanvasRenderer {
         path: Path,
         color: Color,
         offset: Offset,
-        blurRadiusPx: Float
+        blurRadiusPx: Float,
     ) {
         val nativePaint: android.graphics.Paint = shadowPaint.asFrameworkPaint()
         nativePaint.reset()
@@ -98,22 +98,24 @@ public object NeoCanvasRenderer {
         color: Color,
         offset: Offset,
         blurRadiusPx: Float,
-        size: Size
+        size: Size,
     ) {
-        val outerBoundsPath = Path().apply {
-            addRect(
-                androidx.compose.ui.geometry.Rect(
-                    -blurRadiusPx * 2,
-                    -blurRadiusPx * 2,
-                    size.width + blurRadiusPx * 2,
-                    size.height + blurRadiusPx * 2
+        val outerBoundsPath =
+            Path().apply {
+                addRect(
+                    androidx.compose.ui.geometry.Rect(
+                        -blurRadiusPx * 2,
+                        -blurRadiusPx * 2,
+                        size.width + blurRadiusPx * 2,
+                        size.height + blurRadiusPx * 2,
+                    ),
                 )
-            )
-        }
+            }
 
-        val maskPath = Path().apply {
-            op(outerBoundsPath, shapePath, PathOperation.Difference)
-        }
+        val maskPath =
+            Path().apply {
+                op(outerBoundsPath, shapePath, PathOperation.Difference)
+            }
 
         val nativePaint: android.graphics.Paint = shadowPaint.asFrameworkPaint()
         nativePaint.reset()
@@ -127,7 +129,10 @@ public object NeoCanvasRenderer {
         canvas.restore()
     }
 
-    private fun applyBlurToPaint(nativePaint: NativePaint, blurRadiusPx: Float) {
+    private fun applyBlurToPaint(
+        nativePaint: NativePaint,
+        blurRadiusPx: Float,
+    ) {
         if (blurRadiusPx > 0f) {
             nativePaint.maskFilter = BlurMaskFilter(blurRadiusPx, BlurMaskFilter.Blur.NORMAL)
         }

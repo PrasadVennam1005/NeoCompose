@@ -22,8 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import prasad.vennam.neo.theme.NeoPreviewParams
-import prasad.vennam.neo.theme.NeoPreviewParamsProvider
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.animation.animateNeoElevationAsState
 import prasad.vennam.neo.core.NeoLightSource
@@ -31,6 +29,8 @@ import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.foundation.rememberNeoInteractionStyle
 import prasad.vennam.neo.theme.NeoColors
+import prasad.vennam.neo.theme.NeoPreviewParams
+import prasad.vennam.neo.theme.NeoPreviewParamsProvider
 import prasad.vennam.neo.theme.NeoTheme
 
 /**
@@ -59,75 +59,77 @@ public fun NeoButton(
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    contentPadding: PaddingValues = PaddingValues(
-        horizontal = NeoTheme.spacing.large,
-        vertical = NeoTheme.spacing.medium
-    ),
+    contentPadding: PaddingValues =
+        PaddingValues(
+            horizontal = NeoTheme.spacing.large,
+            vertical = NeoTheme.spacing.medium,
+        ),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     specularHighlight: Boolean = false,
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit,
 ) {
     val currentStyle by rememberNeoInteractionStyle(
         interactionSource = interactionSource,
         defaultStyle = style,
-        pressedStyle = NeoStyle.Pressed
+        pressedStyle = NeoStyle.Pressed,
     )
 
     val targetElevation = if (currentStyle is NeoStyle.Pressed) elevation * 0.3f else elevation
     val animatedElevation by animateNeoElevationAsState(
         targetElevation = targetElevation,
-        animationSpec = animationSpec.elevationSpec
+        animationSpec = animationSpec.elevationSpec,
     )
 
     val haptic = LocalHapticFeedback.current
 
     Row(
-        modifier = modifier
-            .neoStyle(
-                style = currentStyle,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = animatedElevation,
-                lightSource = lightSource,
-                specularHighlight = specularHighlight
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                enabled = enabled,
-                role = Role.Button,
-                onClick = {
-                    if (enabled) {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    }
-                    onClick()
-                }
-            )
-            .padding(contentPadding),
+        modifier =
+            modifier
+                .neoStyle(
+                    style = currentStyle,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = animatedElevation,
+                    lightSource = lightSource,
+                    specularHighlight = specularHighlight,
+                )
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    enabled = enabled,
+                    role = Role.Button,
+                    onClick = {
+                        if (enabled) {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
+                        onClick()
+                    },
+                )
+                .padding(contentPadding),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
-        content = content
+        content = content,
     )
 }
 
 @Preview(name = "NeoButton - Parameterized Previews")
 @Composable
 private fun NeoButtonParameterizedPreview(
-    @PreviewParameter(NeoPreviewParamsProvider::class) params: NeoPreviewParams
+    @PreviewParameter(NeoPreviewParamsProvider::class) params: NeoPreviewParams,
 ) {
     NeoTheme(colors = params.colors) {
         Box(modifier = Modifier.padding(16.dp)) {
             NeoButton(
                 onClick = {},
-                style = params.style
+                style = params.style,
             ) {
                 Text(
                     text = params.name,
                     style = NeoTheme.typography.label,
-                    color = NeoTheme.colors.textPrimary
+                    color = NeoTheme.colors.textPrimary,
                 )
             }
         }

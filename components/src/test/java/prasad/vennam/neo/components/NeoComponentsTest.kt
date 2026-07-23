@@ -4,7 +4,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class NeoComponentsTest {
-
     @Test
     fun sampleComponentInstantiations_passBasicSanityCheck() {
         // Core component structure validation

@@ -5,14 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
@@ -62,7 +57,7 @@ public fun NeoDatePicker(
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     val daysList = (1..daysInMonth).toList()
     val weekHeaders = listOf("Su", "Mo", "Tu", "We", "Th", "Fr", "Sa")
@@ -74,22 +69,22 @@ public fun NeoDatePicker(
         elevation = elevation,
         colors = colors,
         lightSource = lightSource,
-        animationSpec = animationSpec
+        animationSpec = animationSpec,
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)
+            verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium),
         ) {
             // Month Header Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 NeoIconButton(
                     onClick = { onPreviousMonthClick?.invoke() },
                     size = NeoTheme.size.controlSmall,
-                    lightSource = lightSource
+                    lightSource = lightSource,
                 ) {
                     Icon(Icons.Default.ChevronLeft, contentDescription = "Previous Month", tint = colors.textPrimary)
                 }
@@ -97,13 +92,13 @@ public fun NeoDatePicker(
                 Text(
                     text = monthName,
                     style = NeoTheme.typography.title,
-                    color = colors.textPrimary
+                    color = colors.textPrimary,
                 )
 
                 NeoIconButton(
                     onClick = { onNextMonthClick?.invoke() },
                     size = NeoTheme.size.controlSmall,
-                    lightSource = lightSource
+                    lightSource = lightSource,
                 ) {
                     Icon(Icons.Default.ChevronRight, contentDescription = "Next Month", tint = colors.textPrimary)
                 }
@@ -112,13 +107,13 @@ public fun NeoDatePicker(
             // Days of week header row
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
+                horizontalArrangement = Arrangement.SpaceAround,
             ) {
                 weekHeaders.forEach { header ->
                     Text(
                         text = header,
                         style = NeoTheme.typography.caption,
-                        color = colors.textSecondary
+                        color = colors.textSecondary,
                     )
                 }
             }
@@ -128,29 +123,37 @@ public fun NeoDatePicker(
                 daysList.chunked(7).forEach { weekRow ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceAround
+                        horizontalArrangement = Arrangement.SpaceAround,
                     ) {
                         weekRow.forEach { day ->
                             val isSelected = day == selectedDay
                             Box(
-                                modifier = Modifier
-                                    .size(NeoTheme.size.controlSmall)
-                                    .neoStyle(
-                                        style = if (isSelected) NeoStyle.Inset else NeoStyle.Flat,
-                                        shape = CircleShape,
-                                        backgroundColor = if (isSelected) colors.surface else colors.surface.copy(alpha = 0f),
-                                        lightColor = colors.lightShadow,
-                                        darkColor = colors.darkShadow,
-                                        elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
-                                        lightSource = lightSource
-                                    )
-                                    .clickable { onDaySelected(day) },
-                                contentAlignment = Alignment.Center
+                                modifier =
+                                    Modifier
+                                        .size(NeoTheme.size.controlSmall)
+                                        .neoStyle(
+                                            style = if (isSelected) NeoStyle.Inset else NeoStyle.Flat,
+                                            shape = CircleShape,
+                                            backgroundColor =
+                                                if (isSelected) {
+                                                    colors.surface
+                                                } else {
+                                                    colors.surface.copy(
+                                                        alpha = 0f,
+                                                    )
+                                                },
+                                            lightColor = colors.lightShadow,
+                                            darkColor = colors.darkShadow,
+                                            elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
+                                            lightSource = lightSource,
+                                        )
+                                        .clickable { onDaySelected(day) },
+                                contentAlignment = Alignment.Center,
                             ) {
                                 Text(
                                     text = day.toString(),
                                     style = NeoTheme.typography.label,
-                                    color = if (isSelected) colors.primary else colors.textPrimary
+                                    color = if (isSelected) colors.primary else colors.textPrimary,
                                 )
                             }
                         }
@@ -168,7 +171,7 @@ private fun NeoDatePickerPreview() {
         Box(modifier = Modifier.padding(16.dp)) {
             NeoDatePicker(
                 selectedDay = 21,
-                onDaySelected = {}
+                onDaySelected = {},
             )
         }
     }

@@ -1,7 +1,6 @@
 package prasad.vennam.neo.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -56,7 +54,7 @@ public fun NeoBanner(
     elevation: Dp = NeoTheme.elevation.level4,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     NeoCard(
         modifier = modifier.fillMaxWidth(),
@@ -65,18 +63,18 @@ public fun NeoBanner(
         elevation = elevation,
         colors = colors,
         lightSource = lightSource,
-        animationSpec = animationSpec
+        animationSpec = animationSpec,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             NeoIcon(
                 imageVector = icon,
                 contentDescription = "Banner Icon",
                 style = NeoStyle.Inset,
                 tint = colors.primary,
-                lightSource = lightSource
+                lightSource = lightSource,
             )
 
             Spacer(Modifier.width(NeoTheme.spacing.medium))
@@ -85,12 +83,12 @@ public fun NeoBanner(
                 Text(
                     text = title,
                     style = NeoTheme.typography.title,
-                    color = colors.textPrimary
+                    color = colors.textPrimary,
                 )
                 Text(
                     text = message,
                     style = NeoTheme.typography.caption,
-                    color = colors.textSecondary
+                    color = colors.textSecondary,
                 )
             }
 
@@ -100,7 +98,7 @@ public fun NeoBanner(
                     text = actionLabel,
                     style = NeoTheme.typography.label,
                     color = colors.primary,
-                    modifier = Modifier.clickable { onActionClick() }
+                    modifier = Modifier.clickable { onActionClick() },
                 )
             }
         }
@@ -116,7 +114,7 @@ private fun NeoBannerPreview() {
                 title = "New Message",
                 message = "You received a new design token update",
                 actionLabel = "View",
-                onActionClick = {}
+                onActionClick = {},
             )
         }
     }

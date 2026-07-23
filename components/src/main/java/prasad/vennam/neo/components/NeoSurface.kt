@@ -44,25 +44,26 @@ public fun NeoSurface(
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     contentAlignment: Alignment = Alignment.Center,
     specularHighlight: Boolean = false,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val animatedElevation by animateNeoElevationAsState(
         targetElevation = elevation,
-        animationSpec = animationSpec.elevationSpec
+        animationSpec = animationSpec.elevationSpec,
     )
 
     Box(
-        modifier = modifier.neoStyle(
-            style = style,
-            shape = shape,
-            backgroundColor = colors.surface,
-            lightColor = colors.lightShadow,
-            darkColor = colors.darkShadow,
-            elevation = animatedElevation,
-            lightSource = lightSource,
-            specularHighlight = specularHighlight
-        ),
-        contentAlignment = contentAlignment
+        modifier =
+            modifier.neoStyle(
+                style = style,
+                shape = shape,
+                backgroundColor = colors.surface,
+                lightColor = colors.lightShadow,
+                darkColor = colors.darkShadow,
+                elevation = animatedElevation,
+                lightSource = lightSource,
+                specularHighlight = specularHighlight,
+            ),
+        contentAlignment = contentAlignment,
     ) {
         content()
     }
@@ -75,7 +76,7 @@ private fun NeoSurfaceLightPreview() {
         Box(modifier = Modifier.padding(16.dp)) {
             NeoSurface(
                 modifier = Modifier.size(100.dp),
-                style = NeoStyle.Raised
+                style = NeoStyle.Raised,
             ) {
                 Text("Raised", style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
             }
@@ -90,7 +91,7 @@ private fun NeoSurfaceDarkPreview() {
         Box(modifier = Modifier.padding(16.dp)) {
             NeoSurface(
                 modifier = Modifier.size(100.dp),
-                style = NeoStyle.Concave
+                style = NeoStyle.Concave,
             ) {
                 Text("Concave", style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
             }

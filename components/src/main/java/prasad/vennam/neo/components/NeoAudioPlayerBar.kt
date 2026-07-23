@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -65,7 +64,7 @@ public fun NeoAudioPlayerBar(
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     NeoCard(
         modifier = modifier.fillMaxWidth(),
@@ -74,22 +73,22 @@ public fun NeoAudioPlayerBar(
         elevation = elevation,
         colors = colors,
         lightSource = lightSource,
-        animationSpec = animationSpec
+        animationSpec = animationSpec,
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)
+            verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium),
         ) {
             // Track details header row
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 NeoAvatar(
                     size = NeoTheme.size.controlLarge,
                     imageVector = Icons.Default.MusicNote,
                     style = NeoStyle.Basin,
-                    lightSource = lightSource
+                    lightSource = lightSource,
                 )
 
                 Spacer(Modifier.width(NeoTheme.spacing.medium))
@@ -98,25 +97,25 @@ public fun NeoAudioPlayerBar(
                     Text(
                         text = trackTitle,
                         style = NeoTheme.typography.title,
-                        color = colors.textPrimary
+                        color = colors.textPrimary,
                     )
                     Text(
                         text = artistName,
                         style = NeoTheme.typography.caption,
-                        color = colors.textSecondary
+                        color = colors.textSecondary,
                     )
                 }
 
                 // Playback Control Buttons Row
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small),
                 ) {
                     if (onSkipPrevious != null) {
                         NeoIconButton(
                             onClick = onSkipPrevious,
                             size = NeoTheme.size.controlSmall,
-                            lightSource = lightSource
+                            lightSource = lightSource,
                         ) {
                             Icon(Icons.Default.SkipPrevious, contentDescription = "Previous", tint = colors.textPrimary)
                         }
@@ -127,12 +126,12 @@ public fun NeoAudioPlayerBar(
                         onClick = onPlayPauseToggle,
                         size = NeoTheme.size.controlMedium,
                         style = NeoStyle.Basin,
-                        lightSource = lightSource
+                        lightSource = lightSource,
                     ) {
                         Icon(
                             imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
                             contentDescription = "Play/Pause",
-                            tint = colors.primary
+                            tint = colors.primary,
                         )
                     }
 
@@ -140,7 +139,7 @@ public fun NeoAudioPlayerBar(
                         NeoIconButton(
                             onClick = onSkipNext,
                             size = NeoTheme.size.controlSmall,
-                            lightSource = lightSource
+                            lightSource = lightSource,
                         ) {
                             Icon(Icons.Default.SkipNext, contentDescription = "Next", tint = colors.textPrimary)
                         }
@@ -152,7 +151,7 @@ public fun NeoAudioPlayerBar(
             NeoSlider(
                 value = progress,
                 onValueChange = onProgressChange,
-                lightSource = lightSource
+                lightSource = lightSource,
             )
         }
     }
@@ -171,7 +170,7 @@ private fun NeoAudioPlayerBarPreview() {
                 progress = 0.45f,
                 onProgressChange = {},
                 onSkipPrevious = {},
-                onSkipNext = {}
+                onSkipNext = {},
             )
         }
     }

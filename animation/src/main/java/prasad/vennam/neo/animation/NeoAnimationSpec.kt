@@ -17,10 +17,11 @@ import androidx.compose.ui.unit.Dp
  */
 @Immutable
 public data class NeoAnimationSpec(
-    public val elevationSpec: AnimationSpec<Dp> = spring(
-        stiffness = Spring.StiffnessMediumLow,
-        dampingRatio = Spring.DampingRatioLowBouncy
-    ),
+    public val elevationSpec: AnimationSpec<Dp> =
+        spring(
+            stiffness = Spring.StiffnessMediumLow,
+            dampingRatio = Spring.DampingRatioLowBouncy,
+        ),
     public val lightSourceSpec: AnimationSpec<Float> = tween(durationMillis = 300),
-    public val colorSpec: AnimationSpec<Color> = tween(durationMillis = 200)
+    public val colorSpec: AnimationSpec<Color> = tween(durationMillis = 200),
 )

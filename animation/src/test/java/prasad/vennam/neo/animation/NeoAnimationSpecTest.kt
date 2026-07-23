@@ -4,7 +4,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Test
 
 class NeoAnimationSpecTest {
-
     @Test
     fun defaultNeoAnimationSpec_hasNonNullSpecs() {
         val spec = NeoAnimationSpec()

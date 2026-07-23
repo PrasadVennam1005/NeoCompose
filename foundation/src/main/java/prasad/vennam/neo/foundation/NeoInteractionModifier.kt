@@ -38,32 +38,34 @@ public fun Modifier.neoInteraction(
     lightColor: Color = Color.Unspecified,
     darkColor: Color = Color.Unspecified,
     elevation: Dp = 6.dp,
-    lightSource: NeoLightSource = NeoLightSource.TopLeft
-): Modifier = this.composed {
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val isFocused by interactionSource.collectIsFocusedAsState()
-    val isHovered by interactionSource.collectIsHoveredAsState()
+    lightSource: NeoLightSource = NeoLightSource.TopLeft,
+): Modifier =
+    this.composed {
+        val isPressed by interactionSource.collectIsPressedAsState()
+        val isFocused by interactionSource.collectIsFocusedAsState()
+        val isHovered by interactionSource.collectIsHoveredAsState()
 
-    val colors = NeoTheme.colors
-    val resolvedBg = if (backgroundColor == Color.Unspecified) colors.surface else backgroundColor
-    val resolvedLight = if (lightColor == Color.Unspecified) colors.lightShadow else lightColor
-    val resolvedDark = if (darkColor == Color.Unspecified) colors.darkShadow else darkColor
+        val colors = NeoTheme.colors
+        val resolvedBg = if (backgroundColor == Color.Unspecified) colors.surface else backgroundColor
+        val resolvedLight = if (lightColor == Color.Unspecified) colors.lightShadow else lightColor
+        val resolvedDark = if (darkColor == Color.Unspecified) colors.darkShadow else darkColor
 
-    // Transition styles based on interaction
-    val style = when {
-        isPressed -> NeoStyle.Pressed
-        else -> NeoStyle.Raised
+        // Transition styles based on interaction
+        val style =
+            when {
+                isPressed -> NeoStyle.Pressed
+                else -> NeoStyle.Raised
+            }
+
+        val activeElevation = if (isFocused || isHovered) elevation * 1.25f else elevation
+
+        this.neoStyle(
+            style = style,
+            shape = shape,
+            backgroundColor = resolvedBg,
+            lightColor = resolvedLight,
+            darkColor = resolvedDark,
+            elevation = activeElevation,
+            lightSource = lightSource,
+        )
     }
-
-    val activeElevation = if (isFocused || isHovered) elevation * 1.25f else elevation
-
-    this.neoStyle(
-        style = style,
-        shape = shape,
-        backgroundColor = resolvedBg,
-        lightColor = resolvedLight,
-        darkColor = resolvedDark,
-        elevation = activeElevation,
-        lightSource = lightSource
-    )
-}

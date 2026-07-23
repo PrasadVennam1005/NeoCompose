@@ -48,42 +48,44 @@ public fun NeoLinearProgressIndicator(
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     val animatedProgress by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
         animationSpec = animationSpec.lightSourceSpec,
-        label = "NeoLinearProgressAnimation"
+        label = "NeoLinearProgressAnimation",
     )
 
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(NeoTheme.size.trackHeightSlim)
-            .neoStyle(
-                style = style,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = elevation,
-                lightSource = lightSource
-            ),
-        contentAlignment = Alignment.CenterStart
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(animatedProgress)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(NeoTheme.size.trackHeightSlim)
                 .neoStyle(
-                    style = NeoStyle.Raised,
+                    style = style,
                     shape = shape,
-                    backgroundColor = colors.primary,
+                    backgroundColor = colors.surface,
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
-                    elevation = elevation * 0.5f,
-                    lightSource = lightSource
-                )
+                    elevation = elevation,
+                    lightSource = lightSource,
+                ),
+        contentAlignment = Alignment.CenterStart,
+    ) {
+        Box(
+            modifier =
+                Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(animatedProgress)
+                    .neoStyle(
+                        style = NeoStyle.Raised,
+                        shape = shape,
+                        backgroundColor = colors.primary,
+                        lightColor = colors.lightShadow,
+                        darkColor = colors.darkShadow,
+                        elevation = elevation * 0.5f,
+                        lightSource = lightSource,
+                    ),
         )
     }
 }
@@ -110,37 +112,38 @@ public fun NeoCircularProgressIndicator(
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     val animatedProgress by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
         animationSpec = animationSpec.lightSourceSpec,
-        label = "NeoCircularProgressAnimation"
+        label = "NeoCircularProgressAnimation",
     )
 
     val sizeDp = NeoTheme.size.controlLarge
     val indicatorSizeDp = NeoTheme.size.controlMedium - NeoTheme.spacing.small
 
     Box(
-        modifier = modifier
-            .size(sizeDp)
-            .neoStyle(
-                style = style,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = elevation,
-                lightSource = lightSource
-            ),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .size(sizeDp)
+                .neoStyle(
+                    style = style,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = elevation,
+                    lightSource = lightSource,
+                ),
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
             progress = { animatedProgress },
             color = colors.primary,
             trackColor = colors.surface,
             modifier = Modifier.size(indicatorSizeDp),
-            strokeWidth = NeoTheme.spacing.extraSmall
+            strokeWidth = NeoTheme.spacing.extraSmall,
         )
     }
 }
@@ -151,7 +154,7 @@ private fun NeoProgressPreview() {
     NeoTheme {
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             NeoLinearProgressIndicator(progress = 0.75f)
             NeoCircularProgressIndicator(progress = 0.75f)

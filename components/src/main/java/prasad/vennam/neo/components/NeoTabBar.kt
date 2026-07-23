@@ -49,57 +49,59 @@ public fun NeoTabBar(
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .neoStyle(
-                style = NeoStyle.Raised,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = elevation,
-                lightSource = lightSource
-            )
-            .padding(NeoTheme.spacing.small)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .neoStyle(
+                    style = NeoStyle.Raised,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = elevation,
+                    lightSource = lightSource,
+                )
+                .padding(NeoTheme.spacing.small),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             tabs.forEachIndexed { index, title ->
                 val isSelected = index == selectedIndex
                 val interactionSource = remember { MutableInteractionSource() }
 
                 Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .neoStyle(
-                            style = if (isSelected) NeoStyle.Inset else NeoStyle.Flat,
-                            shape = NeoTheme.shapes.medium,
-                            backgroundColor = colors.surface,
-                            lightColor = colors.lightShadow,
-                            darkColor = colors.darkShadow,
-                            elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
-                            lightSource = lightSource
-                        )
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            enabled = enabled,
-                            role = Role.Tab,
-                            onClick = { onTabSelected(index) }
-                        )
-                        .padding(vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .neoStyle(
+                                style = if (isSelected) NeoStyle.Inset else NeoStyle.Flat,
+                                shape = NeoTheme.shapes.medium,
+                                backgroundColor = colors.surface,
+                                lightColor = colors.lightShadow,
+                                darkColor = colors.darkShadow,
+                                elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
+                                lightSource = lightSource,
+                            )
+                            .clickable(
+                                interactionSource = interactionSource,
+                                indication = null,
+                                enabled = enabled,
+                                role = Role.Tab,
+                                onClick = { onTabSelected(index) },
+                            )
+                            .padding(vertical = NeoTheme.spacing.small + NeoTheme.spacing.extraSmall),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = title,
                         style = NeoTheme.typography.title,
-                        color = if (isSelected) colors.primary else colors.textSecondary
+                        color = if (isSelected) colors.primary else colors.textSecondary,
                     )
                 }
             }
@@ -115,7 +117,7 @@ private fun NeoTabBarPreview() {
             NeoTabBar(
                 tabs = listOf("Home", "Explore", "Profile"),
                 selectedIndex = 0,
-                onTabSelected = {}
+                onTabSelected = {},
             )
         }
     }

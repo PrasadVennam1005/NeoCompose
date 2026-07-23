@@ -53,46 +53,49 @@ public fun NeoChip(
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    contentPadding: PaddingValues = PaddingValues(
-        horizontal = NeoTheme.spacing.medium,
-        vertical = NeoTheme.spacing.small
-    ),
+    contentPadding: PaddingValues =
+        PaddingValues(
+            horizontal = NeoTheme.spacing.medium,
+            vertical = NeoTheme.spacing.small,
+        ),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val style = if (selected) NeoStyle.Inset else NeoStyle.Raised
 
-    val clickModifier = if (onClick != null) {
-        Modifier.clickable(
-            interactionSource = interactionSource,
-            indication = null,
-            enabled = enabled,
-            role = Role.Button,
-            onClick = onClick
-        )
-    } else {
-        Modifier
-    }
+    val clickModifier =
+        if (onClick != null) {
+            Modifier.clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                enabled = enabled,
+                role = Role.Button,
+                onClick = onClick,
+            )
+        } else {
+            Modifier
+        }
 
     Box(
-        modifier = modifier
-            .neoStyle(
-                style = style,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = elevation,
-                lightSource = lightSource
-            )
-            .then(clickModifier)
-            .padding(contentPadding),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .neoStyle(
+                    style = style,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = elevation,
+                    lightSource = lightSource,
+                )
+                .then(clickModifier)
+                .padding(contentPadding),
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = label,
             style = NeoTheme.typography.label,
-            color = if (selected) colors.primary else colors.textPrimary
+            color = if (selected) colors.primary else colors.textPrimary,
         )
     }
 }
@@ -114,29 +117,31 @@ public fun NeoBadge(
     shape: Shape = CircleShape,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    contentPadding: PaddingValues = PaddingValues(
-        horizontal = NeoTheme.spacing.small,
-        vertical = NeoTheme.spacing.extraSmall
-    )
+    contentPadding: PaddingValues =
+        PaddingValues(
+            horizontal = NeoTheme.spacing.small,
+            vertical = NeoTheme.spacing.extraSmall,
+        ),
 ) {
     Box(
-        modifier = modifier
-            .neoStyle(
-                style = NeoStyle.Raised,
-                shape = shape,
-                backgroundColor = colors.primary,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = NeoTheme.elevation.level1,
-                lightSource = lightSource
-            )
-            .padding(contentPadding),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .neoStyle(
+                    style = NeoStyle.Raised,
+                    shape = shape,
+                    backgroundColor = colors.primary,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = NeoTheme.elevation.level1,
+                    lightSource = lightSource,
+                )
+                .padding(contentPadding),
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = count,
             style = NeoTheme.typography.caption,
-            color = colors.onPrimary
+            color = colors.onPrimary,
         )
     }
 }
@@ -147,7 +152,7 @@ private fun NeoChipPreview() {
     NeoTheme {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             NeoChip(label = "Selected", selected = true)
             Spacer(Modifier.width(8.dp))

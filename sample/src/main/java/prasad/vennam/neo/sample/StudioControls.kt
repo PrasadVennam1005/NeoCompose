@@ -8,46 +8,44 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.components.NeoCard
+import prasad.vennam.neo.components.NeoDropdownMenu
 import prasad.vennam.neo.components.NeoSlider
 import prasad.vennam.neo.components.NeoSwitch
-import prasad.vennam.neo.components.NeoDropdownMenu
-import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.theme.NeoTheme
 import kotlin.math.roundToInt
 
 @Composable
 public fun StudioControls(
     state: StudioState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     NeoCard(
         modifier = modifier.fillMaxWidth(),
         style = state.selectedStyle,
-        specularHighlight = state.isGlossyShineEnabled
+        specularHighlight = state.isGlossyShineEnabled,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
             Text(
                 text = "Neumorphism Studio Controls",
                 style = NeoTheme.typography.title,
-                color = NeoTheme.colors.textPrimary
+                color = NeoTheme.colors.textPrimary,
             )
 
             // Theme Switch
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = if (state.isDarkTheme) "Dark Mode" else "Light Mode",
                     style = NeoTheme.typography.body,
-                    color = NeoTheme.colors.textPrimary
+                    color = NeoTheme.colors.textPrimary,
                 )
                 NeoSwitch(
                     checked = state.isDarkTheme,
-                    onCheckedChange = { state.isDarkTheme = it }
+                    onCheckedChange = { state.isDarkTheme = it },
                 )
             }
 
@@ -55,16 +53,16 @@ public fun StudioControls(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = "Accessibility Contrast Mode",
                     style = NeoTheme.typography.body,
-                    color = NeoTheme.colors.textPrimary
+                    color = NeoTheme.colors.textPrimary,
                 )
                 NeoSwitch(
                     checked = state.isAccessibilityMode,
-                    onCheckedChange = { state.isAccessibilityMode = it }
+                    onCheckedChange = { state.isAccessibilityMode = it },
                 )
             }
 
@@ -72,16 +70,16 @@ public fun StudioControls(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = "Sensor Lighting Mode (Accelerometer)",
                     style = NeoTheme.typography.body,
-                    color = NeoTheme.colors.textPrimary
+                    color = NeoTheme.colors.textPrimary,
                 )
                 NeoSwitch(
                     checked = state.isSensorLightingEnabled,
-                    onCheckedChange = { state.isSensorLightingEnabled = it }
+                    onCheckedChange = { state.isSensorLightingEnabled = it },
                 )
             }
 
@@ -89,16 +87,50 @@ public fun StudioControls(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = "Glossy Specular Highlights",
                     style = NeoTheme.typography.body,
-                    color = NeoTheme.colors.textPrimary
+                    color = NeoTheme.colors.textPrimary,
                 )
                 NeoSwitch(
                     checked = state.isGlossyShineEnabled,
-                    onCheckedChange = { state.isGlossyShineEnabled = it }
+                    onCheckedChange = { state.isGlossyShineEnabled = it },
+                )
+            }
+
+            // Ambient Contrast Sync Switch
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "Ambient Contrast Sync (Light Sensor)",
+                    style = NeoTheme.typography.body,
+                    color = NeoTheme.colors.textPrimary,
+                )
+                NeoSwitch(
+                    checked = state.isAmbientContrastEnabled,
+                    onCheckedChange = { state.isAmbientContrastEnabled = it },
+                )
+            }
+
+            // 3D Parallax Tilt Switch
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "3D Parallax Tilt (Gyroscope)",
+                    style = NeoTheme.typography.body,
+                    color = NeoTheme.colors.textPrimary,
+                )
+                NeoSwitch(
+                    checked = state.isParallaxTiltEnabled,
+                    onCheckedChange = { state.isParallaxTiltEnabled = it },
                 )
             }
 
@@ -107,7 +139,7 @@ public fun StudioControls(
                 Text(
                     text = "Global Surface Style",
                     style = NeoTheme.typography.label,
-                    color = NeoTheme.colors.textSecondary
+                    color = NeoTheme.colors.textSecondary,
                 )
                 NeoDropdownMenu(
                     selectedOption = state.styleOptions[state.selectedStyleIndex],
@@ -117,7 +149,7 @@ public fun StudioControls(
                         if (index >= 0) {
                             state.selectedStyleIndex = index
                         }
-                    }
+                    },
                 )
             }
 
@@ -126,13 +158,20 @@ public fun StudioControls(
                 Text(
                     text = if (state.isSensorLightingEnabled) "Light Vector Angle: Tilt Device" else "Light Vector Angle: ${state.lightAngle.roundToInt()}°",
                     style = NeoTheme.typography.label,
-                    color = if (state.isSensorLightingEnabled) NeoTheme.colors.textSecondary.copy(alpha = 0.5f) else NeoTheme.colors.textSecondary
+                    color =
+                        if (state.isSensorLightingEnabled) {
+                            NeoTheme.colors.textSecondary.copy(
+                                alpha = 0.5f,
+                            )
+                        } else {
+                            NeoTheme.colors.textSecondary
+                        },
                 )
                 NeoSlider(
                     value = state.lightAngle,
                     onValueChange = { state.lightAngle = it },
                     valueRange = 0f..360f,
-                    enabled = !state.isSensorLightingEnabled
+                    enabled = !state.isSensorLightingEnabled,
                 )
             }
 
@@ -141,12 +180,12 @@ public fun StudioControls(
                 Text(
                     text = "Elevation Depth: ${state.elevationDp.roundToInt()} dp",
                     style = NeoTheme.typography.label,
-                    color = NeoTheme.colors.textSecondary
+                    color = NeoTheme.colors.textSecondary,
                 )
                 NeoSlider(
                     value = state.elevationDp,
                     onValueChange = { state.elevationDp = it },
-                    valueRange = 1f..16f
+                    valueRange = 1f..16f,
                 )
             }
         }

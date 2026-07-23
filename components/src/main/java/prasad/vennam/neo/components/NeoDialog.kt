@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -59,55 +59,61 @@ public fun NeoDialog(
     elevation: Dp = NeoTheme.elevation.level5,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     BasicAlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = modifier
+        modifier = modifier,
     ) {
         NeoCard(
-            modifier = Modifier.fillMaxWidth(0.92f),
+            modifier =
+                Modifier
+                    .widthIn(max = 360.dp)
+                    .fillMaxWidth(0.85f),
             shape = shape,
             style = style,
             elevation = elevation,
             colors = colors,
             lightSource = lightSource,
-            animationSpec = animationSpec
+            contentPadding =
+                androidx.compose.foundation.layout.PaddingValues(
+                    horizontal = NeoTheme.spacing.large,
+                    vertical = NeoTheme.spacing.medium,
+                ),
+            animationSpec = animationSpec,
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)
+                verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small),
             ) {
                 Text(
                     text = title,
-                    style = NeoTheme.typography.display,
-                    color = colors.textPrimary
+                    style = NeoTheme.typography.title,
+                    color = colors.textPrimary,
                 )
 
                 Text(
                     text = message,
                     style = NeoTheme.typography.body,
-                    color = colors.textSecondary
+                    color = colors.textSecondary,
                 )
-
-                Spacer(Modifier.height(NeoTheme.spacing.small))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     if (dismissButtonLabel != null && onDismissClick != null) {
                         NeoButton(
                             onClick = onDismissClick,
                             style = NeoStyle.Flat,
                             elevation = Dp(0f),
-                            lightSource = lightSource
+                            lightSource = lightSource,
                         ) {
                             Text(
                                 text = dismissButtonLabel,
                                 style = NeoTheme.typography.label,
-                                color = colors.textSecondary
+                                color = colors.textSecondary,
                             )
                         }
                         Spacer(Modifier.width(NeoTheme.spacing.small))
@@ -116,12 +122,12 @@ public fun NeoDialog(
                     NeoButton(
                         onClick = onConfirmClick,
                         style = NeoStyle.Raised,
-                        lightSource = lightSource
+                        lightSource = lightSource,
                     ) {
                         Text(
                             text = confirmButtonLabel,
                             style = NeoTheme.typography.label,
-                            color = colors.primary
+                            color = colors.primary,
                         )
                     }
                 }
@@ -137,11 +143,15 @@ private fun NeoDialogContentPreview() {
         Box(modifier = Modifier.padding(16.dp)) {
             NeoCard(modifier = Modifier.fillMaxWidth()) {
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                    Text("Confirm Action", style = NeoTheme.typography.display, color = NeoTheme.colors.textPrimary)
-                    Text("Are you sure you want to deploy the latest Neumorphism design system tokens to production?", style = NeoTheme.typography.body, color = NeoTheme.colors.textSecondary)
+                    Text("Confirm Action", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
+                    Text(
+                        "Are you sure you want to deploy the latest Neumorphism design system tokens to production?",
+                        style = NeoTheme.typography.body,
+                        color = NeoTheme.colors.textSecondary,
+                    )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
+                        horizontalArrangement = Arrangement.End,
                     ) {
                         NeoButton(onClick = {}) {
                             Text("Cancel", style = NeoTheme.typography.label, color = NeoTheme.colors.textSecondary)

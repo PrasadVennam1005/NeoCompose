@@ -47,7 +47,7 @@ public fun NeoTooltip(
     elevation: Dp = NeoTheme.elevation.level3,
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
-    animationSpec: NeoAnimationSpec = NeoAnimationSpec()
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
 ) {
     NeoCard(
         modifier = modifier,
@@ -56,20 +56,21 @@ public fun NeoTooltip(
         elevation = elevation,
         colors = colors,
         lightSource = lightSource,
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(
-            horizontal = NeoTheme.spacing.medium,
-            vertical = NeoTheme.spacing.small
-        ),
-        animationSpec = animationSpec
+        contentPadding =
+            androidx.compose.foundation.layout.PaddingValues(
+                horizontal = NeoTheme.spacing.medium,
+                vertical = NeoTheme.spacing.small,
+            ),
+        animationSpec = animationSpec,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 text = text,
                 style = NeoTheme.typography.caption,
-                color = colors.textPrimary
+                color = colors.textPrimary,
             )
 
             if (onDismiss != null) {
@@ -78,9 +79,10 @@ public fun NeoTooltip(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Close Tooltip",
                     tint = colors.textSecondary,
-                    modifier = Modifier
-                        .padding(start = NeoTheme.spacing.extraSmall)
-                        .clickable { onDismiss() }
+                    modifier =
+                        Modifier
+                            .padding(start = NeoTheme.spacing.extraSmall)
+                            .clickable { onDismiss() },
                 )
             }
         }
@@ -94,7 +96,7 @@ private fun NeoTooltipPreview() {
         Box(modifier = Modifier.padding(16.dp)) {
             NeoTooltip(
                 text = "Tap button to toggle Neumorphic elevation depth",
-                onDismiss = {}
+                onDismiss = {},
             )
         }
     }

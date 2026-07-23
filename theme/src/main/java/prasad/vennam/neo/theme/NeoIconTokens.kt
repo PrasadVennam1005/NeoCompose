@@ -17,5 +17,5 @@ public data class NeoIconTokens(
     public val small: Dp = 18.dp,
     public val medium: Dp = 24.dp,
     public val large: Dp = 32.dp,
-    public val extraLarge: Dp = 48.dp
+    public val extraLarge: Dp = 48.dp,
 )

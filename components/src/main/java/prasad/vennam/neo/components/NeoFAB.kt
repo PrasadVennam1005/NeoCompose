@@ -61,42 +61,43 @@ public fun NeoFAB(
     contentPadding: PaddingValues = PaddingValues(NeoTheme.spacing.medium),
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit,
 ) {
     val currentStyle by rememberNeoInteractionStyle(
         interactionSource = interactionSource,
         defaultStyle = style,
-        pressedStyle = NeoStyle.Pressed
+        pressedStyle = NeoStyle.Pressed,
     )
 
     val targetElevation = if (currentStyle is NeoStyle.Pressed) elevation * 0.3f else elevation
     val animatedElevation by animateNeoElevationAsState(
         targetElevation = targetElevation,
-        animationSpec = animationSpec.elevationSpec
+        animationSpec = animationSpec.elevationSpec,
     )
 
     Row(
-        modifier = modifier
-            .neoStyle(
-                style = currentStyle,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = animatedElevation,
-                lightSource = lightSource
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                enabled = enabled,
-                role = Role.Button,
-                onClick = onClick
-            )
-            .padding(contentPadding),
+        modifier =
+            modifier
+                .neoStyle(
+                    style = currentStyle,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = animatedElevation,
+                    lightSource = lightSource,
+                )
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    enabled = enabled,
+                    role = Role.Button,
+                    onClick = onClick,
+                )
+                .padding(contentPadding),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
-        content = content
+        content = content,
     )
 }
 

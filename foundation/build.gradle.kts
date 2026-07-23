@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     `maven-publish`
 }
@@ -44,7 +45,9 @@ afterEvaluate {
 
                 pom {
                     name.set("NeoCompose Foundation")
-                    description.set("Low-level Compose modifiers (neoShadow, neoStyle, neoBorder) and interaction state handlers.")
+                    description.set(
+                        "Low-level Compose modifiers (neoShadow, neoStyle, neoBorder) and interaction state handlers.",
+                    )
                     url.set("https://github.com/prasadvennam/ComposeComponentsPlugNPlay")
                     licenses {
                         license {

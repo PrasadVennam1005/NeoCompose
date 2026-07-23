@@ -38,20 +38,28 @@ public data class NeoColors(
         public fun defaultLightColors(
             background: Color = Color(0xFFECF0F3),
             primary: Color = Color(0xFF007AFF),
-            isHighContrast: Boolean = false
-        ): NeoColors = NeoColors(
-            background = background,
-            surface = background,
-            lightShadow = if (isHighContrast) Color.White else Color.White.copy(alpha = 0.95f),
-            darkShadow = if (isHighContrast) Color(0xFF718096).copy(alpha = 0.9f) else Color(0xFFA3B1C6).copy(alpha = 0.55f),
-            primary = primary,
-            onPrimary = Color.White,
-            isLight = true,
-            textPrimary = Color(0xFF2D3748),
-            textSecondary = Color(0xFF718096),
-            border = Color.Transparent,
-            isHighContrast = isHighContrast
-        )
+            isHighContrast: Boolean = false,
+        ): NeoColors =
+            NeoColors(
+                background = background,
+                surface = background,
+                lightShadow = if (isHighContrast) Color.White else Color.White.copy(alpha = 0.95f),
+                darkShadow =
+                    if (isHighContrast) {
+                        Color(
+                            0xFF718096,
+                        ).copy(alpha = 0.9f)
+                    } else {
+                        Color(0xFFA3B1C6).copy(alpha = 0.55f)
+                    },
+                primary = primary,
+                onPrimary = Color.White,
+                isLight = true,
+                textPrimary = Color(0xFF2D3748),
+                textSecondary = Color(0xFF718096),
+                border = Color.Transparent,
+                isHighContrast = isHighContrast,
+            )
 
         /**
          * Standard dark mode Neumorphism color palette (#24292E).
@@ -59,19 +67,27 @@ public data class NeoColors(
         public fun defaultDarkColors(
             background: Color = Color(0xFF24292E),
             primary: Color = Color(0xFF38BDF8),
-            isHighContrast: Boolean = false
-        ): NeoColors = NeoColors(
-            background = background,
-            surface = background,
-            lightShadow = if (isHighContrast) Color(0xFF4B5563).copy(alpha = 0.9f) else Color(0xFF3A414A).copy(alpha = 0.7f),
-            darkShadow = if (isHighContrast) Color.Black else Color(0xFF121518).copy(alpha = 0.8f),
-            primary = primary,
-            onPrimary = Color.Black,
-            isLight = false,
-            textPrimary = Color(0xFFF1F5F9),
-            textSecondary = Color(0xFF94A3B8),
-            border = Color.Transparent,
-            isHighContrast = isHighContrast
-        )
+            isHighContrast: Boolean = false,
+        ): NeoColors =
+            NeoColors(
+                background = background,
+                surface = background,
+                lightShadow =
+                    if (isHighContrast) {
+                        Color(
+                            0xFF4B5563,
+                        ).copy(alpha = 0.9f)
+                    } else {
+                        Color(0xFF3A414A).copy(alpha = 0.7f)
+                    },
+                darkShadow = if (isHighContrast) Color.Black else Color(0xFF121518).copy(alpha = 0.8f),
+                primary = primary,
+                onPrimary = Color.Black,
+                isLight = false,
+                textPrimary = Color(0xFFF1F5F9),
+                textSecondary = Color(0xFF94A3B8),
+                border = Color.Transparent,
+                isHighContrast = isHighContrast,
+            )
     }
 }

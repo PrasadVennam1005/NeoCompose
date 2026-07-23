@@ -15,5 +15,5 @@ public data class NeoShapes(
     public val medium: Shape = RoundedCornerShape(12.dp),
     public val large: Shape = RoundedCornerShape(16.dp),
     public val extraLarge: Shape = RoundedCornerShape(24.dp),
-    public val pill: Shape = CircleShape
+    public val pill: Shape = CircleShape,
 )

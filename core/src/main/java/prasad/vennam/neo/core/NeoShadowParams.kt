@@ -20,5 +20,5 @@ public data class NeoShadowParams(
     public val darkColor: Color = Color.Black.copy(alpha = 0.2f),
     public val elevation: Dp = 6.dp,
     public val blurRadius: Dp = 12.dp,
-    public val spread: Dp = 0.dp
+    public val spread: Dp = 0.dp,
 )

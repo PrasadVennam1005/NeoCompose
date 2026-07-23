@@ -53,7 +53,7 @@ public fun NeoTheme(
     size: NeoSize = NeoSize(),
     icons: NeoIconTokens = NeoIconTokens(),
     typography: NeoTypography = NeoTypography(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
         LocalNeoColors provides colors,
@@ -64,7 +64,7 @@ public fun NeoTheme(
         LocalNeoSize provides size,
         LocalNeoIconTokens provides icons,
         LocalNeoTypography provides typography,
-        content = content
+        content = content,
     )
 }
 

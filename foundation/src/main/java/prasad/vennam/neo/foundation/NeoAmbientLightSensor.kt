@@ -34,28 +34,33 @@ public fun rememberSensorAmbientContrast(): State<Float> {
             return@DisposableEffect onDispose {}
         }
 
-        val listener = object : SensorEventListener {
-            override fun onSensorChanged(event: SensorEvent?) {
-                if (event == null || event.sensor.type != Sensor.TYPE_LIGHT) return
-                val lux = event.values[0]
+        val listener =
+            object : SensorEventListener {
+                override fun onSensorChanged(event: SensorEvent?) {
+                    if (event == null || event.sensor.type != Sensor.TYPE_LIGHT) return
+                    val lux = event.values[0]
 
-                // Discretize Lux mappings to prevent continuous recompositions & cache misses on tiny light changes
-                val multiplier = when {
-                    lux < 20f -> 0.5f      // Pitch dark
-                    lux < 300f -> 0.8f     // Dim room / indoor evening
-                    lux < 4000f -> 1.0f    // Normal bright indoor
-                    else -> 1.5f           // Direct sunlight / high glare
+                    // Discretize Lux mappings to prevent continuous recompositions & cache misses on tiny light changes
+                    val multiplier =
+                        when {
+                            lux < 20f -> 0.5f // Pitch dark
+                            lux < 300f -> 0.8f // Dim room / indoor evening
+                            lux < 4000f -> 1.0f // Normal bright indoor
+                            else -> 1.5f // Direct sunlight / high glare
+                        }
+                    ambientContrast.floatValue = multiplier
                 }
-                ambientContrast.floatValue = multiplier
-            }
 
-            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
-        }
+                override fun onAccuracyChanged(
+                    sensor: Sensor?,
+                    accuracy: Int,
+                ) {}
+            }
 
         sensorManager.registerListener(
             listener,
             lightSensor,
-            SensorManager.SENSOR_DELAY_UI
+            SensorManager.SENSOR_DELAY_UI,
         )
 
         onDispose {

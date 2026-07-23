@@ -5,7 +5,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class NeoLightSourceTest {
-
     @Test
     fun testTopLeftLightSource_calculatesCorrectDisplacementOffsets() {
         val lightSource = NeoLightSource.TopLeft // 315 degrees

@@ -59,7 +59,7 @@ public fun NeoSwitch(
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val trackWidth = NeoTheme.size.controlLarge
     val trackHeight = NeoTheme.spacing.extraLarge
@@ -70,69 +70,72 @@ public fun NeoSwitch(
     val thumbOffset by animateDpAsState(
         targetValue = if (checked) maxTravelDistance else Dp(0f),
         animationSpec = animationSpec.elevationSpec,
-        label = "NeoSwitchThumbAnimation"
+        label = "NeoSwitchThumbAnimation",
     )
 
     val animatedTrackBg by animateColorAsState(
         targetValue = if (checked) colors.primary else colors.surface,
         animationSpec = animationSpec.colorSpec,
-        label = "NeoSwitchTrackBgAnimation"
+        label = "NeoSwitchTrackBgAnimation",
     )
 
     val animatedThumbBg by animateColorAsState(
         targetValue = if (checked) colors.onPrimary else colors.surface,
         animationSpec = animationSpec.colorSpec,
-        label = "NeoSwitchThumbBgAnimation"
+        label = "NeoSwitchThumbBgAnimation",
     )
 
     val haptic = LocalHapticFeedback.current
 
-    val toggleModifier = if (onCheckedChange != null) {
-        Modifier.clickable(
-            interactionSource = interactionSource,
-            indication = null,
-            enabled = enabled,
-            role = Role.Switch,
-            onClick = {
-                if (enabled) {
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                }
-                onCheckedChange(!checked)
-            }
-        )
-    } else {
-        Modifier
-    }
+    val toggleModifier =
+        if (onCheckedChange != null) {
+            Modifier.clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                enabled = enabled,
+                role = Role.Switch,
+                onClick = {
+                    if (enabled) {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    }
+                    onCheckedChange(!checked)
+                },
+            )
+        } else {
+            Modifier
+        }
 
     Box(
-        modifier = modifier
-            .size(width = trackWidth, height = trackHeight)
-            .neoStyle(
-                style = style,
-                shape = shape,
-                backgroundColor = animatedTrackBg,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = elevation,
-                lightSource = lightSource
-            )
-            .then(toggleModifier)
-            .padding(internalPadding),
-        contentAlignment = Alignment.CenterStart
-    ) {
-        Box(
-            modifier = Modifier
-                .offset(x = thumbOffset)
-                .size(thumbSize)
+        modifier =
+            modifier
+                .size(width = trackWidth, height = trackHeight)
                 .neoStyle(
-                    style = NeoStyle.Raised,
-                    shape = CircleShape,
-                    backgroundColor = animatedThumbBg,
+                    style = style,
+                    shape = shape,
+                    backgroundColor = animatedTrackBg,
                     lightColor = colors.lightShadow,
                     darkColor = colors.darkShadow,
-                    elevation = NeoTheme.elevation.level2,
-                    lightSource = lightSource
+                    elevation = elevation,
+                    lightSource = lightSource,
                 )
+                .then(toggleModifier)
+                .padding(internalPadding),
+        contentAlignment = Alignment.CenterStart,
+    ) {
+        Box(
+            modifier =
+                Modifier
+                    .offset(x = thumbOffset)
+                    .size(thumbSize)
+                    .neoStyle(
+                        style = NeoStyle.Raised,
+                        shape = CircleShape,
+                        backgroundColor = animatedThumbBg,
+                        lightColor = colors.lightShadow,
+                        darkColor = colors.darkShadow,
+                        elevation = NeoTheme.elevation.level2,
+                        lightSource = lightSource,
+                    ),
         )
     }
 }
@@ -143,7 +146,7 @@ private fun NeoSwitchPreview() {
     NeoTheme {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             NeoSwitch(checked = true, onCheckedChange = {})
             Spacer(Modifier.width(8.dp))

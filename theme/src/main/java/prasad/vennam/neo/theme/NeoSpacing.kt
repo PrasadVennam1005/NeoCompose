@@ -13,5 +13,5 @@ public data class NeoSpacing(
     public val small: Dp = 8.dp,
     public val medium: Dp = 16.dp,
     public val large: Dp = 24.dp,
-    public val extraLarge: Dp = 32.dp
+    public val extraLarge: Dp = 32.dp,
 )

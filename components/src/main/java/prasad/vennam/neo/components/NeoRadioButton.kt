@@ -58,57 +58,60 @@ public fun NeoRadioButton(
     colors: NeoColors = NeoTheme.colors,
     lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
     animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-    val selectModifier = if (onClick != null) {
-        Modifier.clickable(
-            interactionSource = interactionSource,
-            indication = null,
-            enabled = enabled,
-            role = Role.RadioButton,
-            onClick = onClick
-        )
-    } else {
-        Modifier
-    }
+    val selectModifier =
+        if (onClick != null) {
+            Modifier.clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                enabled = enabled,
+                role = Role.RadioButton,
+                onClick = onClick,
+            )
+        } else {
+            Modifier
+        }
 
     val borderWidth = if (selected) NeoTheme.size.borderThick else NeoTheme.size.borderMedium
     val borderColor = if (selected) colors.primary else colors.border.copy(alpha = 0.5f)
 
     Box(
-        modifier = modifier
-            .size(size)
-            .neoStyle(
-                style = style,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = elevation,
-                lightSource = lightSource,
-                borderWidth = borderWidth,
-                borderColor = borderColor
-            )
-            .then(selectModifier),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .size(size)
+                .neoStyle(
+                    style = style,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = elevation,
+                    lightSource = lightSource,
+                    borderWidth = borderWidth,
+                    borderColor = borderColor,
+                )
+                .then(selectModifier),
+        contentAlignment = Alignment.Center,
     ) {
         AnimatedVisibility(
             visible = selected,
             enter = fadeIn(androidx.compose.animation.core.tween(200)),
-            exit = fadeOut(androidx.compose.animation.core.tween(200))
+            exit = fadeOut(androidx.compose.animation.core.tween(200)),
         ) {
             Box(
-                modifier = Modifier
-                    .size(NeoTheme.size.thumbSizeSmall)
-                    .neoStyle(
-                        style = NeoStyle.Raised,
-                        shape = CircleShape,
-                        backgroundColor = colors.primary,
-                        lightColor = colors.lightShadow,
-                        darkColor = colors.darkShadow,
-                        elevation = NeoTheme.elevation.level2,
-                        lightSource = lightSource
-                    )
+                modifier =
+                    Modifier
+                        .size(NeoTheme.size.thumbSizeSmall)
+                        .neoStyle(
+                            style = NeoStyle.Raised,
+                            shape = CircleShape,
+                            backgroundColor = colors.primary,
+                            lightColor = colors.lightShadow,
+                            darkColor = colors.darkShadow,
+                            elevation = NeoTheme.elevation.level2,
+                            lightSource = lightSource,
+                        ),
             )
         }
     }
@@ -120,7 +123,7 @@ private fun NeoRadioButtonPreview() {
     NeoTheme {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             NeoRadioButton(selected = true, onClick = {})
             Spacer(Modifier.width(8.dp))

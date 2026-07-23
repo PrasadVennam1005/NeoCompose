@@ -8,7 +8,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class NeoColorsTest {
-
     @Test
     fun defaultLightColors_hasValidLightFlagsAndShadows() {
         val colors = NeoColors.defaultLightColors()

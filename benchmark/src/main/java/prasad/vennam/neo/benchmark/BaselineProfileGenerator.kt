@@ -9,7 +9,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class BaselineProfileGenerator {
-
     @get:Rule
     val baselineRule = BaselineProfileRule()
 
@@ -17,7 +16,7 @@ class BaselineProfileGenerator {
     fun generate() {
         baselineRule.collect(
             packageName = "prasad.vennam.neo.sample",
-            maxIterations = 10
+            maxIterations = 10,
         ) {
             pressHome()
             try {
@@ -25,7 +24,7 @@ class BaselineProfileGenerator {
             } catch (e: Throwable) {
                 val instrumentation = InstrumentationRegistry.getInstrumentation()
                 instrumentation.uiAutomation.executeShellCommand(
-                    "am start -n prasad.vennam.neo.sample/prasad.vennam.neo.sample.MainActivity"
+                    "am start -n prasad.vennam.neo.sample/prasad.vennam.neo.sample.MainActivity",
                 )
                 Thread.sleep(5000)
             }

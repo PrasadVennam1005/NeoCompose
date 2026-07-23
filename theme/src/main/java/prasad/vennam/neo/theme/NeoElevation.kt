@@ -14,5 +14,5 @@ public data class NeoElevation(
     public val level2: Dp = 4.dp,
     public val level3: Dp = 6.dp,
     public val level4: Dp = 8.dp,
-    public val level5: Dp = 12.dp
+    public val level5: Dp = 12.dp,
 )

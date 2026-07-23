@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     `maven-publish`
 }
@@ -44,7 +45,9 @@ afterEvaluate {
 
                 pom {
                     name.set("NeoCompose Core")
-                    description.set("Vector math, light source calculation, and GPU Canvas dual shadow engine for Jetpack Compose Neumorphism.")
+                    description.set(
+                        "Vector math, light source calculation, and GPU Canvas dual shadow engine for Jetpack Compose Neumorphism.",
+                    )
                     url.set("https://github.com/prasadvennam/ComposeComponentsPlugNPlay")
                     licenses {
                         license {

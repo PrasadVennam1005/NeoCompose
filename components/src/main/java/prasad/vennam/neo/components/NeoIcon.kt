@@ -49,31 +49,32 @@ public fun NeoIcon(
     style: NeoStyle? = null,
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
-    lightSource: NeoLightSource = NeoTheme.lighting.lightSource
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
 ) {
     if (style != null) {
         val containerPadding = NeoTheme.spacing.small
         val containerSize = size + (containerPadding * 2)
 
         Box(
-            modifier = modifier
-                .size(containerSize)
-                .neoStyle(
-                    style = style,
-                    shape = CircleShape,
-                    backgroundColor = colors.surface,
-                    lightColor = colors.lightShadow,
-                    darkColor = colors.darkShadow,
-                    elevation = elevation,
-                    lightSource = lightSource
-                ),
-            contentAlignment = Alignment.Center
+            modifier =
+                modifier
+                    .size(containerSize)
+                    .neoStyle(
+                        style = style,
+                        shape = CircleShape,
+                        backgroundColor = colors.surface,
+                        lightColor = colors.lightShadow,
+                        darkColor = colors.darkShadow,
+                        elevation = elevation,
+                        lightSource = lightSource,
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = imageVector,
                 contentDescription = contentDescription,
                 tint = tint,
-                modifier = Modifier.size(size)
+                modifier = Modifier.size(size),
             )
         }
     } else {
@@ -81,7 +82,7 @@ public fun NeoIcon(
             imageVector = imageVector,
             contentDescription = contentDescription,
             tint = tint,
-            modifier = modifier.size(size)
+            modifier = modifier.size(size),
         )
     }
 }
@@ -109,31 +110,32 @@ public fun NeoIcon(
     style: NeoStyle? = null,
     elevation: Dp = NeoTheme.elevation.level2,
     colors: NeoColors = NeoTheme.colors,
-    lightSource: NeoLightSource = NeoTheme.lighting.lightSource
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
 ) {
     if (style != null) {
         val containerPadding = NeoTheme.spacing.small
         val containerSize = size + (containerPadding * 2)
 
         Box(
-            modifier = modifier
-                .size(containerSize)
-                .neoStyle(
-                    style = style,
-                    shape = CircleShape,
-                    backgroundColor = colors.surface,
-                    lightColor = colors.lightShadow,
-                    darkColor = colors.darkShadow,
-                    elevation = elevation,
-                    lightSource = lightSource
-                ),
-            contentAlignment = Alignment.Center
+            modifier =
+                modifier
+                    .size(containerSize)
+                    .neoStyle(
+                        style = style,
+                        shape = CircleShape,
+                        backgroundColor = colors.surface,
+                        lightColor = colors.lightShadow,
+                        darkColor = colors.darkShadow,
+                        elevation = elevation,
+                        lightSource = lightSource,
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 painter = painter,
                 contentDescription = contentDescription,
                 tint = tint,
-                modifier = Modifier.size(size)
+                modifier = Modifier.size(size),
             )
         }
     } else {
@@ -141,7 +143,7 @@ public fun NeoIcon(
             painter = painter,
             contentDescription = contentDescription,
             tint = tint,
-            modifier = modifier.size(size)
+            modifier = modifier.size(size),
         )
     }
 }
@@ -152,7 +154,7 @@ private fun NeoIconPreview() {
     NeoTheme {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             NeoIcon(imageVector = Icons.Default.Favorite, contentDescription = "Heart", style = NeoStyle.Raised)
             Spacer(Modifier.width(16.dp))

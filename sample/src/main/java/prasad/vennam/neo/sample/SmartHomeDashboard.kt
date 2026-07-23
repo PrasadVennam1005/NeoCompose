@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.components.NeoBadge
 import prasad.vennam.neo.components.NeoCard
 import prasad.vennam.neo.components.NeoIconButton
@@ -34,29 +33,29 @@ import kotlin.math.roundToInt
 @Composable
 public fun SmartHomeDashboard(
     state: StudioState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium + NeoTheme.spacing.extraSmall)
+        verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium + NeoTheme.spacing.extraSmall),
     ) {
         // Welcome Status Card
         NeoCard(style = state.selectedStyle) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column {
                     Text(
                         text = "Smart Home Hub",
                         style = NeoTheme.typography.title,
-                        color = NeoTheme.colors.textPrimary
+                        color = NeoTheme.colors.textPrimary,
                     )
                     Text(
                         text = "3 devices connected",
                         style = NeoTheme.typography.caption,
-                        color = NeoTheme.colors.textSecondary
+                        color = NeoTheme.colors.textSecondary,
                     )
                 }
 
@@ -70,7 +69,7 @@ public fun SmartHomeDashboard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         NeoIconButton(onClick = { }) {
@@ -81,26 +80,26 @@ public fun SmartHomeDashboard(
                             Text(
                                 text = "Climate Control",
                                 style = NeoTheme.typography.title,
-                                color = NeoTheme.colors.textPrimary
+                                color = NeoTheme.colors.textPrimary,
                             )
                             Text(
                                 text = "${state.roomTemperature.roundToInt()}°C Target Temp",
                                 style = NeoTheme.typography.caption,
-                                color = NeoTheme.colors.textSecondary
+                                color = NeoTheme.colors.textSecondary,
                             )
                         }
                     }
 
                     NeoSwitch(
                         checked = state.isAcOn,
-                        onCheckedChange = { state.isAcOn = it }
+                        onCheckedChange = { state.isAcOn = it },
                     )
                 }
 
                 NeoSlider(
                     value = state.roomTemperature,
                     onValueChange = { state.roomTemperature = it },
-                    valueRange = 16f..30f
+                    valueRange = 16f..30f,
                 )
             }
         }
@@ -108,62 +107,66 @@ public fun SmartHomeDashboard(
         // Quick Controls Grid (Lighting & Security)
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)
+            horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium),
         ) {
             // Lighting Interactive Control Surface
             NeoSurface(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(NeoTheme.size.controlLarge * 2)
-                    .clickable { state.isLightsOn = !state.isLightsOn },
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .height(NeoTheme.size.controlLarge * 2)
+                        .clickable { state.isLightsOn = !state.isLightsOn },
                 style = if (state.isLightsOn) NeoStyle.Inset else NeoStyle.Raised,
-                shape = NeoTheme.shapes.large
+                shape = NeoTheme.shapes.large,
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(NeoTheme.spacing.medium),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(NeoTheme.spacing.medium),
                     verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.Start
+                    horizontalAlignment = Alignment.Start,
                 ) {
                     Icon(
                         imageVector = Icons.Default.Lightbulb,
                         contentDescription = null,
-                        tint = if (state.isLightsOn) NeoTheme.colors.primary else NeoTheme.colors.textSecondary
+                        tint = if (state.isLightsOn) NeoTheme.colors.primary else NeoTheme.colors.textSecondary,
                     )
                     Text(
                         text = if (state.isLightsOn) "Lights ON" else "Lights OFF",
                         style = NeoTheme.typography.label,
-                        color = NeoTheme.colors.textPrimary
+                        color = NeoTheme.colors.textPrimary,
                     )
                 }
             }
 
             // Security Interactive Control Surface
             NeoSurface(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(NeoTheme.size.controlLarge * 2)
-                    .clickable { state.isSecurityOn = !state.isSecurityOn },
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .height(NeoTheme.size.controlLarge * 2)
+                        .clickable { state.isSecurityOn = !state.isSecurityOn },
                 style = if (state.isSecurityOn) NeoStyle.Inset else NeoStyle.Raised,
-                shape = NeoTheme.shapes.large
+                shape = NeoTheme.shapes.large,
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(NeoTheme.spacing.medium),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(NeoTheme.spacing.medium),
                     verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.Start
+                    horizontalAlignment = Alignment.Start,
                 ) {
                     Icon(
                         imageVector = Icons.Default.Lock,
                         contentDescription = null,
-                        tint = if (state.isSecurityOn) NeoTheme.colors.primary else NeoTheme.colors.textSecondary
+                        tint = if (state.isSecurityOn) NeoTheme.colors.primary else NeoTheme.colors.textSecondary,
                     )
                     Text(
                         text = if (state.isSecurityOn) "Security ARMED" else "Security OFF",
                         style = NeoTheme.typography.label,
-                        color = NeoTheme.colors.textPrimary
+                        color = NeoTheme.colors.textPrimary,
                     )
                 }
             }
@@ -175,7 +178,7 @@ public fun SmartHomeDashboard(
                 Text(
                     text = "Daily Power Usage (2.4 kWh)",
                     style = NeoTheme.typography.label,
-                    color = NeoTheme.colors.textSecondary
+                    color = NeoTheme.colors.textSecondary,
                 )
                 NeoLinearProgressIndicator(progress = 0.65f)
             }

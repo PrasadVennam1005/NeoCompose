@@ -21,7 +21,7 @@ import prasad.vennam.neo.theme.NeoTheme
 
 public enum class NeoDividerOrientation {
     Horizontal,
-    Vertical
+    Vertical,
 }
 
 /**
@@ -45,26 +45,28 @@ public fun NeoDivider(
     shape: Shape = CircleShape,
     elevation: Dp = NeoTheme.elevation.level1,
     colors: NeoColors = NeoTheme.colors,
-    lightSource: NeoLightSource = NeoTheme.lighting.lightSource
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
 ) {
-    val sizeModifier = if (orientation == NeoDividerOrientation.Horizontal) {
-        Modifier.fillMaxWidth().height(thickness)
-    } else {
-        Modifier.fillMaxHeight().width(thickness)
-    }
+    val sizeModifier =
+        if (orientation == NeoDividerOrientation.Horizontal) {
+            Modifier.fillMaxWidth().height(thickness)
+        } else {
+            Modifier.fillMaxHeight().width(thickness)
+        }
 
     Box(
-        modifier = modifier
-            .then(sizeModifier)
-            .neoStyle(
-                style = style,
-                shape = shape,
-                backgroundColor = colors.surface,
-                lightColor = colors.lightShadow,
-                darkColor = colors.darkShadow,
-                elevation = elevation,
-                lightSource = lightSource
-            )
+        modifier =
+            modifier
+                .then(sizeModifier)
+                .neoStyle(
+                    style = style,
+                    shape = shape,
+                    backgroundColor = colors.surface,
+                    lightColor = colors.lightShadow,
+                    darkColor = colors.darkShadow,
+                    elevation = elevation,
+                    lightSource = lightSource,
+                ),
     )
 }
 

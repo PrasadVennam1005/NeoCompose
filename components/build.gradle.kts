@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     `maven-publish`
+    alias(libs.plugins.paparazzi)
 }
 
 android {
@@ -44,7 +46,9 @@ afterEvaluate {
 
                 pom {
                     name.set("NeoCompose Components")
-                    description.set("Full suite of 14 Material 3 compatible Neumorphism components for Jetpack Compose.")
+                    description.set(
+                        "Full suite of 14 Material 3 compatible Neumorphism components for Jetpack Compose.",
+                    )
                     url.set("https://github.com/prasadvennam/ComposeComponentsPlugNPlay")
                     licenses {
                         license {
