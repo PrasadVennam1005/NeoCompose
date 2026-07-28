@@ -2,11 +2,15 @@
 
 All notable changes to the **NeoCompose** library will be documented in this file.
 
-## [2.0.0-alpha01] - 2026-07-22
+## [2.0.0] - 2026-07-28
 
 ### Added
-- **Specular Highlights (AGSL Shaders)**: High-fidelity Blinn-Phong 3D specular glare highlights on surfaces (`Modifier.neoSpecular`). Uses AGSL RuntimeShader on Android 13+ and radial gradient white highlights on older APIs.
-- **specularHighlight Parameter**: Integrated specular gloss options across `NeoButton`, `NeoCard`, and `NeoSurface` containers.
+- **Compose Multiplatform Support**: Rebuilt the entire codebase as a Kotlin Multiplatform (KMP) and Compose Multiplatform (CMP) project targeting **Android**, **iOS**, and **Desktop (JVM/Skia)**.
+- **Skia-Based Multiplatform Shadows**: Replaced Android's custom `BlurMaskFilter` drawing behavior with Skia's `MaskFilter.makeBlur` for iOS and Desktop (JVM) targets, while retaining the native Android API on Android.
+- **Multiplatform Specular Glare**: Refactored `Modifier.neoSpecular` to support radial gradient fallbacks on iOS/Desktop and high-fidelity AGSL runtime shaders on Android (API 33+).
+- **Multiplatform Sensor Fallbacks**: Created expect/actual bounds for environmental contrast, parallax, and accelerometer sensors to return default states on iOS/Desktop while executing native hardware hooks on Android.
+- **Thread-safe SimpleLruCache**: Developed a target-agnostic, thread-safe LruCache implementation utilizing `LinkedHashMap` and synchronization to maintain 120fps pre-rendered shadow caching.
+- **Developer Tooling**: Added `palette_generator.py` and `figma_sync.py` under the `tools/` directory.
 
 ---
 

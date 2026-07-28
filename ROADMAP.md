@@ -44,9 +44,9 @@
 - [x] **Gyroscope Lighting Binder**: Optional sensor binding (`NeoSensorLightSource`) to automatically shift component light vectors based on phone tilt.
 
 ## Milestone 4: Specular Shaders & Compose Multiplatform (v2.0.0) 🌐
-- [ ] **Compose Multiplatform Support**: Build targets for iOS (Kotlin/Native), Desktop (JVM), and Web (Compose HTML/Canvas).
+- [x] **Compose Multiplatform Support**: Build targets for iOS (Kotlin/Native) and Desktop (JVM).
 - [x] **Specular Highlights (AGSL Shaders)**: Interactive high-fidelity gloss effects using custom fragment shaders.
 
 ## Developer Tooling & Ecosystem 🛠
-- [ ] **Neumorphic Palette Generator**: CLI/Web tool to compute mathematically sound surface, shadow, and text colors based on a single brand base color.
-- [ ] **Figma variables sync**: Script to convert exported Figma variable tokens directly into Compose `NeoTheme` values.
+- [x] **Neumorphic Palette Generator**: CLI tool to compute mathematically sound surface, shadow, and text colors based on a single brand base color.
+- [x] **Figma variables sync**: Script to convert exported Figma variable tokens directly into Compose `NeoTheme` values.

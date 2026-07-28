@@ -1,11 +1,11 @@
-# NeoCompose (Soft UI / Neumorphism for Jetpack Compose)
+# NeoCompose (Soft UI / Neumorphism for Jetpack Compose & Compose Multiplatform)
 
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-v1.0.0-blue.svg)](https://search.maven.org/)
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-v2.0.0-blue.svg)](https://search.maven.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-purple.svg)](https://kotlinlang.org/)
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.5-teal.svg)](https://developer.android.com/jetpack/compose)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4.10-purple.svg)](https://kotlinlang.org/)
+[![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.7.3-teal.svg)](https://github.com/JetBrains/compose-multiplatform)
 
-**NeoCompose** is a state-of-the-art, high-performance **Neumorphism (Soft UI)** design system library built natively for **Android & Jetpack Compose**. It provides hardware-accelerated Canvas rendering, tokenized design system architecture (`NeoTheme.size`, `NeoTheme.icons`), smooth 60fps/120fps elevation physics, and **31 production-ready components**.
+**NeoCompose** is a state-of-the-art, high-performance **Neumorphism (Soft UI)** design system library built natively for **Kotlin Multiplatform & Compose Multiplatform** (Android, iOS, and JVM/Desktop). It provides hardware-accelerated Canvas rendering, tokenized design system architecture (`NeoTheme.size`, `NeoTheme.icons`), smooth 60fps/120fps elevation physics, and **31 production-ready components**.
 
 👉 **[Try the Interactive Web Showcase & Playground!](https://prasadvennam1005.github.io/NeoCompose/showcase/index.html)**
 
@@ -44,15 +44,31 @@ NeoCompose is built with high-performance and modern developer demands in mind:
 
 ## 🚀 Installation
 
-Add the dependency to your app's `build.gradle.kts`:
+For Kotlin Multiplatform projects, add the dependencies to your `commonMain` dependencies block in `build.gradle.kts`:
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("prasad.vennam.neo:core:2.0.0")
+            implementation("prasad.vennam.neo:foundation:2.0.0")
+            implementation("prasad.vennam.neo:theme:2.0.0")
+            implementation("prasad.vennam.neo:animation:2.0.0")
+            implementation("prasad.vennam.neo:components:2.0.0")
+        }
+    }
+}
+```
+
+Or for Android-only projects, add them directly to your standard `dependencies` block:
 
 ```kotlin
 dependencies {
-    implementation("prasad.vennam.neo:core:1.0.0")
-    implementation("prasad.vennam.neo:foundation:1.0.0")
-    implementation("prasad.vennam.neo:theme:1.0.0")
-    implementation("prasad.vennam.neo:animation:1.0.0")
-    implementation("prasad.vennam.neo:components:1.0.0")
+    implementation("prasad.vennam.neo:core:2.0.0")
+    implementation("prasad.vennam.neo:foundation:2.0.0")
+    implementation("prasad.vennam.neo:theme:2.0.0")
+    implementation("prasad.vennam.neo:animation:2.0.0")
+    implementation("prasad.vennam.neo:components:2.0.0")
 }
 ```
 
