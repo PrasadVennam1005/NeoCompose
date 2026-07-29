@@ -27,6 +27,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import prasad.vennam.neo.theme.NeoTypography
 import prasad.vennam.neo.components.NeoBadge
 import prasad.vennam.neo.components.NeoSegmentedControl
 import prasad.vennam.neo.core.NeoLightSource
@@ -81,10 +83,38 @@ class MainActivity : ComponentActivity() {
             val catalogScrollState = rememberScrollState()
             val dashboardScrollState = rememberScrollState()
 
+            val defaultTypography = remember { NeoTypography() }
+            val scaledTypography = remember(studioState.textSizeMultiplier) {
+                val scale = studioState.textSizeMultiplier
+                NeoTypography(
+                    display = defaultTypography.display.copy(
+                        fontSize = (defaultTypography.display.fontSize.value * scale).sp,
+                        lineHeight = (defaultTypography.display.lineHeight.value * scale).sp
+                    ),
+                    title = defaultTypography.title.copy(
+                        fontSize = (defaultTypography.title.fontSize.value * scale).sp,
+                        lineHeight = (defaultTypography.title.lineHeight.value * scale).sp
+                    ),
+                    body = defaultTypography.body.copy(
+                        fontSize = (defaultTypography.body.fontSize.value * scale).sp,
+                        lineHeight = (defaultTypography.body.lineHeight.value * scale).sp
+                    ),
+                    label = defaultTypography.label.copy(
+                        fontSize = (defaultTypography.label.fontSize.value * scale).sp,
+                        lineHeight = (defaultTypography.label.lineHeight.value * scale).sp
+                    ),
+                    caption = defaultTypography.caption.copy(
+                        fontSize = (defaultTypography.caption.fontSize.value * scale).sp,
+                        lineHeight = (defaultTypography.caption.lineHeight.value * scale).sp
+                    )
+                )
+            }
+
             NeoTheme(
                 colors = colors,
                 lighting = lighting,
                 elevation = elevation,
+                typography = scaledTypography,
             ) {
                 CompositionLocalProvider(LocalShadowAlphaMultiplier provides ambientContrastMultiplier) {
                     Scaffold(
@@ -123,7 +153,10 @@ class MainActivity : ComponentActivity() {
                             NeoSegmentedControl(
                                 items = listOf("Studio", "Catalog", "Dashboard"),
                                 selectedIndex = studioState.selectedCategoryTab,
-                                onOptionSelected = { studioState.selectedCategoryTab = it },
+                                onOptionSelected = { 
+                                    studioState.selectedCategoryTab = it
+                                    studioState.selectedComponentRoute = CatalogScreen.Index
+                                },
                                 modifier = Modifier.padding(bottom = NeoTheme.spacing.medium),
                             )
 

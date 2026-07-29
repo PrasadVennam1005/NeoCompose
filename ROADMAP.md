@@ -47,6 +47,14 @@
 - [x] **Compose Multiplatform Support**: Build targets for iOS (Kotlin/Native) and Desktop (JVM).
 - [x] **Specular Highlights (AGSL Shaders)**: Interactive high-fidelity gloss effects using custom fragment shaders.
 
+## Milestone 5: Advanced Controls (v2.1.0) 🎛
+- [x] **NeoCircularSlider**: Interactive circular drag dial with haptic ticks and radial progress.
+- [x] **NeoDialGauge**: Multi-concentric metric dial displaying gauges with indicator needle.
+- [x] **NeoCardCarousel**: 3D swipeable card carousel with dynamic scale, rotation, and elevation morphing.
+- [x] **NeoIconToggleButton**: Interactive checkable icon button for toggle states (favorites/bookmarks).
+
+
 ## Developer Tooling & Ecosystem 🛠
 - [x] **Neumorphic Palette Generator**: CLI tool to compute mathematically sound surface, shadow, and text colors based on a single brand base color.
 - [x] **Figma variables sync**: Script to convert exported Figma variable tokens directly into Compose `NeoTheme` values.
+

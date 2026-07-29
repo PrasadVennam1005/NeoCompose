@@ -188,6 +188,21 @@ public fun StudioControls(
                     valueRange = 1f..16f,
                 )
             }
+
+            // Text Size Scale Slider
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.extraSmall)) {
+                val formattedScale = ((state.textSizeMultiplier * 100f).roundToInt() / 100f)
+                Text(
+                    text = "Text Size Scale: ${formattedScale}x",
+                    style = NeoTheme.typography.label,
+                    color = NeoTheme.colors.textSecondary,
+                )
+                NeoSlider(
+                    value = state.textSizeMultiplier,
+                    onValueChange = { state.textSizeMultiplier = it },
+                    valueRange = 0.7f..1.3f,
+                )
+            }
         }
     }
 }

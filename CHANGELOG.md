@@ -2,7 +2,19 @@
 
 All notable changes to the **NeoCompose** library will be documented in this file.
 
+## [2.1.0-alpha01] - 2026-07-28
+
+### Added
+- NeoCircularSlider: Interactive circular dial slider with draggable raised thumb, radial progress arcs, and built-in haptic tick feedback on rotations.
+- **NeoDialGauge**: A concentric speedometer-like gauge displaying fractions with a customizable pointer needle and dynamic circular tick markings.
+- **NeoCardCarousel**: A swipable horizontal card container pager supporting dynamic 3D Y-axis rotation, dynamic scale, and depth elevation adjustments based on scroll offset.
+- **NeoIconToggleButton**: An interactive checkable icon button for toggle states (favorites/bookmarks), switching dynamically between configurable Checked and Unchecked Neumorphic styles.
+
+
+---
+
 ## [2.0.0] - 2026-07-28
+
 
 ### Added
 - **Compose Multiplatform Support**: Rebuilt the entire codebase as a Kotlin Multiplatform (KMP) and Compose Multiplatform (CMP) project targeting **Android**, **iOS**, and **Desktop (JVM/Skia)**.
