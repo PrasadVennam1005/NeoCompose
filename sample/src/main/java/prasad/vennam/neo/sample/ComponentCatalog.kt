@@ -453,6 +453,7 @@ public fun ComponentCatalog(
                     CatalogScreen.Advanced -> AdvancedShowcase(state, circularValue) { circularValue = it }
                     CatalogScreen.SpeedDial -> SpeedDialShowcase()
                     CatalogScreen.IconToggleButton -> IconToggleButtonShowcase(state)
+                    CatalogScreen.Glassmorphism -> GlassmorphismShowcase(state)
                 }
             }
         }
@@ -513,12 +514,14 @@ private fun CatalogNavigationTiles(state: StudioState) {
 @Composable
 private fun NeoSurfaceShowcase(state: StudioState) {
     NeoCard(style = state.selectedStyle) {
-        Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small + NeoTheme.spacing.extraSmall)) {
+        Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
             Text(
-                "1. NeoSurface (All 7 Variants Showcase)",
+                "1. NeoSurface (Standard & Dynamic Descriptors Showcase)",
                 style = NeoTheme.typography.title,
                 color = NeoTheme.colors.textPrimary,
             )
+
+            Text("Core Neumorphic Archetypes", style = NeoTheme.typography.caption, color = NeoTheme.colors.textSecondary)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small),
@@ -530,17 +533,10 @@ private fun NeoSurfaceShowcase(state: StudioState) {
                     NeoStyle.Flat to "Flat",
                 ).forEach { (style, label) ->
                     NeoSurface(
-                        modifier =
-                            Modifier
-                                .weight(1f)
-                                .height(NeoTheme.size.controlMedium),
+                        modifier = Modifier.weight(1f).height(NeoTheme.size.controlMedium),
                         style = style,
                     ) {
-                        Text(
-                            label,
-                            style = NeoTheme.typography.label,
-                            color = NeoTheme.colors.textSecondary,
-                        )
+                        Text(label, style = NeoTheme.typography.label, color = NeoTheme.colors.textSecondary)
                     }
                 }
             }
@@ -554,23 +550,53 @@ private fun NeoSurfaceShowcase(state: StudioState) {
                     NeoStyle.Basin to "Basin",
                 ).forEach { (style, label) ->
                     NeoSurface(
-                        modifier =
-                            Modifier
-                                .weight(1f)
-                                .height(NeoTheme.size.controlMedium),
+                        modifier = Modifier.weight(1f).height(NeoTheme.size.controlMedium),
                         style = style,
                     ) {
-                        Text(
-                            label,
-                            style = NeoTheme.typography.label,
-                            color = NeoTheme.colors.textSecondary,
-                        )
+                        Text(label, style = NeoTheme.typography.label, color = NeoTheme.colors.textSecondary)
+                    }
+                }
+            }
+
+            Text("Dynamic Extensible Descriptors", style = NeoTheme.typography.caption, color = NeoTheme.colors.textSecondary)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small),
+            ) {
+                listOf(
+                    NeoStyle.Glass() to "Glass",
+                    NeoStyle.Glow(glowColor = Color(0xFF00E5FF)) to "Neon Glow",
+                    NeoStyle.Clay(primaryColor = Color(0xFFFFB74D)) to "Pastel Clay",
+                ).forEach { (style, label) ->
+                    NeoSurface(
+                        modifier = Modifier.weight(1f).height(NeoTheme.size.controlMedium),
+                        style = style,
+                    ) {
+                        Text(label, style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
+                    }
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small),
+            ) {
+                listOf(
+                    NeoStyle.Metallic(finish = NeoStyle.Metallic.Finish.Brushed) to "Brushed Metal",
+                    NeoStyle.Metallic(finish = NeoStyle.Metallic.Finish.Chrome) to "Chrome",
+                    NeoStyle.Metallic(finish = NeoStyle.Metallic.Finish.Carbon) to "Carbon Fiber",
+                ).forEach { (style, label) ->
+                    NeoSurface(
+                        modifier = Modifier.weight(1f).height(NeoTheme.size.controlMedium),
+                        style = style,
+                    ) {
+                        Text(label, style = NeoTheme.typography.label, color = NeoTheme.colors.textPrimary)
                     }
                 }
             }
         }
     }
 }
+
 
 @Composable
 private fun ButtonsShowcase(state: StudioState) {
@@ -1245,3 +1271,101 @@ private fun IconToggleButtonShowcase(state: StudioState) {
         }
     }
 }
+
+@Composable
+private fun GlassmorphismShowcase(state: StudioState) {
+    val glassStyle = NeoStyle.Glass(
+        blurRadius = state.glassBlurRadiusDp.dp,
+        alpha = state.glassAlpha,
+        borderAlpha = (state.glassAlpha * 0.7f).coerceIn(0.1f, 0.8f),
+        frosted = state.glassFrosted
+    )
+
+    Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
+        // Interactive Controls Card
+        NeoCard(style = NeoStyle.Raised) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small)) {
+                Text("Glassmorphism Studio Customizer", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
+
+                // Translucency Alpha Slider
+                Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.extraSmall)) {
+                    Text("Opacity / Translucency Alpha: ${(state.glassAlpha * 100).toInt()}%", style = NeoTheme.typography.label)
+                    NeoSlider(
+                        value = state.glassAlpha,
+                        onValueChange = { state.glassAlpha = it },
+                        valueRange = 0.1f..0.9f
+                    )
+                }
+
+                // Blur Radius Slider
+                Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.extraSmall)) {
+                    Text("Frosted Blur Radius: ${state.glassBlurRadiusDp.toInt()} dp", style = NeoTheme.typography.label)
+                    NeoSlider(
+                        value = state.glassBlurRadiusDp,
+                        onValueChange = { state.glassBlurRadiusDp = it },
+                        valueRange = 4f..28f
+                    )
+                }
+
+                // Frosted Specular Rim Switch
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Frosted Specular Rim Highlight", style = NeoTheme.typography.body)
+                    NeoSwitch(
+                        checked = state.glassFrosted,
+                        onCheckedChange = { state.glassFrosted = it }
+                    )
+                }
+            }
+        }
+
+        // Glassmorphism Live UI Preview Card
+        NeoCard(style = glassStyle) {
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text("Live Frosted Glass Surface", style = NeoTheme.typography.title, color = NeoTheme.colors.textPrimary)
+                        Text("Translucent glass background with specular border rim", style = NeoTheme.typography.caption, color = NeoTheme.colors.textSecondary)
+                    }
+                    NeoBadge(count = "GLASS")
+                }
+
+                NeoSearchField(
+                    query = state.searchQuery,
+                    onQueryChange = { state.searchQuery = it },
+                    placeholder = "Search in glass UI...",
+                    style = glassStyle
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small)
+                ) {
+                    NeoButton(
+                        onClick = {},
+                        style = glassStyle,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Glass Action")
+                    }
+
+                    NeoButton(
+                        onClick = {},
+                        style = NeoStyle.Glow(glowColor = Color(0xFF00E5FF)),
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Cyan Glow")
+                    }
+                }
+            }
+        }
+    }
+}
+

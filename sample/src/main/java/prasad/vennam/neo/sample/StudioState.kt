@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import prasad.vennam.neo.core.NeoStyle
 
 public enum class CatalogScreen(val title: String, val description: String) {
     Index("Catalog Index", ""),
-    NeoSurface("1. NeoSurface (7 Variants)", "Raised, pressed, inset, flat, concave, convex, and basin container styles."),
+    NeoSurface("1. NeoSurface (Standard & Dynamic Descriptors)", "Raised, pressed, inset, concave, convex, basin, flat, glass, glow, clay, metallic, and custom styles."),
     Buttons("2. Buttons & Icon Buttons", "Neumorphic button variants, circular icon buttons, and custom interactions."),
     FormInputs("3. Form Inputs & Select Controls", "Neumorphic text fields, dropdown menus, checkboxes, switches, and radio buttons."),
     Pickers("4. Date & Time Pickers", "Fully functional calendar date selector and analog hour/minute time picker."),
@@ -22,14 +23,24 @@ public enum class CatalogScreen(val title: String, val description: String) {
     Material3("11. Material 3 Interoperability", "Auto-draping M3 buttons and cards using the interaction modifier."),
     Advanced("12. Advanced Controls (v2.1.0)", "Compose Multiplatform custom circular sliders, dial gauges, and card carousels."),
     SpeedDial("13. Floating Action Speed Dial", "Floating action menu expanding vertically on hover/tap with multiple speed dial items."),
-    IconToggleButton("14. Icon Toggle Button (v2.1.0)", "Interactive checked/unchecked icon state morphing with neumorphic style transitions.")
+    IconToggleButton("14. Icon Toggle Button (v2.1.0)", "Interactive checked/unchecked icon state morphing with neumorphic style transitions."),
+    Glassmorphism("15. Glassmorphism Studio (v2.2.0)", "Interactive frosted glass cards, translucent translucency tuning, and glowing glass UI controls.")
 }
 
 public class StudioState {
     public var selectedCategoryTab: Int by mutableIntStateOf(0)
     public var selectedComponentRoute: CatalogScreen by mutableStateOf(CatalogScreen.Index)
-    public val styleOptions: List<String> = listOf("Raised", "Pressed", "Inset", "Concave", "Convex", "Basin", "Flat")
+    public val styleOptions: List<String> = listOf(
+        "Raised", "Pressed", "Inset", "Concave", "Convex", "Basin", "Flat",
+        "Glassmorphism", "Neon Glow", "Pastel Clay", "Brushed Metal", "Carbon Fiber"
+    )
     public var selectedStyleIndex: Int by mutableIntStateOf(0)
+
+    // Interactive Glassmorphism Showcase State
+    public var glassAlpha: Float by mutableFloatStateOf(0.45f)
+    public var glassBlurRadiusDp: Float by mutableFloatStateOf(12f)
+    public var glassFrosted: Boolean by mutableStateOf(true)
+
 
     public val selectedStyle: NeoStyle
         get() =
@@ -40,7 +51,13 @@ public class StudioState {
                 3 -> NeoStyle.Concave
                 4 -> NeoStyle.Convex
                 5 -> NeoStyle.Basin
-                else -> NeoStyle.Flat
+                6 -> NeoStyle.Flat
+                7 -> NeoStyle.Glass()
+                8 -> NeoStyle.Glow(glowColor = Color(0xFF00E5FF))
+                9 -> NeoStyle.Clay(primaryColor = Color(0xFFFFB74D))
+                10 -> NeoStyle.Metallic(finish = NeoStyle.Metallic.Finish.Brushed)
+                11 -> NeoStyle.Metallic(finish = NeoStyle.Metallic.Finish.Carbon)
+                else -> NeoStyle.Raised
             }
 
     public var isDarkTheme: Boolean by mutableStateOf(false)

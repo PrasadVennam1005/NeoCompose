@@ -79,6 +79,13 @@ public fun NeoSegmentedControl(
                     modifier =
                         Modifier
                             .weight(1f)
+                            .clickable(
+                                interactionSource = interactionSource,
+                                indication = null,
+                                enabled = enabled,
+                                role = Role.Tab,
+                                onClick = { onOptionSelected(index) },
+                            )
                             .neoStyle(
                                 style = if (isSelected) NeoStyle.Raised else NeoStyle.Flat,
                                 shape = CircleShape,
@@ -87,13 +94,6 @@ public fun NeoSegmentedControl(
                                 darkColor = colors.darkShadow,
                                 elevation = if (isSelected) NeoTheme.elevation.level2 else Dp(0f),
                                 lightSource = lightSource,
-                            )
-                            .clickable(
-                                interactionSource = interactionSource,
-                                indication = null,
-                                enabled = enabled,
-                                role = Role.Tab,
-                                onClick = { onOptionSelected(index) },
                             )
                             .padding(vertical = NeoTheme.spacing.medium),
                     contentAlignment = Alignment.Center,

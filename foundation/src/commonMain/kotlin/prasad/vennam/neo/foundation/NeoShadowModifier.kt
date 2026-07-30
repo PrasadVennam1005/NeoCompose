@@ -63,10 +63,10 @@ private class SimpleLruCache<K, V>(private val maxSize: Int) {
 private val shadowCache = SimpleLruCache<ShadowCacheKey, ImageBitmap>(50)
 
 /**
- * Draws Neumorphic shadows (outer dual shadows or soft inner shadows) behind a composable's bounds
- * using GPU-accelerated Canvas rendering and offscreen hardware-accelerated caching.
+ * Draws Neumorphic shadows (outer dual shadows, soft inner shadows, ambient glows, or frosted passes)
+ * behind a composable's bounds using GPU-accelerated Canvas rendering and offscreen caching.
  *
- * @param style Visual Neumorphic surface style ([NeoStyle.Raised], [NeoStyle.Pressed], [NeoStyle.Basin], etc.).
+ * @param style Visual Neumorphic surface style or parametric descriptor ([NeoStyle]).
  * @param shape Component geometric shape outlining shadows.
  * @param lightColor Color of light highlight facing light source.
  * @param darkColor Color of dark shadow cast away from light source.
@@ -86,8 +86,18 @@ public fun Modifier.neoShadow(
         val height = size.height.toInt()
         if (width <= 0 || height <= 0) return@drawBehind
 
-        val distancePx = elevation.toPx()
-        val blurRadiusPx = distancePx * 1.5f
+        val activeElevation = when (style) {
+            is NeoStyle.Clay -> style.softElevation
+            is NeoStyle.Custom -> style.customElevation ?: elevation
+            else -> elevation
+        }
+
+        val distancePx = activeElevation.toPx()
+        val blurRadiusPx = when (style) {
+            is NeoStyle.Glass -> style.blurRadius.toPx()
+            is NeoStyle.Glow -> style.glowRadius.toPx()
+            else -> distancePx * 1.5f
+        }
 
         // Calculate dynamic padding to prevent shadow boundary clipping
         val darkOffset = lightSource.calculateDarkShadowOffset(distancePx)
@@ -107,7 +117,7 @@ public fun Modifier.neoShadow(
                 shape = shape,
                 lightColor = lightColor,
                 darkColor = darkColor,
-                elevationDp = elevation.value,
+                elevationDp = activeElevation.value,
                 lightSource = lightSource,
             )
 
@@ -135,7 +145,7 @@ public fun Modifier.neoShadow(
                         }
 
                     when (style) {
-                        is NeoStyle.Raised, is NeoStyle.Concave, is NeoStyle.Convex -> {
+                        is NeoStyle.Raised, is NeoStyle.Concave, is NeoStyle.Convex, is NeoStyle.Clay, is NeoStyle.Metallic -> {
                             drawOuterShadows(
                                 path = shapePath,
                                 lightColor = lightColor,
@@ -174,6 +184,85 @@ public fun Modifier.neoShadow(
                                 blurRadiusPx = blurRadiusPx * 0.75f,
                                 size = componentSize,
                             )
+                        }
+                        is NeoStyle.Glow -> {
+                            val glowColor = style.glowColor.copy(alpha = style.glowColor.alpha * style.pulseAlpha)
+                            if (style.isInnerGlow) {
+                                drawInnerShadows(
+                                    shapePath = shapePath,
+                                    lightColor = glowColor,
+                                    darkColor = glowColor,
+                                    lightOffset = Offset.Zero,
+                                    darkOffset = Offset.Zero,
+                                    blurRadiusPx = blurRadiusPx,
+                                    size = componentSize,
+                                )
+                            } else {
+                                drawOuterShadows(
+                                    path = shapePath,
+                                    lightColor = glowColor,
+                                    darkColor = glowColor,
+                                    lightOffset = Offset.Zero,
+                                    darkOffset = Offset.Zero,
+                                    blurRadiusPx = blurRadiusPx,
+                                )
+                            }
+                        }
+                        is NeoStyle.Glass -> {
+                            // Subdued frosted drop shadow pass
+                            drawOuterShadows(
+                                path = shapePath,
+                                lightColor = Color.White.copy(alpha = 0.25f),
+                                darkColor = Color.Black.copy(alpha = 0.15f),
+                                lightOffset = lightOffset * 0.5f,
+                                darkOffset = darkOffset * 0.5f,
+                                blurRadiusPx = blurRadiusPx * 0.5f,
+                            )
+                        }
+                        is NeoStyle.Custom -> {
+                            when (style.shadowMode) {
+                                NeoStyle.Custom.ShadowMode.Outer -> {
+                                    drawOuterShadows(
+                                        path = shapePath,
+                                        lightColor = lightColor,
+                                        darkColor = darkColor,
+                                        lightOffset = lightOffset,
+                                        darkOffset = darkOffset,
+                                        blurRadiusPx = blurRadiusPx,
+                                    )
+                                }
+                                NeoStyle.Custom.ShadowMode.Inner -> {
+                                    drawInnerShadows(
+                                        shapePath = shapePath,
+                                        lightColor = lightColor,
+                                        darkColor = darkColor,
+                                        lightOffset = lightOffset,
+                                        darkOffset = darkOffset,
+                                        blurRadiusPx = blurRadiusPx,
+                                        size = componentSize,
+                                    )
+                                }
+                                NeoStyle.Custom.ShadowMode.Dual -> {
+                                    drawOuterShadows(
+                                        path = shapePath,
+                                        lightColor = lightColor,
+                                        darkColor = darkColor,
+                                        lightOffset = lightOffset,
+                                        darkOffset = darkOffset,
+                                        blurRadiusPx = blurRadiusPx,
+                                    )
+                                    drawInnerShadows(
+                                        shapePath = shapePath,
+                                        lightColor = lightColor,
+                                        darkColor = darkColor,
+                                        lightOffset = lightOffset,
+                                        darkOffset = darkOffset,
+                                        blurRadiusPx = blurRadiusPx * 0.75f,
+                                        size = componentSize,
+                                    )
+                                }
+                                NeoStyle.Custom.ShadowMode.None -> {}
+                            }
                         }
                         is NeoStyle.Flat -> {
                             if (distancePx > 0f) {

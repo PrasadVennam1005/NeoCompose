@@ -1,6 +1,8 @@
 package prasad.vennam.neo.theme
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.core.NeoStyle
 
 /**
@@ -35,24 +37,49 @@ public class NeoPreviewParamsProvider : PreviewParameterProvider<NeoPreviewParam
                 name = "Light Pressed",
             ),
             NeoPreviewParams(
+                style = NeoStyle.Inset,
+                colors = NeoColors.defaultLightColors(),
+                name = "Light Inset",
+            ),
+            NeoPreviewParams(
                 style = NeoStyle.Concave,
                 colors = NeoColors.defaultLightColors(),
                 name = "Light Concave",
             ),
             NeoPreviewParams(
-                style = NeoStyle.Raised,
-                colors = NeoColors.defaultDarkColors(),
-                name = "Dark Raised",
+                style = NeoStyle.Convex,
+                colors = NeoColors.defaultLightColors(),
+                name = "Light Convex",
             ),
             NeoPreviewParams(
-                style = NeoStyle.Pressed,
-                colors = NeoColors.defaultDarkColors(),
-                name = "Dark Pressed",
+                style = NeoStyle.Basin,
+                colors = NeoColors.defaultLightColors(),
+                name = "Light Basin",
             ),
             NeoPreviewParams(
-                style = NeoStyle.Concave,
+                style = NeoStyle.Glass(),
+                colors = NeoColors.defaultLightColors(),
+                name = "Glassmorphism",
+            ),
+            NeoPreviewParams(
+                style = NeoStyle.Glow(glowColor = Color(0xFF00E5FF)),
                 colors = NeoColors.defaultDarkColors(),
-                name = "Dark Concave",
+                name = "Neon Cyan Glow",
+            ),
+            NeoPreviewParams(
+                style = NeoStyle.Clay(primaryColor = Color(0xFFFFB74D)),
+                colors = NeoColors.defaultLightColors(),
+                name = "Pastel Clay",
+            ),
+            NeoPreviewParams(
+                style = NeoStyle.Metallic(finish = NeoStyle.Metallic.Finish.Brushed),
+                colors = NeoColors.defaultLightColors(),
+                name = "Brushed Metal",
+            ),
+            NeoPreviewParams(
+                style = NeoStyle.Metallic(finish = NeoStyle.Metallic.Finish.Carbon),
+                colors = NeoColors.defaultDarkColors(),
+                name = "Carbon Fiber",
             ),
         )
 }

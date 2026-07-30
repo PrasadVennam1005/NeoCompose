@@ -28,7 +28,7 @@ public val LocalShadowAlphaMultiplier: ProvidableCompositionLocal<Float> = stati
 /**
  * Convenient high-level modifier applying Neumorphism shadows, shape clipping, background surface gradients, and borders.
  *
- * @param style Visual Neumorphic surface style.
+ * @param style Visual Neumorphic surface style or dynamic parametric descriptor.
  * @param shape Component shape.
  * @param backgroundColor Surface background color.
  * @param lightColor Light highlight shadow color.
@@ -37,6 +37,7 @@ public val LocalShadowAlphaMultiplier: ProvidableCompositionLocal<Float> = stati
  * @param lightSource Directional light source.
  * @param borderWidth Optional border stroke width.
  * @param borderColor Optional border stroke color.
+ * @param specularHighlight Whether to enable specular light source reflection.
  */
 public fun Modifier.neoStyle(
     style: NeoStyle = NeoStyle.Raised,
@@ -53,12 +54,37 @@ public fun Modifier.neoStyle(
     this.composed {
         val colors = NeoTheme.colors
         val isHighContrast = colors.isHighContrast
-        val activeBorderWidth = if (isHighContrast && borderWidth == 0.dp) 1.dp else borderWidth
-        val activeBorderColor = if (isHighContrast && borderWidth == 0.dp) colors.textSecondary else borderColor
+
+        val activeBorderWidth = when {
+            isHighContrast && borderWidth == 0.dp -> 1.dp
+            style is NeoStyle.Glass -> if (borderWidth == 0.dp) 1.dp else borderWidth
+            else -> borderWidth
+        }
+
+        val activeBorderColor = when {
+            isHighContrast && borderWidth == 0.dp -> colors.textSecondary
+            style is NeoStyle.Glass && borderColor == Color.Transparent -> Color.White.copy(alpha = style.borderAlpha)
+            else -> borderColor
+        }
 
         val shadowAlphaMultiplier = LocalShadowAlphaMultiplier.current
         val scaledLightColor = lightColor.copy(alpha = (lightColor.alpha * shadowAlphaMultiplier).coerceIn(0f, 1f))
         val scaledDarkColor = darkColor.copy(alpha = (darkColor.alpha * shadowAlphaMultiplier).coerceIn(0f, 1f))
+
+        val useGradientBackground = style is NeoStyle.Concave ||
+                style is NeoStyle.Convex ||
+                style is NeoStyle.Basin ||
+                style is NeoStyle.Metallic ||
+                style is NeoStyle.Glass ||
+                style is NeoStyle.Clay ||
+                (style is NeoStyle.Custom && style.customBrush != null)
+
+        val activeBackgroundColor = when (style) {
+            is NeoStyle.Clay -> style.primaryColor
+            is NeoStyle.Glass -> Color.White.copy(alpha = style.alpha)
+            is NeoStyle.Custom -> if (style.overlayColor != Color.Unspecified) style.overlayColor else backgroundColor
+            else -> backgroundColor
+        }
 
         this
             .neoShadow(
@@ -71,28 +97,27 @@ public fun Modifier.neoStyle(
             )
             .clip(shape)
             .then(
-                if (style is NeoStyle.Concave || style is NeoStyle.Convex || style is NeoStyle.Basin) {
+                if (useGradientBackground) {
                     Modifier.drawBehind {
-                        val brush =
-                            NeoSurfaceGradient.createSurfaceBrush(
-                                style = if (style is NeoStyle.Basin) NeoStyle.Concave else style,
-                                lightSource = lightSource,
-                                baseColor = backgroundColor,
-                                lightColor = lightColor,
-                                darkColor = darkColor,
-                                size = size,
-                            )
+                        val brush = NeoSurfaceGradient.createSurfaceBrush(
+                            style = if (style is NeoStyle.Basin) NeoStyle.Concave else style,
+                            lightSource = lightSource,
+                            baseColor = activeBackgroundColor,
+                            lightColor = lightColor,
+                            darkColor = darkColor,
+                            size = size,
+                        )
                         val outline: Outline = shape.createOutline(size, layoutDirection, this)
                         val path = Path().apply { addOutline(outline) }
                         drawPath(path, brush = brush)
                     }
                 } else {
-                    Modifier.background(backgroundColor, shape)
+                    Modifier.background(activeBackgroundColor, shape)
                 },
             )
             .neoSpecular(
                 lightSource = lightSource,
-                enabled = specularHighlight,
+                enabled = specularHighlight || style is NeoStyle.Metallic,
             )
             .then(
                 if (activeBorderWidth > 0.dp && activeBorderColor != Color.Transparent) {
