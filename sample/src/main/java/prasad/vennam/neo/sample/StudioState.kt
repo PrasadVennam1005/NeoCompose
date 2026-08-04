@@ -14,7 +14,7 @@ public enum class CatalogScreen(val title: String, val description: String) {
     Buttons("2. Buttons & Icon Buttons", "Neumorphic button variants, circular icon buttons, and custom interactions."),
     FormInputs("3. Form Inputs & Select Controls", "Neumorphic text fields, dropdown menus, checkboxes, switches, and radio buttons."),
     Pickers("4. Date & Time Pickers", "Fully functional calendar date selector and analog hour/minute time picker."),
-    Navigation("5. Segmented Control & Navigation Bar", "Slide-segmented choices and active tab indicators."),
+    Navigation("5. Navigation Bars, TopBar, Rail & Drawer", "Top app bars, bottom navigation bars, navigation rails, navigation drawers, segmented controls & tabs."),
     Sliders("6. Range Slider & Number Stepper", "Interactive dual-thumb range sliders and numeric counter stepper controls."),
     AudioPlayer("7. Media & Audio Player Controller", "A media controller with basin play buttons and tracking timelines."),
     Banners("8. Tooltips, Banners & Bottom Sheets", "Neumorphic toast alerts, floating speech bubble tooltips, and bottom sheets."),
@@ -24,7 +24,8 @@ public enum class CatalogScreen(val title: String, val description: String) {
     Advanced("12. Advanced Controls (v2.1.0)", "Compose Multiplatform custom circular sliders, dial gauges, and card carousels."),
     SpeedDial("13. Floating Action Speed Dial", "Floating action menu expanding vertically on hover/tap with multiple speed dial items."),
     IconToggleButton("14. Icon Toggle Button (v2.1.0)", "Interactive checked/unchecked icon state morphing with neumorphic style transitions."),
-    Glassmorphism("15. Glassmorphism Studio (v2.2.0)", "Interactive frosted glass cards, translucent translucency tuning, and glowing glass UI controls.")
+    Glassmorphism("15. Glassmorphism Studio (v2.2.0)", "Interactive frosted glass cards, translucent translucency tuning, and glowing glass UI controls."),
+    NeoImage("17. NeoImage & NeoAsyncImage (v2.4.0)", "Neumorphic image frames with async loading states, specular highlights, and custom shapes.")
 }
 
 public class StudioState {

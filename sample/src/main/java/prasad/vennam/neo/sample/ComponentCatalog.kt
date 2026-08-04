@@ -4,9 +4,9 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +23,13 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -35,8 +40,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,22 +50,36 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import prasad.vennam.neo.components.NeoAsyncImage
+import prasad.vennam.neo.components.NeoAsyncImageState
 import prasad.vennam.neo.components.NeoAudioPlayerBar
 import prasad.vennam.neo.components.NeoAvatar
 import prasad.vennam.neo.components.NeoBadge
 import prasad.vennam.neo.components.NeoBanner
 import prasad.vennam.neo.components.NeoBottomSheet
 import prasad.vennam.neo.components.NeoButton
+import prasad.vennam.neo.components.NeoCalculator
 import prasad.vennam.neo.components.NeoCard
+import prasad.vennam.neo.components.NeoCardCarousel
 import prasad.vennam.neo.components.NeoCheckbox
 import prasad.vennam.neo.components.NeoChip
 import prasad.vennam.neo.components.NeoCircularProgressIndicator
+import prasad.vennam.neo.components.NeoCircularSlider
 import prasad.vennam.neo.components.NeoDatePicker
+import prasad.vennam.neo.components.NeoDialGauge
 import prasad.vennam.neo.components.NeoDialog
 import prasad.vennam.neo.components.NeoDivider
+import prasad.vennam.neo.components.NeoDrawerItem
 import prasad.vennam.neo.components.NeoDropdownMenu
 import prasad.vennam.neo.components.NeoIconButton
+import prasad.vennam.neo.components.NeoIconToggleButton
+import prasad.vennam.neo.components.NeoImage
 import prasad.vennam.neo.components.NeoLinearProgressIndicator
+import prasad.vennam.neo.components.NeoNavigationBar
+import prasad.vennam.neo.components.NeoNavigationBarItem
+import prasad.vennam.neo.components.NeoNavigationDrawer
+import prasad.vennam.neo.components.NeoNavigationRail
+import prasad.vennam.neo.components.NeoNavigationRailItem
 import prasad.vennam.neo.components.NeoNumberStepper
 import prasad.vennam.neo.components.NeoRadioButton
 import prasad.vennam.neo.components.NeoRangeSlider
@@ -74,16 +93,12 @@ import prasad.vennam.neo.components.NeoSwitch
 import prasad.vennam.neo.components.NeoTabBar
 import prasad.vennam.neo.components.NeoTextField
 import prasad.vennam.neo.components.NeoTimePicker
-import prasad.vennam.neo.components.NeoCircularSlider
-import prasad.vennam.neo.components.NeoDialGauge
-import prasad.vennam.neo.components.NeoCardCarousel
-import prasad.vennam.neo.components.NeoIconToggleButton
 import prasad.vennam.neo.components.NeoTooltip
+import prasad.vennam.neo.components.NeoTopAppBar
 import prasad.vennam.neo.core.NeoStyle
 import prasad.vennam.neo.foundation.neoInteraction
 import prasad.vennam.neo.theme.NeoTheme
 import kotlin.math.roundToInt
-import kotlinx.coroutines.delay
 
 @Composable
 fun ComponentSandbox(state: StudioState) {
@@ -438,7 +453,6 @@ public fun ComponentCatalog(
 
                 // Display active route component showcase
                 when (targetRoute) {
-                    CatalogScreen.Index -> {} // Handled
                     CatalogScreen.NeoSurface -> NeoSurfaceShowcase(state)
                     CatalogScreen.Buttons -> ButtonsShowcase(state)
                     CatalogScreen.FormInputs -> FormInputsShowcase(state)
@@ -454,6 +468,7 @@ public fun ComponentCatalog(
                     CatalogScreen.SpeedDial -> SpeedDialShowcase()
                     CatalogScreen.IconToggleButton -> IconToggleButtonShowcase(state)
                     CatalogScreen.Glassmorphism -> GlassmorphismShowcase(state)
+                    CatalogScreen.NeoImage -> NeoImageShowcase(state)
                 }
             }
         }
@@ -807,9 +822,39 @@ private fun NavigationShowcase(state: StudioState) {
     NeoCard(style = state.selectedStyle) {
         Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium)) {
             Text(
-                "5. Segmented Control & Navigation Bar",
+                "5. Navigation Components & Controls",
                 style = NeoTheme.typography.title,
                 color = NeoTheme.colors.textPrimary,
+            )
+
+            Text(
+                "Top App Bar",
+                style = NeoTheme.typography.label,
+                color = NeoTheme.colors.textSecondary,
+            )
+
+            NeoTopAppBar(
+                title = { Text("Dashboard Header", style = NeoTheme.typography.title) },
+                navigationIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menu",
+                        tint = NeoTheme.colors.primary,
+                    )
+                },
+                actions = {
+                    Icon(
+                        imageVector = Icons.Default.Notifications,
+                        contentDescription = "Notifications",
+                        tint = NeoTheme.colors.textPrimary,
+                    )
+                },
+            )
+
+            Text(
+                "Segmented Control & Tab Bar",
+                style = NeoTheme.typography.label,
+                color = NeoTheme.colors.textSecondary,
             )
 
             NeoSegmentedControl(
@@ -823,6 +868,138 @@ private fun NavigationShowcase(state: StudioState) {
                 selectedIndex = state.tabBarIndex,
                 onTabSelected = { state.tabBarIndex = it },
             )
+
+            Text(
+                "Bottom Navigation Bar (NeoNavigationBar)",
+                style = NeoTheme.typography.label,
+                color = NeoTheme.colors.textSecondary,
+            )
+
+            NeoNavigationBar {
+                NeoNavigationBarItem(
+                    selected = state.tabBarIndex == 0,
+                    onClick = { state.tabBarIndex = 0 },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "Home",
+                            tint = if (state.tabBarIndex == 0) NeoTheme.colors.primary else NeoTheme.colors.textSecondary,
+                        )
+                    },
+                    label = { Text("Home", style = NeoTheme.typography.caption) },
+                )
+                NeoNavigationBarItem(
+                    selected = state.tabBarIndex == 1,
+                    onClick = { state.tabBarIndex = 1 },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Explore",
+                            tint = if (state.tabBarIndex == 1) NeoTheme.colors.primary else NeoTheme.colors.textSecondary,
+                        )
+                    },
+                    label = { Text("Explore", style = NeoTheme.typography.caption) },
+                    badge = { NeoBadge("3") },
+                )
+                NeoNavigationBarItem(
+                    selected = state.tabBarIndex == 2,
+                    onClick = { state.tabBarIndex = 2 },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Profile",
+                            tint = if (state.tabBarIndex == 2) NeoTheme.colors.primary else NeoTheme.colors.textSecondary,
+                        )
+                    },
+                    label = { Text("Profile", style = NeoTheme.typography.caption) },
+                )
+            }
+
+            Text(
+                "Navigation Rail (Side Navigation)",
+                style = NeoTheme.typography.label,
+                color = NeoTheme.colors.textSecondary,
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                horizontalArrangement = Arrangement.Start,
+            ) {
+                NeoNavigationRail(
+                    header = {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = "Logo",
+                            tint = NeoTheme.colors.primary,
+                        )
+                    },
+                ) {
+                    NeoNavigationRailItem(
+                        selected = state.tabBarIndex == 0,
+                        onClick = { state.tabBarIndex = 0 },
+                        icon = { Icon(Icons.Default.Home, contentDescription = null, tint = if (state.tabBarIndex == 0) NeoTheme.colors.primary else NeoTheme.colors.textSecondary) },
+                        label = { Text("Home", style = NeoTheme.typography.caption) },
+                    )
+                    NeoNavigationRailItem(
+                        selected = state.tabBarIndex == 1,
+                        onClick = { state.tabBarIndex = 1 },
+                        icon = { Icon(Icons.Default.Search, contentDescription = null, tint = if (state.tabBarIndex == 1) NeoTheme.colors.primary else NeoTheme.colors.textSecondary) },
+                        label = { Text("Explore", style = NeoTheme.typography.caption) },
+                        badge = { NeoBadge("NEW") },
+                    )
+                    NeoNavigationRailItem(
+                        selected = state.tabBarIndex == 2,
+                        onClick = { state.tabBarIndex = 2 },
+                        icon = { Icon(Icons.Default.Settings, contentDescription = null, tint = if (state.tabBarIndex == 2) NeoTheme.colors.primary else NeoTheme.colors.textSecondary) },
+                        label = { Text("Settings", style = NeoTheme.typography.caption) },
+                    )
+                }
+            }
+
+            Text(
+                "Navigation Drawer (Side Menu)",
+                style = NeoTheme.typography.label,
+                color = NeoTheme.colors.textSecondary,
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(220.dp),
+                horizontalArrangement = Arrangement.Start,
+            ) {
+                NeoNavigationDrawer(
+                    header = {
+                        Text(
+                            "Main Navigation",
+                            style = NeoTheme.typography.title,
+                            color = NeoTheme.colors.textPrimary,
+                        )
+                    },
+                ) {
+                    NeoDrawerItem(
+                        selected = state.tabBarIndex == 0,
+                        onClick = { state.tabBarIndex = 0 },
+                        icon = { Icon(Icons.Default.Home, contentDescription = null, tint = if (state.tabBarIndex == 0) NeoTheme.colors.primary else NeoTheme.colors.textSecondary) },
+                        label = { Text("Dashboard", style = NeoTheme.typography.body) },
+                    )
+                    NeoDrawerItem(
+                        selected = state.tabBarIndex == 1,
+                        onClick = { state.tabBarIndex = 1 },
+                        icon = { Icon(Icons.Default.Search, contentDescription = null, tint = if (state.tabBarIndex == 1) NeoTheme.colors.primary else NeoTheme.colors.textSecondary) },
+                        label = { Text("Search & Discover", style = NeoTheme.typography.body) },
+                        badge = { NeoBadge("5") },
+                    )
+                    NeoDrawerItem(
+                        selected = state.tabBarIndex == 2,
+                        onClick = { state.tabBarIndex = 2 },
+                        icon = { Icon(Icons.Default.Person, contentDescription = null, tint = if (state.tabBarIndex == 2) NeoTheme.colors.primary else NeoTheme.colors.textSecondary) },
+                        label = { Text("User Profile", style = NeoTheme.typography.body) },
+                    )
+                }
+            }
         }
     }
 }
@@ -1455,4 +1632,120 @@ private fun GlassmorphismShowcase(state: StudioState) {
         }
     }
 }
+
+@Composable
+private fun CalculatorShowcase(state: StudioState) {
+    NeoCard(style = state.selectedStyle) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium),
+        ) {
+            Text(
+                text = "Interactive Neumorphic Calculator",
+                style = NeoTheme.typography.title,
+                color = NeoTheme.colors.textPrimary,
+            )
+
+            NeoCalculator(
+                colors = NeoTheme.colors,
+                lightSource = NeoTheme.lighting.lightSource,
+            )
+        }
+    }
+}
+
+@Composable
+private fun NeoImageShowcase(state: StudioState) {
+    var asyncState by remember { androidx.compose.runtime.mutableStateOf<NeoAsyncImageState>(NeoAsyncImageState.Loading) }
+
+    NeoCard(style = state.selectedStyle) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium),
+        ) {
+            Text(
+                text = "NeoImage & NeoAsyncImage Frames",
+                style = NeoTheme.typography.title,
+                color = NeoTheme.colors.textPrimary,
+            )
+
+            Text("1. Static Neumorphic Vector & Specular Image Frames", style = NeoTheme.typography.caption, color = NeoTheme.colors.textSecondary)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.medium),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                NeoImage(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Favorite",
+                    modifier = Modifier.padding(4.dp),
+                    style = NeoStyle.Raised,
+                    shape = androidx.compose.foundation.shape.CircleShape,
+                    specularHighlight = true,
+                )
+
+                NeoImage(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Home",
+                    modifier = Modifier.padding(4.dp),
+                    style = NeoStyle.Inset,
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+                )
+
+                NeoImage(
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "Person",
+                    modifier = Modifier.padding(4.dp),
+                    style = NeoStyle.Glass(alpha = 0.5f, blurRadius = 12.dp),
+                    shape = androidx.compose.foundation.shape.CircleShape,
+                    specularHighlight = true,
+                )
+            }
+
+            Text("2. NeoAsyncImage Lifecycle States (Loading, Error, Loaded)", style = NeoTheme.typography.caption, color = NeoTheme.colors.textSecondary)
+            
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small),
+            ) {
+                NeoButton(
+                    onClick = { asyncState = NeoAsyncImageState.Loading },
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text("Loading", style = NeoTheme.typography.caption)
+                }
+                NeoButton(
+                    onClick = { asyncState = NeoAsyncImageState.Error() },
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text("Error", style = NeoTheme.typography.caption)
+                }
+                NeoButton(
+                    onClick = { asyncState = NeoAsyncImageState.Success },
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text("Success", style = NeoTheme.typography.caption)
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                NeoAsyncImage(
+                    painter = null,
+                    contentDescription = "Async Showcase",
+                    loadingState = asyncState,
+                    modifier = Modifier.height(120.dp).fillMaxWidth(0.5f),
+                    style = state.selectedStyle,
+                    shape = NeoTheme.shapes.large,
+                )
+            }
+        }
+    }
+}
+
 

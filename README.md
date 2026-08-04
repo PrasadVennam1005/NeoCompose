@@ -5,7 +5,7 @@
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4.10-purple.svg)](https://kotlinlang.org/)
 [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.7.3-teal.svg)](https://github.com/JetBrains/compose-multiplatform)
 
-**NeoCompose** is a state-of-the-art, high-performance **Neumorphism (Soft UI)** design system library built natively for **Kotlin Multiplatform & Compose Multiplatform** (Android, iOS, and JVM/Desktop). It provides hardware-accelerated Canvas rendering, tokenized design system architecture (`NeoTheme.size`, `NeoTheme.icons`), smooth 60fps/120fps elevation physics, and **31 production-ready components**.
+**NeoCompose** is a state-of-the-art, high-performance **Neumorphism (Soft UI)** design system library built natively for **Kotlin Multiplatform & Compose Multiplatform** (Android, iOS, and JVM/Desktop). It provides hardware-accelerated Canvas rendering, tokenized design system architecture (`NeoTheme.size`, `NeoTheme.icons`), smooth 60fps/120fps elevation physics, and **37 production-ready components** (including `NeoImage` and `NeoAsyncImage`).
 
 👉 **[Try the Interactive Web Showcase & Playground!](https://prasadvennam1005.github.io/NeoCompose/showcase/index.html)**
 
@@ -74,7 +74,7 @@ dependencies {
 
 ---
 
-## 🧩 31 Component Inventory
+## 🧩 36 Component Inventory
 
 | Category | Components |
 | :--- | :--- |
@@ -82,9 +82,9 @@ dependencies {
 | **Buttons & Actions** | `NeoButton`, `NeoIconButton`, `NeoFAB`, `NeoSpeedDial` |
 | **Form Inputs & Selectors** | `NeoTextField`, `NeoSearchField`, `NeoDropdownMenu`, `NeoCheckbox`, `NeoRadioButton`, `NeoSwitch` |
 | **Range, Steppers & Pickers** | `NeoSlider`, `NeoRangeSlider`, `NeoNumberStepper`, `NeoDatePicker`, `NeoTimePicker` |
-| **Navigation & Tabs** | `NeoSegmentedControl`, `NeoTabBar`, `NeoChip`, `NeoBadge` |
+| **Navigation & Tabs** | `NeoNavigationBar`, `NeoTopAppBar`, `NeoNavigationRail`, `NeoNavigationDrawer`, `NeoSegmentedControl`, `NeoTabBar`, `NeoChip`, `NeoBadge` |
 | **Progress & Media** | `NeoLinearProgressIndicator`, `NeoCircularProgressIndicator`, `NeoIcon`, `NeoAudioPlayerBar` |
-| **Modals & Utilities** | `NeoBanner`, `NeoDialog`, `NeoBottomSheet`, `NeoTooltip`, `NeoDivider` |
+| **Modals & Utilities** | `NeoBanner`, `NeoDialog`, `NeoBottomSheet`, `NeoTooltip`, `NeoDivider`, `NeoCalculator` |
 
 ---
 

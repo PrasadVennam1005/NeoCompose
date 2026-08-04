@@ -82,6 +82,7 @@ class MainActivity : ComponentActivity() {
             val studioScrollState = rememberScrollState()
             val catalogScrollState = rememberScrollState()
             val dashboardScrollState = rememberScrollState()
+            val calculatorScrollState = rememberScrollState()
 
             val defaultTypography = remember { NeoTypography() }
             val scaledTypography = remember(studioState.textSizeMultiplier) {
@@ -151,7 +152,7 @@ class MainActivity : ComponentActivity() {
 
                             // Navigation Tabs
                             NeoSegmentedControl(
-                                items = listOf("Studio", "Catalog", "Dashboard"),
+                                items = listOf("Studio", "Catalog", "Dashboard", "Calculator"),
                                 selectedIndex = studioState.selectedCategoryTab,
                                 onOptionSelected = { 
                                     studioState.selectedCategoryTab = it
@@ -177,7 +178,8 @@ class MainActivity : ComponentActivity() {
                                         when (targetTab) {
                                             0 -> studioScrollState
                                             1 -> catalogScrollState
-                                            else -> dashboardScrollState
+                                            2 -> dashboardScrollState
+                                            else -> calculatorScrollState
                                         }
                                     Column(
                                         modifier =
@@ -190,6 +192,7 @@ class MainActivity : ComponentActivity() {
                                             0 -> StudioControls(state = studioState)
                                             1 -> ComponentCatalog(state = studioState)
                                             2 -> SmartHomeDashboard(state = studioState)
+                                            3 -> CalculatorScreen(state = studioState)
                                         }
                                         Spacer(Modifier.height(32.dp))
                                     }
