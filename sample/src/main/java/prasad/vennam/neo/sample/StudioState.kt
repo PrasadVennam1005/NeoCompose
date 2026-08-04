@@ -41,6 +41,18 @@ public class StudioState {
     public var glassBlurRadiusDp: Float by mutableFloatStateOf(12f)
     public var glassFrosted: Boolean by mutableStateOf(true)
 
+    // Component ViewState Demo States
+    public var demoButtonViewState: prasad.vennam.neo.core.NeoButtonViewState by mutableStateOf(
+        prasad.vennam.neo.core.NeoButtonViewState(label = "ViewState Action", isEnabled = true)
+    )
+    public var demoTextFieldViewState: prasad.vennam.neo.core.NeoTextFieldViewState by mutableStateOf(
+        prasad.vennam.neo.core.NeoTextFieldViewState(text = "sample@domain.com", placeholder = "Enter email address")
+    )
+    public var demoSwitchViewState: prasad.vennam.neo.core.NeoSwitchViewState by mutableStateOf(
+        prasad.vennam.neo.core.NeoSwitchViewState(isChecked = true)
+    )
+
+
 
     public val selectedStyle: NeoStyle
         get() =

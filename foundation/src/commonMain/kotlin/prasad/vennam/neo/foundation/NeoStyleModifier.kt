@@ -7,11 +7,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.addOutline
+import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.core.NeoLightSource
@@ -108,8 +112,7 @@ public fun Modifier.neoStyle(
                             size = size,
                         )
                         val outline: Outline = shape.createOutline(size, layoutDirection, this)
-                        val path = Path().apply { addOutline(outline) }
-                        drawPath(path, brush = brush)
+                        drawOutline(outline = outline, brush = brush)
                     }
                 } else {
                     Modifier.background(activeBackgroundColor, shape)
@@ -127,3 +130,4 @@ public fun Modifier.neoStyle(
                 },
             )
     }
+

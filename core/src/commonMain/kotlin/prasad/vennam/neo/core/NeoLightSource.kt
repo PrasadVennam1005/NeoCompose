@@ -24,12 +24,13 @@ public data class NeoLightSource(
      * @return [Offset] displacement for dark shadow drawing.
      */
     public fun calculateDarkShadowOffset(distance: Float): Offset {
-        val rad = Math.toRadians(angleDegrees.toDouble())
+        val rad = angleDegrees.toDouble() * (kotlin.math.PI / 180.0)
         val effDist = distance * intensity
         val dx = (effDist * cos(rad)).toFloat()
         val dy = (effDist * sin(rad)).toFloat()
         return Offset(dx, dy)
     }
+
 
     /**
      * Calculates the 2D offset vector for light highlights cast towards the light source.

@@ -110,3 +110,66 @@ public fun NeoButton(
         content = content,
     )
 }
+
+/**
+ * ViewState overload for [NeoButton] accepting a [prasad.vennam.neo.core.NeoButtonViewState].
+ */
+@Composable
+public fun NeoButton(
+    viewState: prasad.vennam.neo.core.NeoButtonViewState,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = NeoTheme.shapes.pill,
+    style: NeoStyle = when {
+        viewState.isError -> NeoStyle.Glow(glowColor = androidx.compose.ui.graphics.Color(0xFFFF3B30))
+        viewState.isLoading -> NeoStyle.Pressed
+        else -> NeoStyle.Raised
+    },
+    elevation: Dp = NeoTheme.elevation.level3,
+    colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = NeoTheme.spacing.large,
+        vertical = NeoTheme.spacing.medium,
+    ),
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    specularHighlight: Boolean = false,
+    content: (@Composable RowScope.() -> Unit)? = null,
+) {
+    NeoButton(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = viewState.isEnabled && !viewState.isLoading,
+        shape = shape,
+        style = style,
+        elevation = elevation,
+        colors = colors,
+        lightSource = lightSource,
+        contentPadding = contentPadding,
+        animationSpec = animationSpec,
+        interactionSource = interactionSource,
+        specularHighlight = specularHighlight,
+    ) {
+        if (content != null) {
+            content()
+        } else {
+            if (viewState.isLoading) {
+                NeoCircularProgressIndicator(
+                    progress = 0.5f,
+                )
+            }
+            Text(
+                text = viewState.label,
+                style = NeoTheme.typography.label,
+                color = when {
+                    !viewState.isEnabled -> colors.textSecondary.copy(alpha = 0.5f)
+                    viewState.isError -> androidx.compose.ui.graphics.Color(0xFFFF3B30)
+                    else -> colors.primary
+                }
+            )
+        }
+    }
+}
+
+

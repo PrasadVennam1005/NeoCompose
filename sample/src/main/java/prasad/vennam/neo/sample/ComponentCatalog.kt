@@ -633,9 +633,35 @@ private fun ButtonsShowcase(state: StudioState) {
                     )
                 }
             }
+
+            NeoDivider(thickness = NeoTheme.size.borderThin)
+            Text(
+                "ViewState Matrix Overloads",
+                style = NeoTheme.typography.caption,
+                color = NeoTheme.colors.textSecondary
+            )
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small)) {
+                NeoButton(
+                    viewState = prasad.vennam.neo.core.NeoButtonViewState(label = "Default Active", isEnabled = true),
+                    onClick = {}
+                )
+                NeoButton(
+                    viewState = prasad.vennam.neo.core.NeoButtonViewState(label = "Disabled State", isEnabled = false),
+                    onClick = {}
+                )
+                NeoButton(
+                    viewState = prasad.vennam.neo.core.NeoButtonViewState(label = "Loading State", isLoading = true),
+                    onClick = {}
+                )
+                NeoButton(
+                    viewState = prasad.vennam.neo.core.NeoButtonViewState(label = "Error State", isError = true),
+                    onClick = {}
+                )
+            }
         }
     }
 }
+
 
 @Composable
 private fun FormInputsShowcase(state: StudioState) {
@@ -702,9 +728,55 @@ private fun FormInputsShowcase(state: StudioState) {
                     onCheckedChange = { state.isSwitchChecked = it },
                 )
             }
+
+            NeoDivider(thickness = NeoTheme.size.borderThin)
+            Text(
+                "Input & Control ViewState Matrix",
+                style = NeoTheme.typography.caption,
+                color = NeoTheme.colors.textSecondary
+            )
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small)) {
+                NeoTextField(
+                    viewState = state.demoTextFieldViewState,
+                    onValueChange = { state.demoTextFieldViewState = state.demoTextFieldViewState.copy(text = it) }
+                )
+                NeoTextField(
+                    viewState = prasad.vennam.neo.core.NeoTextFieldViewState(
+                        text = "invalid-user",
+                        placeholder = "Username",
+                        isError = true,
+                        errorMessage = "Invalid username format"
+                    ),
+                    onValueChange = {}
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        NeoCheckbox(
+                            viewState = prasad.vennam.neo.core.NeoCheckboxViewState(isChecked = true, isError = true),
+                            onCheckedChange = {}
+                        )
+                        Spacer(Modifier.width(NeoTheme.spacing.extraSmall))
+                        Text("Error State", style = NeoTheme.typography.caption)
+                    }
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        NeoSwitch(
+                            viewState = state.demoSwitchViewState,
+                            onCheckedChange = { state.demoSwitchViewState = state.demoSwitchViewState.copy(isChecked = it) }
+                        )
+                        Spacer(Modifier.width(NeoTheme.spacing.extraSmall))
+                        Text("ViewState Switch", style = NeoTheme.typography.caption)
+                    }
+                }
+            }
         }
     }
 }
+
 
 @Composable
 private fun PickersShowcase(state: StudioState) {
@@ -968,6 +1040,21 @@ private fun ProgressShowcase(state: StudioState) {
                     color = NeoTheme.colors.textPrimary,
                 )
                 NeoCircularProgressIndicator(progress = state.progressValue)
+            }
+
+            NeoDivider(thickness = NeoTheme.size.borderThin)
+            Text(
+                "Progress ViewState Matrix",
+                style = NeoTheme.typography.caption,
+                color = NeoTheme.colors.textSecondary
+            )
+            Column(verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.small)) {
+                NeoLinearProgressIndicator(
+                    viewState = prasad.vennam.neo.core.NeoProgressViewState(progress = 0.45f, label = "Syncing Assets (45%)")
+                )
+                NeoLinearProgressIndicator(
+                    viewState = prasad.vennam.neo.core.NeoProgressViewState(progress = 0.95f, isError = true, label = "Upload Failed (95%)")
+                )
             }
         }
     }

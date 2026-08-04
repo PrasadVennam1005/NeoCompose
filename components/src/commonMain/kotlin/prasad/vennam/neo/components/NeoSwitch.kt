@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import prasad.vennam.neo.animation.NeoAnimationSpec
 import prasad.vennam.neo.core.NeoLightSource
 import prasad.vennam.neo.core.NeoStyle
+import prasad.vennam.neo.core.NeoSwitchViewState
 import prasad.vennam.neo.foundation.neoStyle
 import prasad.vennam.neo.theme.NeoColors
 import prasad.vennam.neo.theme.NeoTheme
@@ -138,3 +139,35 @@ public fun NeoSwitch(
         )
     }
 }
+
+/**
+ * ViewState overload for [NeoSwitch] accepting a [NeoSwitchViewState].
+ */
+@Composable
+public fun NeoSwitch(
+    viewState: NeoSwitchViewState,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    modifier: Modifier = Modifier,
+    shape: Shape = CircleShape,
+    style: NeoStyle = NeoStyle.Inset,
+    elevation: Dp = NeoTheme.elevation.level3,
+    colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+    NeoSwitch(
+        checked = viewState.isChecked,
+        onCheckedChange = onCheckedChange,
+        modifier = modifier,
+        enabled = viewState.isEnabled && !viewState.isLoading,
+        shape = shape,
+        style = style,
+        elevation = elevation,
+        colors = colors,
+        lightSource = lightSource,
+        animationSpec = animationSpec,
+        interactionSource = interactionSource,
+    )
+}
+

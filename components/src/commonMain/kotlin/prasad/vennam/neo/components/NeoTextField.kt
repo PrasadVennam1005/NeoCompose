@@ -138,3 +138,63 @@ public fun NeoTextField(
         }
     }
 }
+
+/**
+ * ViewState overload for [NeoTextField] accepting a [prasad.vennam.neo.core.NeoTextFieldViewState].
+ */
+@Composable
+public fun NeoTextField(
+    viewState: prasad.vennam.neo.core.NeoTextFieldViewState,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    placeholder: String = viewState.placeholder,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    shape: Shape = NeoTheme.shapes.pill,
+    style: NeoStyle = when {
+        viewState.isError -> NeoStyle.Glow(glowColor = androidx.compose.ui.graphics.Color(0xFFFF3B30))
+        viewState.isFocused -> NeoStyle.Inset
+        else -> NeoStyle.Pressed
+    },
+    elevation: Dp = NeoTheme.elevation.level3,
+    colors: NeoColors = NeoTheme.colors,
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = NeoTheme.spacing.large,
+        vertical = NeoTheme.spacing.medium,
+    ),
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+    androidx.compose.foundation.layout.Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(NeoTheme.spacing.extraSmall)
+    ) {
+        NeoTextField(
+            value = viewState.text,
+            onValueChange = onValueChange,
+            modifier = Modifier.fillMaxWidth(),
+            enabled = viewState.isEnabled,
+            placeholder = placeholder,
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
+            shape = shape,
+            style = style,
+            elevation = elevation,
+            colors = colors,
+            contentPadding = contentPadding,
+            animationSpec = animationSpec,
+            interactionSource = interactionSource,
+        )
+        val errorMessage = viewState.errorMessage
+        if (viewState.isError && !errorMessage.isNullOrEmpty()) {
+            Text(
+                text = errorMessage,
+                style = NeoTheme.typography.caption,
+                color = androidx.compose.ui.graphics.Color(0xFFFF3B30),
+                modifier = Modifier.padding(start = NeoTheme.spacing.small)
+            )
+        }
+    }
+}
+
+

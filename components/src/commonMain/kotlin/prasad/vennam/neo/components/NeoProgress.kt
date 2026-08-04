@@ -146,3 +146,47 @@ public fun NeoCircularProgressIndicator(
         )
     }
 }
+
+/**
+ * ViewState overload for [NeoLinearProgressIndicator] accepting a [prasad.vennam.neo.core.NeoProgressViewState].
+ */
+@Composable
+public fun NeoLinearProgressIndicator(
+    viewState: prasad.vennam.neo.core.NeoProgressViewState,
+    modifier: Modifier = Modifier,
+    shape: Shape = CircleShape,
+    style: NeoStyle = when {
+        viewState.isError -> NeoStyle.Glow(glowColor = androidx.compose.ui.graphics.Color(0xFFFF3B30))
+        else -> NeoStyle.Inset
+    },
+    elevation: Dp = NeoTheme.elevation.level2,
+    colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(NeoTheme.spacing.extraSmall)
+    ) {
+        val label = viewState.label
+        if (!label.isNullOrEmpty()) {
+            androidx.compose.material3.Text(
+                text = label,
+                style = NeoTheme.typography.caption,
+                color = if (viewState.isError) androidx.compose.ui.graphics.Color(0xFFFF3B30) else colors.textSecondary
+            )
+        }
+        NeoLinearProgressIndicator(
+            progress = viewState.progress,
+            modifier = Modifier.fillMaxWidth(),
+            shape = shape,
+            style = style,
+            elevation = elevation,
+            colors = colors,
+            lightSource = lightSource,
+            animationSpec = animationSpec,
+        )
+    }
+}
+
+

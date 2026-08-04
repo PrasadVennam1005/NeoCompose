@@ -110,3 +110,42 @@ public fun NeoCheckbox(
         }
     }
 }
+
+/**
+ * ViewState overload for [NeoCheckbox] accepting a [prasad.vennam.neo.core.NeoCheckboxViewState].
+ */
+@Composable
+public fun NeoCheckbox(
+    viewState: prasad.vennam.neo.core.NeoCheckboxViewState,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    modifier: Modifier = Modifier,
+    shape: Shape = NeoTheme.shapes.small,
+    size: Dp = NeoTheme.size.controlSmall,
+    style: NeoStyle = when {
+        viewState.isError -> NeoStyle.Glow(glowColor = androidx.compose.ui.graphics.Color(0xFFFF3B30))
+        viewState.isChecked -> NeoStyle.Inset
+        else -> NeoStyle.Raised
+    },
+    elevation: Dp = NeoTheme.elevation.level2,
+    colors: NeoColors = NeoTheme.colors,
+    lightSource: NeoLightSource = NeoTheme.lighting.lightSource,
+    animationSpec: NeoAnimationSpec = NeoAnimationSpec(),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+    NeoCheckbox(
+        checked = viewState.isChecked,
+        onCheckedChange = onCheckedChange,
+        modifier = modifier,
+        enabled = viewState.isEnabled,
+        shape = shape,
+        size = size,
+        style = style,
+        elevation = elevation,
+        colors = colors,
+        lightSource = lightSource,
+        animationSpec = animationSpec,
+        interactionSource = interactionSource,
+    )
+}
+
+

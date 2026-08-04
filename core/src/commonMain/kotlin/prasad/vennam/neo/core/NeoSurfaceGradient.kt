@@ -29,8 +29,9 @@ public object NeoSurfaceGradient {
         darkColor: Color,
         size: Size,
     ): Brush {
-        val angleRad = Math.toRadians(lightSource.angleDegrees.toDouble())
+        val angleRad = lightSource.angleDegrees.toDouble() * (kotlin.math.PI / 180.0)
         val startOffset =
+
             Offset(
                 x = (size.width / 2f) - (cos(angleRad) * size.width / 2f).toFloat(),
                 y = (size.height / 2f) - (sin(angleRad) * size.height / 2f).toFloat(),
